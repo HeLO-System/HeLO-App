@@ -8,7 +8,6 @@ export default function Home() {
       <Head>
         <title>HeLO</title>
       </Head>
-      <Search />
     </div>
   );
 }
