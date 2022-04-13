@@ -3,13 +3,13 @@ import React from "react";
 //search component for search page
 function Search() {
   return (
-    <div className="flex justify-start h-80 items-center p-20 bg-black">
+    <div className="flex justify-start h-80 items-center p-20 bg-black overflow-hidden">
       <div className="relative w-full max-w-lg">
-        <div className="absolute -top-40 -left-4 w-96 h-96 rounded-full opacity-100 bg-red-400 filter blur-2xl mix-blend-normal animate-blob"></div>
-        <div className="absolute -top-40 -right-4 w-96 h-96 rounded-full opacity-50 bg-cyan-300 filter blur-2xl mix-blend-normal animate-blob animation-delay-2000"></div>
-        <div className="absolute -top-32 left-24 w-80 h-80 rounded-full opacity-50 bg-pink-300 filter blur-2xl  mix-blend-normal animate-blob animation-delay-5000"></div>
-        <div className="relative flex flex-col gap-10 justify-center items-center">
-          <h1 className="font-bold text-8xl">HeLO</h1>
+        <div className="absolute -top-44 -left-28 w-[30rem] h-[40rem] rounded-full opacity-100 bg-red-400 filter blur-2xl mix-blend-normal animate-blob"></div>
+        <div className="absolute -top-40 -right-10 w-96 h-[30rem] rounded-full opacity-50 bg-cyan-300 filter blur-2xl mix-blend-normal animate-blob animation-delay-2000"></div>
+        <div className="absolute -top-32 left-24 w-[30rem] h-[30rem] rounded-full opacity-50 bg-pink-300 filter blur-2xl  mix-blend-normal animate-blob animation-delay-5000"></div>
+        <div className="relative flex flex-col gap-5 justify-center items-center">
+          <h1 className="font-bold text-8xl truncate h-28">HeLO System</h1>
           <div class="flex items-center justify-start">
             <div class="flex rounded-xl border-2 bg-white">
               <button class="flex items-center justify-center rounded-xl px-4 hover:scale-110">
