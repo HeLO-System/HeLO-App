@@ -6,6 +6,8 @@
 @import "./themes/dark";
 @import "./fonts.scss";
 
+@import "./custom/maskedOverflow.scss";
+
 @layer utilities {
   .animation-delay-2000 {
     animation-delay: 2s;
@@ -19,6 +21,7 @@ html,
 body,
 #__next {
   @apply h-screen;
+  @apply overflow-hidden;
 }
 
 html {
