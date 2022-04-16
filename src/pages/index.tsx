@@ -1,8 +1,7 @@
 import { Button } from "@components/Button";
 import { RecordPanel } from "@components/RecordPanel";
 import { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
+import { useRouter } from "next/router";
 import Discord from "../../public/Discord-Logo-White.svg";
 
 /**
@@ -10,18 +9,6 @@ import Discord from "../../public/Discord-Logo-White.svg";
  */
 const Home: NextPage = () => (
   <div>
-    <Head>
-      <title>HeLO</title>
-    </Head>
-    <div className="fixed w-screen h-screen -z-10">
-      <Image
-        src="/background.webp"
-        layout="fill"
-        objectFit="cover"
-        objectPosition="50% 0%"
-        alt="Omaha Beach"
-      />
-    </div>
     <div
       className="flex flex-col w-screen h-screen items-center"
       id="masked-overflow"
