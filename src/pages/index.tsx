@@ -7,52 +7,63 @@ import Discord from "../../public/Discord-Logo-White.svg";
 /**
  * Landing page
  */
-const Home: NextPage = () => (
-  <div>
-    <div
-      className="flex flex-col w-screen h-screen items-center"
-      id="masked-overflow"
-    >
-      <div className="text-4xl mt-40 text-center font-['Gotham-Book'] tracking-[0.3em]">
-        HeLO-System
+const Home: NextPage = () => {
+  const router = useRouter();
+
+  return (
+    <div>
+      <div
+        className="flex flex-col w-screen h-screen items-center"
+        id="masked-overflow"
+      >
+        <div className="text-4xl mt-40 text-center font-['Gotham-Book'] tracking-[0.3em]">
+          HeLO-System
+        </div>
+        <div className="text-[1.75rem] mt-5 text-center font-['Gotham-Book']">
+          Hell Let Loose Competitive Clan Ranking
+        </div>
+        <div className="mt-10 flex gap-10">
+          <Button
+            text="What is HeLO?"
+            className="text-xl"
+            onClick={(): void => {
+              router.push("/about").catch(() => null);
+            }}
+          ></Button>
+          <Button
+            text="Join our Discord"
+            className="text-xl p-4"
+            icon={<Discord className="text-xl" />}
+            onClick={(): void => {
+              window.open("https://discord.gg/dmtcbrV7t5", "_blank");
+            }}
+          ></Button>
+        </div>
+        <RecordPanel
+          className="mt-32"
+          title="Top Clans By Score"
+          clans={[
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+          ]}
+        />
+        <RecordPanel
+          className="mt-10"
+          title="Top Clans By Played Matches"
+          clans={[
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+          ]}
+        />
       </div>
-      <div className="text-[1.75rem] mt-5 text-center font-['Gotham-Book']">
-        Hell Let Loose Competitive Clan Ranking
-      </div>
-      <div className="mt-10 flex gap-10">
-        <Button text="What is HeLo"></Button>
-        <Button
-          text="Join our Discord"
-          icon={<Discord className="text-xl" />}
-          onClick={(): void => {
-            window.open("https://discord.gg/dmtcbrV7t5", "_blank");
-          }}
-        ></Button>
-      </div>
-      <RecordPanel
-        className="mt-32"
-        title="Top Clans By ELO"
-        clans={[
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-        ]}
-      />
-      <RecordPanel
-        className="mt-10"
-        title="Top Clans By Played Matches"
-        clans={[
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-          { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-        ]}
-      />
     </div>
-  </div>
-);
+  );
+};
 
 export default Home;
