@@ -1,12 +1,28 @@
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      colors: {
+        bg: "var(--color-bg)",
+        font: "var(--color-font)",
+        "accent-font": "var(--color-accent-font)",
+        accent: "var(--color-accent)",
+        danger: "var(--danger)",
+        "btn-hover": "var(--btn-hover)",
+        "e-1": "var(--color-bg-elevation-1)",
+        "e-1-dark": "var(--color-bg-elevation-1-dark)",
+        "e-2": "var(--color-bg-elevation-2)",
+        border: "var(--color-border)",
+      },
       animation: {
         blob: "blob 7s infinite",
+      },
+      boxShadow: {
+        "elevation-1": "0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.1)",
+        "elevation-2": "0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.3)",
       },
       keyframes: {
         blob: {
