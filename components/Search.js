@@ -10,11 +10,11 @@ function Search() {
         <div className="absolute -top-32 left-24 w-[30rem] h-[30rem] rounded-full opacity-50 bg-pink-300 filter blur-2xl  mix-blend-normal animate-blob animation-delay-5000"></div>
         <div className="relative flex flex-col gap-5 justify-center items-center">
           <h1 className="font-bold text-8xl truncate h-28">HeLO System</h1>
-          <div class="flex items-center justify-start">
-            <div class="flex rounded-xl border-2 bg-white">
-              <button class="flex items-center justify-center rounded-xl px-4 hover:scale-110">
+          <div className="flex items-center justify-start">
+            <div className="flex rounded-xl border-2 bg-white">
+              <button className="flex items-center justify-center rounded-xl px-4 hover:scale-110">
                 <svg
-                  class="h-10 w-10 text-gray-700"
+                  className="h-10 w-10 text-gray-700"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -24,7 +24,7 @@ function Search() {
               </button>
               <input
                 type="text"
-                class="w-80 rounded-xl px-4 py-2 focus:outline-none bg-white"
+                className="w-80 rounded-xl px-4 py-2 focus:outline-none bg-white"
                 placeholder="Search for clans, matches, players"
                 onChange={(e) => {
                   console.log("typed in: ", e.target.value);
