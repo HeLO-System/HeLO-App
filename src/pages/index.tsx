@@ -1,7 +1,9 @@
 import { Button } from "@components/Button";
 import { RecordPanel } from "@components/RecordPanel";
+import { Clan } from "@types";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Discord from "../../public/Discord-Logo-White.svg";
 
 /**
@@ -9,6 +11,30 @@ import Discord from "../../public/Discord-Logo-White.svg";
  */
 const Home: NextPage = () => {
   const router = useRouter();
+  const [topClansByScore, setTopClansByScore] = useState<Clan[]>([]);
+  const [topClansByScoreLoading, setTopClansByScoreLoading] = useState(false);
+  const [topClansByGames, setTopClansByGames] = useState<Clan[]>([]);
+  const [topClansByGamesLoading, setTopClansByGamesLoading] = useState(false);
+
+  useEffect(() => {
+    setTopClansByScoreLoading(true);
+    setTopClansByGamesLoading(true);
+    fetch("/api/clans")
+      .then((res) => res.json())
+      .then((data: Clan[]) => {
+        setTopClansByGames(data);
+        setTopClansByGamesLoading(false);
+      })
+      .catch((error) => console.error(error));
+
+    fetch("/api/clans")
+      .then((res) => res.json())
+      .then((data: Clan[]) => {
+        setTopClansByScore(data);
+        setTopClansByScoreLoading(false);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
     <div>
@@ -42,36 +68,12 @@ const Home: NextPage = () => {
         <RecordPanel
           className="mt-32"
           title="Top Clans By Score"
-          clans={[
-            {
-              name: "91.PzG",
-              tag: "91.PzG",
-              score: 1000,
-              num_matches: 20,
-              icon: "/91pzg.png",
-            },
-            { name: "Core", tag: "91.PzG", score: 900, num_matches: 24 },
-            { name: "Phx", tag: "91.PzG", score: 750, num_matches: 22 },
-            { name: "StDb", tag: "91.PzG", score: 600, num_matches: 12 },
-            { name: "38.", tag: "91.PzG", score: 500, num_matches: 2 },
-          ]}
+          clans={topClansByScore}
         />
         <RecordPanel
           className="mt-10"
           title="Top Clans By Played Matches"
-          clans={[
-            {
-              name: "91.PzG",
-              tag: "91.PzG",
-              score: 1000,
-              num_matches: 20,
-              icon: "/91pzg.png",
-            },
-            { name: "Core", tag: "91.PzG", score: 900, num_matches: 24 },
-            { name: "Phx", tag: "91.PzG", score: 750, num_matches: 22 },
-            { name: "StDb", tag: "91.PzG", score: 600, num_matches: 12 },
-            { name: "38.", tag: "91.PzG", score: 500, num_matches: 2 },
-          ]}
+          clans={topClansByGames}
         />
       </div>
     </div>
