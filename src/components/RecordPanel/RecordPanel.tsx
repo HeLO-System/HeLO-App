@@ -17,12 +17,9 @@ export const RecordPanel: FC<RecordPanelProps> = ({
 }) => (
   <div
     className={classNames(
-      "grid grid-cols-5 w-1/2 rounded-lg bg-e-1 gap-x-10 gap-y-5 p-5 h-max ",
+      "grid mx-8 rounded-lg bg-e-1 gap-x-10 gap-y-5 p-5 h-max md:grid-cols-5 grid-cols-1 ",
       className
     )}
-    style={{
-      gridTemplateColumns: `repeat(${clans?.length}, minmax(0, 1fr))`,
-    }}
   >
     <RecordPanelTitle title={title} className="col-span-full" />
     {clans.map((clan) => (

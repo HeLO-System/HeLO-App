@@ -14,20 +14,28 @@ export const ClanCard: FC<ClanCardProps> = ({ clan }) => {
 
   return (
     <button
-      className="bg-e-2 rounded-lg hover:scale-105 shadow-elevation-1 text-font h-48"
+      className="bg-e-2 rounded-lg hover:scale-105 shadow-elevation-1 text-font h-48 w-40"
       onClick={(): void => {
         router.push(`/clans/${clan.tag}`).catch(() => null);
       }}
     >
-      <Image src="/91pzg.png" height="64" width="64" className="rounded-full" />
+      <Image
+        src={clan.icon || "/hll.png"}
+        height="64"
+        width="64"
+        className="rounded-full row-span-2"
+      />
       <div className="text-lg">{clan.name}</div>
-      <div>
-        <Trophy24Filled className="h-4" />
-        {clan.score}
-      </div>
-      <div>
-        <Shield24Filled className="h-4" />
-        {clan.num_matches}
+      <hr className="mx-4 border-border border-" />
+      <div className="flex md:flex-col justify-around">
+        <div>
+          <Trophy24Filled className="h-4 text-accent" />
+          {clan.score}
+        </div>
+        <div>
+          <Shield24Filled className="h-4" />
+          {clan.num_matches}
+        </div>
       </div>
     </button>
   );

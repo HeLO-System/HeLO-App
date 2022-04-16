@@ -40,6 +40,12 @@ module.exports = {
           },
         },
       },
+      gridTemplateColumns: {
+        record: "repeat(auto-fill, minmax(9rem,1fr))",
+      },
+      gridAutoRows: {
+        record: "17rem",
+      },
     },
   },
   plugins: [],

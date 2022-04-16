@@ -11,7 +11,7 @@ export const RecordPanelTitle: FC<RecordPanelTitleProps> = ({
   className,
 }) => (
   <div className={classNames("text-font flex items-center ", className)}>
-    <hr className="w-10" />
+    <hr className="w-10 hidden md:block" />
     <span className="mx-5 text-xl">{title}</span>
     <hr className="flex-1" />
   </div>

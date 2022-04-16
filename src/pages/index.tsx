@@ -22,10 +22,10 @@ const Home: NextPage = () => {
         <div className="text-[1.75rem] mt-5 text-center font-['Gotham-Book']">
           Hell Let Loose Competitive Clan Ranking
         </div>
-        <div className="mt-10 flex gap-10">
+        <div className="mt-10 flex gap-10 flex-col md:flex-row">
           <Button
             text="What is HeLO?"
-            className="text-xl"
+            className="text-xl p-4"
             onClick={(): void => {
               router.push("/about").catch(() => null);
             }}
@@ -43,22 +43,34 @@ const Home: NextPage = () => {
           className="mt-32"
           title="Top Clans By Score"
           clans={[
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            {
+              name: "91.PzG",
+              tag: "91.PzG",
+              score: 1000,
+              num_matches: 20,
+              icon: "/91pzg.png",
+            },
+            { name: "Core", tag: "91.PzG", score: 900, num_matches: 24 },
+            { name: "Phx", tag: "91.PzG", score: 750, num_matches: 22 },
+            { name: "StDb", tag: "91.PzG", score: 600, num_matches: 12 },
+            { name: "38.", tag: "91.PzG", score: 500, num_matches: 2 },
           ]}
         />
         <RecordPanel
           className="mt-10"
           title="Top Clans By Played Matches"
           clans={[
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
-            { name: "91.PzG", tag: "91.PzG", score: 100, num_matches: 2 },
+            {
+              name: "91.PzG",
+              tag: "91.PzG",
+              score: 1000,
+              num_matches: 20,
+              icon: "/91pzg.png",
+            },
+            { name: "Core", tag: "91.PzG", score: 900, num_matches: 24 },
+            { name: "Phx", tag: "91.PzG", score: 750, num_matches: 22 },
+            { name: "StDb", tag: "91.PzG", score: 600, num_matches: 12 },
+            { name: "38.", tag: "91.PzG", score: 500, num_matches: 2 },
           ]}
         />
       </div>

@@ -16,7 +16,7 @@ export const Button: FC<
 > = ({ text, icon, className, ...props }) => (
   <button
     className={classNames(
-      "bg-e-1 p-2 rounded-lg shadow-elevation-1 text-font flex items-center gap-2 hover:scale-105 ",
+      "bg-e-1 p-2 rounded-lg shadow-elevation-1 text-font flex justify-center items-center gap-2 hover:scale-105 ",
       className
     )}
     {...props}
