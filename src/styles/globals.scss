@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./themes/light";
+@import "./themes/dark";
+
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-5000 {
+    animation-delay: 5s;
+  }
+}
+
+html,
+body,
+#__next {
+  @apply h-screen;
+}
+
+html {
+  @apply bg-bg;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable",
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+}
+
+* {
+  @apply box-border;
+}
