@@ -1,5 +1,5 @@
-import React from "react";
 import { ChatIcon } from "@heroicons/react/solid";
+import React from "react";
 
 function clan() {
   /*clan information needed:
@@ -48,11 +48,11 @@ function clan() {
             38
           </p>
         </div>
-        <div classname="flex flex-col gap-2 justify-center items-center">
-          <p classname="flex items-center justify-center font-semibold">
+        <div className="flex flex-col gap-2 justify-center items-center">
+          <p className="flex items-center justify-center font-semibold">
             Discord
           </p>
-          <button classname="flex justify-center-items-center">
+          <button className="flex justify-center-items-center">
             <ChatIcon className="w-4 hover:scale-125" />
           </button>
         </div>
