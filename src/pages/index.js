@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Search from "../components/Search";
 
 //home page with search bar
 export default function Home() {
