@@ -12,28 +12,38 @@ import Discord from "../../public/Discord-Logo-White.svg";
 const Home: NextPage = () => {
   const router = useRouter();
   const [topClansByScore, setTopClansByScore] = useState<Clan[]>([]);
-  const [topClansByScoreLoading, setTopClansByScoreLoading] = useState(false);
+  const [topClansByScoreLoading, setTopClansByScoreLoading] = useState(true);
   const [topClansByGames, setTopClansByGames] = useState<Clan[]>([]);
-  const [topClansByGamesLoading, setTopClansByGamesLoading] = useState(false);
+  const [topClansByGamesLoading, setTopClansByGamesLoading] = useState(true);
+
+  const fetchData = function <G>(url: string): Promise<G> {
+    return new Promise<G>((resolve, reject) => {
+      fetch(url)
+        .then((res) => {
+          if (!res.ok) {
+            reject(res);
+          }
+          resolve(res.json());
+        })
+        .catch(reject);
+    });
+  };
 
   useEffect(() => {
     setTopClansByScoreLoading(true);
     setTopClansByGamesLoading(true);
-    fetch("/api/clans")
-      .then((res) => res.json())
+    fetchData<Clan[]>("/api/clans?limit=5&sort_by=num_matches&desc=true")
       .then((data: Clan[]) => {
         setTopClansByGames(data);
         setTopClansByGamesLoading(false);
       })
-      .catch((error) => console.error(error));
-
-    fetch("/api/clans")
-      .then((res) => res.json())
+      .catch(null);
+    fetchData<Clan[]>("/api/clans?limit=5&sort_by=score&desc=true")
       .then((data: Clan[]) => {
         setTopClansByScore(data);
         setTopClansByScoreLoading(false);
       })
-      .catch((error) => console.error(error));
+      .catch(null);
   }, []);
 
   return (
@@ -53,7 +63,7 @@ const Home: NextPage = () => {
             text="What is HeLO?"
             className="text-xl p-4"
             onClick={(): void => {
-              router.push("/about").catch(() => null);
+              router.push("/about").catch(null);
             }}
           ></Button>
           <Button
