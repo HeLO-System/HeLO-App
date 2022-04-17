@@ -4,6 +4,9 @@
 
 @import "./themes/light";
 @import "./themes/dark";
+@import "./fonts.scss";
+
+@import "./custom/custom.scss";
 
 @layer utilities {
   .animation-delay-2000 {
@@ -18,6 +21,7 @@ html,
 body,
 #__next {
   @apply h-screen;
+  @apply overflow-hidden;
 }
 
 html {
