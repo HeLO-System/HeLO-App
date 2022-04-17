@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { OgClanImageProps } from "@components/OgClanImage/OgClanImage";
 import { ShieldFilled, TrophyFilled } from "@fluentui/react-icons";
+import { Clan } from "@types";
 import { withOGImage } from "next-api-og-image";
 
-export default withOGImage<"query", OgClanImageProps>({
+export default withOGImage<"query", Clan>({
   template: {
     // include HTML template here
     react: ({ name, icon, score, num_matches, tag }) => (
