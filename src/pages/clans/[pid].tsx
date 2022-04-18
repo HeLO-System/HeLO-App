@@ -3,6 +3,7 @@
 import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
+import NoSSR from "@components/NoSSR/NoSSR";
 import { ArrowLeft24Regular } from "@fluentui/react-icons";
 import { Clan, Match } from "@types";
 import { fetchData, range } from "@util";
@@ -44,15 +45,18 @@ const ClanPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title> {clan?.name ? `HeLO | ${clan.name}` : "HeLo-System"}</title>
-        <meta
-          property="og:image"
-          content={`https://${
-            process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
-          }/api/og-image?clan=${pid as string}`}
-        />
-      </Head>
+      <NoSSR>
+        <Head>
+          <title> {clan?.name ? `HeLO | ${clan.name}` : "HeLo-System"}</title>
+          <meta
+            property="og:image"
+            content={`https://${
+              process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
+            }/api/og-image?clan=${pid as string}`}
+          />
+        </Head>
+      </NoSSR>
+
       <div
         className="flex flex-col gap-8 text-white h-full"
         id="masked-overflow"
