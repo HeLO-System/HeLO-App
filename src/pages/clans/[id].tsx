@@ -21,8 +21,9 @@ const Clan: NextPage = () => (
       <title> {`HeLO | ${""}`}</title>
       <meta
         property="og:image"
-        // TODO: change api endpoint to point to https://helo-system.de
-        content="https://nextjs-helo-5dg03vg7w-helo-system.vercel.app/api/og-image?name=Sto%C3%9Ftrupp_Donnerbalken&score=1000&tag=StdB&num_matches=10"
+        content={`https://${
+          process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
+        }/api/og-image?name=Sto%C3%9Ftrupp_Donnerbalken&score=1000&tag=StdB&num_matches=10`}
       />
     </Head>
     <div className="flex flex-col gap-5 py-16 pr-5 h-screen justify-start bg-gray-900 ">
