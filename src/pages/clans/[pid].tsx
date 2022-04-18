@@ -44,18 +44,16 @@ const ClanPage: NextPage = () => {
   }, [pid, router]);
 
   return (
-    <>
-      <NoSSR>
-        <Head>
-          <title> {clan?.name ? `HeLO | ${clan.name}` : "HeLo-System"}</title>
-          <meta
-            property="og:image"
-            content={`https://${
-              process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
-            }/api/og-image?clan=${pid as string}`}
-          />
-        </Head>
-      </NoSSR>
+    <NoSSR>
+      <Head>
+        <title> {clan?.name ? `HeLO | ${clan.name}` : "HeLo-System"}</title>
+        <meta
+          property="og:image"
+          content={`https://${
+            process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
+          }/api/og-image?clan=${pid as string}`}
+        />
+      </Head>
 
       <div
         className="flex flex-col gap-8 text-white h-full"
@@ -91,7 +89,7 @@ const ClanPage: NextPage = () => {
           </div>
         </GlassPanel>
       </div>
-    </>
+    </NoSSR>
   );
 };
 
