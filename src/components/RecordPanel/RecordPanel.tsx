@@ -1,8 +1,7 @@
 import { ClanCard } from "@components/ClanCard";
+import { GlassPanel } from "@components/GlassPanel";
 import { Clan } from "@types";
-import classNames from "classnames";
 import { FC } from "react";
-import { RecordPanelTitle } from "./RecordPanelTitle";
 
 interface RecordPanelProps {
   title: string;
@@ -15,24 +14,19 @@ export const RecordPanel: FC<RecordPanelProps> = ({
   clans,
   className,
 }) => (
-  <div
-    className={classNames(
-      "grid mx-8 rounded-lg gap-x-10 gap-y-5 p-5 h-max md:grid-cols-5 grid-cols-1 ",
-      "glassmorphism",
-      className
-    )}
-  >
-    <RecordPanelTitle title={title} className="col-span-full" />
-    {!clans.length ? (
-      <>
-        <ClanCard />
-        <ClanCard />
-        <ClanCard />
-        <ClanCard />
-        <ClanCard />
-      </>
-    ) : (
-      clans.map((clan) => <ClanCard clan={clan} key={clan.tag} />)
-    )}
-  </div>
+  <GlassPanel title={title} className={className}>
+    <div className="grid gap-x-10 gap-y-5 h-max md:grid-cols-5 grid-cols-1 ">
+      {!clans.length ? (
+        <>
+          <ClanCard />
+          <ClanCard />
+          <ClanCard />
+          <ClanCard />
+          <ClanCard />
+        </>
+      ) : (
+        clans.map((clan) => <ClanCard clan={clan} key={clan.tag} />)
+      )}
+    </div>
+  </GlassPanel>
 );
