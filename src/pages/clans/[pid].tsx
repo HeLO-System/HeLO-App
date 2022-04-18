@@ -1,22 +1,118 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-head-element */
+import { Button } from "@components/Button";
+import { GlassPanel } from "@components/GlassPanel";
+import {
+  ArrowLeft24Regular,
+  ShieldFilled,
+  TrophyFilled,
+} from "@fluentui/react-icons";
 import { ChatIcon } from "@heroicons/react/solid";
+import { Clan } from "@types";
+import { fetchData } from "@util";
 import { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import Discord from "../../../public/Discord-Logo-White.svg";
 
-const Clan: NextPage = () => (
-  /* clan information needed:
-  -tag
-  -name
-  -icon/flag
-  -discord link
-  -score
-  -matches played
-  -players (with roles)
-  -recent matches
-  */
+const ClanPage: NextPage = () => {
+  const router = useRouter();
+  const [clan, setClan] = useState<Clan>();
+  const { pid } = router.query;
 
+  useEffect(() => {
+    if (pid) {
+      fetchData<Clan>(`/api/clan/${pid as string}`)
+        .then((data: Clan) => {
+          setClan(data);
+          if (data.tag !== pid) {
+            history.pushState(null, "", data.tag);
+          }
+        })
+        .catch(null);
+    }
+  }, [pid]);
+
+  return (
+    <>
+      <Head>
+        <title> {clan?.name ? `HeLO | ${clan.name}` : "HeLo-System"}</title>
+        <meta
+          property="og:image"
+          content={`https://${
+            process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
+          }/api/og-image?clan=${pid as string}`}
+        />
+      </Head>
+      <div className="flex p-10 flex-col gap-8">
+        <button
+          className="w-min"
+          onClick={(): void => {
+            void router.push("/");
+          }}
+        >
+          <GlassPanel className="p-2 flex gap-2 items-center text-white text-xl font-gotham-book">
+            <ArrowLeft24Regular />
+            <span className="whitespace-nowrap">HeLO-System</span>
+          </GlassPanel>
+        </button>
+
+        <GlassPanel className="p-4 flex flex-wrap items-center">
+          <div className="w-16 h-16 md:w-32 md:h-32  mr-4 overflow-hidden">
+            {clan?.icon ? (
+              <img src={clan.icon} className="w-full h-full" alt="Clan Logo" />
+            ) : (
+              <Image
+                src="/hll.png"
+                height="100%"
+                width="100%"
+                alt="Clan Logo"
+                className="rounded-full"
+              />
+            )}
+          </div>
+          <div className="font-gotham-book">
+            <h1 className="text-6xl">{clan?.tag}</h1>
+            <h2 className="text-3xl hidden md:block">{clan?.name}</h2>
+          </div>
+          <h2 className="text-3xl font-gotham-book md:hidden">{clan?.name}</h2>
+          <hr className="basis-full h-0 md:hidden border-black my-4"></hr>
+          <div className="flex flex-col items-center mr-auto md:mr-0 mx-auto">
+            <h2 className="text-3xl flex items-center">
+              <TrophyFilled className="text-accent" />
+              Score
+            </h2>
+            <h1 className="text-5xl font-bold">{clan?.score}</h1>
+          </div>
+          <div className="flex flex-col items-center mx-auto">
+            <h2 className="text-3xl flex items-center">
+              <ShieldFilled />
+              Matches
+            </h2>
+            <h1 className="text-5xl font-bold">{clan?.num_matches}</h1>
+          </div>
+          {clan?.invite && (
+            <>
+              <hr className="basis-full h-0 md:hidden border-black my-4"></hr>
+              <Button
+                text="Join Discord"
+                className="text-xl p-4 mx-auto"
+                icon={<Discord className="text-xl" />}
+                onClick={(): void => {
+                  window.open("https://discord.gg/dmtcbrV7t5", "_blank");
+                }}
+              ></Button>
+            </>
+          )}
+        </GlassPanel>
+      </div>
+    </>
+  );
+};
+
+const ClanBak: NextPage = () => (
   <>
     <Head>
       <title> {`HeLO | ${""}`}</title>
@@ -110,4 +206,4 @@ const Clan: NextPage = () => (
   </>
 );
 
-export default Clan;
+export default ClanPage;

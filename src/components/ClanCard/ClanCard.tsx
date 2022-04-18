@@ -27,17 +27,13 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => {
       }}
     >
       <div
-        className={classNames("h-16 w-16 rounded-full", {
+        className={classNames("h-16 w-16", {
           "animate-pulse bg-border": !clan,
         })}
       >
         {clan &&
           (clan.icon ? (
-            <img
-              src={clan.icon}
-              className="rounded-full h-16 w-16"
-              alt="Clan Logo"
-            />
+            <img src={clan.icon} className="h-16 w-16" alt="Clan Logo" />
           ) : (
             <Image
               src="/hll.png"

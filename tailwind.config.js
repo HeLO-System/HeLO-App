@@ -17,6 +17,7 @@ module.exports = {
         "e-2": "var(--color-bg-elevation-2)",
         border: "var(--color-border)",
       },
+      fontFamily: { "gotham-book": ["Gotham-Book"] },
       animation: {
         blob: "blob 7s infinite",
       },

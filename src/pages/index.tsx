@@ -40,10 +40,10 @@ const Home: NextPage = () => {
         className="flex flex-col w-screen h-screen items-center"
         id="masked-overflow"
       >
-        <h1 className="text-5xl mt-40 text-center font-['Gotham-Book'] tracking-[0.3em]">
+        <h1 className="text-5xl mt-40 text-center font-gotham-book tracking-[0.3em]">
           HeLO-System
         </h1>
-        <h2 className="text-[1.75rem] mt-5 text-center font-['Gotham-Book'] text-gray-800">
+        <h2 className="text-[1.75rem] mt-5 text-center font-gotham-book text-gray-800">
           Hell Let Loose Competitive Clan Ranking
         </h2>
         <section className="mt-10 flex gap-10 flex-col md:flex-row">

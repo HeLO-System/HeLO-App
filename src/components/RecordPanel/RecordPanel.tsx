@@ -1,6 +1,7 @@
 import { ClanCard } from "@components/ClanCard";
 import { GlassPanel } from "@components/GlassPanel";
 import { Clan } from "@types";
+import classNames from "classnames";
 import { FC } from "react";
 
 interface RecordPanelProps {
@@ -14,7 +15,7 @@ export const RecordPanel: FC<RecordPanelProps> = ({
   clans,
   className,
 }) => (
-  <GlassPanel title={title} className={className}>
+  <GlassPanel title={title} className={classNames(className, "p-5")}>
     <div className="grid gap-x-10 gap-y-5 h-max md:grid-cols-5 grid-cols-1 ">
       {!clans.length ? (
         <>
