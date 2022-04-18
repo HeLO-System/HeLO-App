@@ -68,7 +68,8 @@ export default withOGImage<"query", { clan: string }>({
                   style={{
                     width: "200px",
                     height: "200px",
-                    borderRadius: "1000px",
+                    borderRadius: clan.icon ? "0px" : "1000px",
+                    objectFit: "contain",
                   }}
                 />
               </div>
