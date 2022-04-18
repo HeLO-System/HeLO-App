@@ -1,8 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-head-element */
 import { ChatIcon } from "@heroicons/react/solid";
+import { NextPage } from "next";
+import Head from "next/head";
 import React from "react";
 
-function clan() {
-  /*clan information needed:
+const Clan: NextPage = () => (
+  /* clan information needed:
   -tag
   -name
   -icon/flag
@@ -11,11 +15,18 @@ function clan() {
   -matches played
   -players (with roles)
   -recent matches
-
-  
   */
 
-  return (
+  <>
+    <Head>
+      <title> {`HeLO | ${""}`}</title>
+      <meta
+        property="og:image"
+        content={`https://${
+          process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
+        }/api/og-image?name=Sto%C3%9Ftrupp_Donnerbalken&score=1000&tag=StdB&num_matches=10`}
+      />
+    </Head>
     <div className="flex flex-col gap-5 py-16 pr-5 h-screen justify-start bg-gray-900 ">
       <div className="flex flex-row pl-10 pr-5 w-fill h-fit rounded-r-2xl gap-5 bg-black shadow-xl shadow-black justify-start items-center text-white">
         <img
@@ -96,7 +107,7 @@ function clan() {
         </div>
       </div>
     </div>
-  );
-}
+  </>
+);
 
-export default clan;
+export default Clan;
