@@ -3,18 +3,21 @@
 import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
-import NoSSR from "@components/NoSSR/NoSSR";
 import { ArrowLeft24Regular } from "@fluentui/react-icons";
 import { Clan, Match } from "@types";
 import { fetchData, range } from "@util";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const lastMatchesLength = 5;
 
-const ClanPage: NextPage = () => {
+interface ServerSideProps {
+  clanTag: string;
+}
+
+const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
   const router = useRouter();
   const [clan, setClan] = useState<Clan>();
   const [lastMatches, setLastMatches] = useState<Match[]>();
@@ -44,14 +47,14 @@ const ClanPage: NextPage = () => {
   }, [pid, router]);
 
   return (
-    <NoSSR>
+    <>
       <Head>
-        <title> {clan?.name ? `HeLO | ${clan.name}` : "HeLo-System"}</title>
+        <title> {clan?.name ? `HeLO | ${clanTag}` : "HeLo-System"}</title>
         <meta
           property="og:image"
           content={`https://${
             process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
-          }/api/og-image?clan=${pid as string}`}
+          }/api/og-image?clan=${clanTag}`}
         />
       </Head>
 
@@ -89,8 +92,13 @@ const ClanPage: NextPage = () => {
           </div>
         </GlassPanel>
       </div>
-    </NoSSR>
+    </>
   );
 };
 
 export default ClanPage;
+
+export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (
+  context
+  // eslint-disable-next-line @typescript-eslint/require-await
+) => ({ props: { clanTag: context.query.pid as string } });
