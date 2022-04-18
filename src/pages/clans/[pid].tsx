@@ -77,17 +77,25 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
 
         <GlassPanel title="Recent matches" className="p-4 mx-10">
           <div className="grid md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
-            {lastMatches
-              ? lastMatches.map((match) => (
+            {lastMatches ? (
+              lastMatches.length > 0 ? (
+                lastMatches?.map((match) => (
                   <MatchDetails
                     match={match}
                     clanId={clan?._id.$oid}
                     key={match._id.$oid}
                   />
                 ))
-              : range(lastMatchesLength).map((index) => (
-                  <MatchDetails key={index} />
-                ))}
+              ) : (
+                <span className="text-center text-xl font-semibold">
+                  No matches found
+                </span>
+              )
+            ) : (
+              range(lastMatchesLength).map((index) => (
+                <MatchDetails key={index} />
+              ))
+            )}
           </div>
         </GlassPanel>
       </div>
