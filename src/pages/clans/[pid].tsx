@@ -72,14 +72,18 @@ const ClanPage: NextPage = () => {
         <ClanDetails clan={clan} />
 
         <GlassPanel title="Recent matches" className="p-4 mx-10">
-          <div className="grid md:grid-cols-5 gap-x-10 gap-y-5">
-            {range(lastMatchesLength).map((index) => (
-              <MatchDetails
-                match={lastMatches && lastMatches[index]}
-                clanId={clan?._id.$oid}
-                key={index}
-              />
-            ))}
+          <div className="grid md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
+            {lastMatches
+              ? lastMatches.map((match) => (
+                  <MatchDetails
+                    match={match}
+                    clanId={clan?._id.$oid}
+                    key={match._id.$oid}
+                  />
+                ))
+              : range(lastMatchesLength).map((index) => (
+                  <MatchDetails key={index} />
+                ))}
           </div>
         </GlassPanel>
       </div>

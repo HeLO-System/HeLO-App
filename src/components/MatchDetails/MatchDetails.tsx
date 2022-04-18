@@ -10,7 +10,7 @@ interface MatchDetailsProps {
 }
 
 export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => (
-  <div className="bg-e-2 shadow-elevation-1 hover:scale-105 rounded-lg pt-2 flex flex-col items-center ">
+  <div className="bg-e-2 shadow-elevation-1 hover:scale-105 rounded-lg py-2 flex flex-col items-center ">
     <WinLoseBanner
       caps1={
         clanId && match && match.clans1_ids.includes(clanId)
@@ -61,7 +61,7 @@ export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => (
     <AutoTextSkeleton className="min-w-[3rem] text-center">
       {match?.map}
     </AutoTextSkeleton>{" "}
-    <AutoTextSkeleton className="min-w-[3rem] text-center">
+    <AutoTextSkeleton className="min-w-[3rem] text-center ">
       {match && new Date(match.date.$date).toDateString()}
     </AutoTextSkeleton>
   </div>
