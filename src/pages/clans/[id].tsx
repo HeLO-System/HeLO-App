@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-head-element */
 import { ChatIcon } from "@heroicons/react/solid";
 import { NextPage } from "next";
 import Head from "next/head";

@@ -1,8 +1,12 @@
+/* eslint-disable @next/next/no-head-element */
 /* eslint-disable @next/next/no-img-element */
 import { ShieldFilled, TrophyFilled } from "@fluentui/react-icons";
 import { Clan } from "@types";
 import { withOGImage } from "next-api-og-image";
 import { GothamBook } from "util/GothamBook";
+
+const imageWidth = 1200;
+const imageHeight = 450;
 
 const style = `
   @font-face {
@@ -24,9 +28,7 @@ export default withOGImage<"query", Clan>({
         <body
           style={{
             margin: "0px",
-            //height: "350px",
             height: "100%",
-            //width: "1200px",
             width: "100%",
             backgroundColor: "#121212",
             display: "flex",
@@ -43,7 +45,7 @@ export default withOGImage<"query", Clan>({
               marginTop: "50px",
             }}
           >
-            HelO-System - Hell Let Loose Competitive Clan Ranking
+            HeLO-System - Hell Let Loose Competitive Clan Ranking
           </span>
           <div
             style={{
@@ -97,8 +99,8 @@ export default withOGImage<"query", Clan>({
       </html>
     ),
   },
-  width: 1200,
-  height: 450,
+  width: imageWidth,
+  height: imageHeight,
   cacheControl: "public, max-age=604800, immutable",
   dev: {
     inspectHtml: false,
