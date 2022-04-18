@@ -52,13 +52,13 @@ const Home: NextPage = () => {
         className="flex flex-col w-screen h-screen items-center"
         id="masked-overflow"
       >
-        <div className="text-4xl mt-40 text-center font-['Gotham-Book'] tracking-[0.3em]">
+        <h1 className="text-5xl mt-40 text-center font-['Gotham-Book'] tracking-[0.3em]">
           HeLO-System
-        </div>
-        <div className="text-[1.75rem] mt-5 text-center font-['Gotham-Book']">
+        </h1>
+        <h2 className="text-[1.75rem] mt-5 text-center font-['Gotham-Book'] text-gray-800">
           Hell Let Loose Competitive Clan Ranking
-        </div>
-        <div className="mt-10 flex gap-10 flex-col md:flex-row">
+        </h2>
+        <section className="mt-10 flex gap-10 flex-col md:flex-row">
           <Button
             text="What is HeLO?"
             className="text-xl p-4"
@@ -74,7 +74,7 @@ const Home: NextPage = () => {
               window.open("https://discord.gg/dmtcbrV7t5", "_blank");
             }}
           ></Button>
-        </div>
+        </section>
         <RecordPanel
           className="mt-32"
           title="Top Clans By Score"
