@@ -33,7 +33,11 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => {
       >
         {clan &&
           (clan.icon ? (
-            <img src={clan.icon} className="h-16 w-16" alt="Clan Logo" />
+            <img
+              src={clan.icon}
+              className="h-16 w-16 object-contain"
+              alt="Clan Logo"
+            />
           ) : (
             <Image
               src="/hll.png"

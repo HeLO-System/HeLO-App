@@ -16,7 +16,9 @@ export const ClanDetails: FC<ClanDetailsProps> = ({ clan }) => (
     <div className="w-16 h-16 md:w-32 md:h-32  mr-4 overflow-hidden">
       <img
         src={clan?.icon || "/hll.png"}
-        className={classNames("w-full h-full", { "rounded-full": !clan?.icon })}
+        className={classNames("w-full h-full object-contain", {
+          "rounded-full": !clan?.icon,
+        })}
         alt="Clan Logo"
       />
     </div>

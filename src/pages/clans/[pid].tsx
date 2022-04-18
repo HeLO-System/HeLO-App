@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-head-element */
 import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
