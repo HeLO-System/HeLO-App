@@ -1,4 +1,5 @@
 export type Clan = {
+  _id: { $oid: string };
   tag: string;
   name: string;
   score: number;
