@@ -19,7 +19,8 @@
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@api/*": ["pages/api/*"],
-      "@types": ["types/index.ts"]
+      "@types": ["types/index.ts"],
+      "@util": ["util/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],

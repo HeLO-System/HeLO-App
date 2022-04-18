@@ -2,8 +2,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { ShieldFilled, TrophyFilled } from "@fluentui/react-icons";
 import { Clan } from "@types";
+import { fetchData, GothamBook } from "@util";
 import { withOGImage } from "next-api-og-image";
-import { GothamBook } from "util/GothamBook";
 
 const imageWidth = 1200;
 const imageHeight = 450;
@@ -17,87 +17,93 @@ const style = `
   }
 `;
 
-export default withOGImage<"query", Clan>({
+export default withOGImage<"query", { clan: string }>({
   template: {
     // include HTML template here
-    react: ({ name, icon, score, num_matches, tag }) => (
-      <html>
-        <head>
-          <style dangerouslySetInnerHTML={{ __html: style }} />
-        </head>
-        <body
-          style={{
-            margin: "0px",
-            height: "100%",
-            width: "100%",
-            backgroundColor: "#121212",
-            display: "flex",
-            flexDirection: "column",
-            color: "#D1D5DB",
-            fontFamily: "GothamBook",
-          }}
-        >
-          <span
-            style={{
-              textAlign: "center",
-              fontSize: "40px",
+    react: async ({ clan: clanName }) => {
+      const clan = await fetchData<Clan>(
+        `http://api.helo-system.de/clan/${clanName}`
+      );
 
-              marginTop: "50px",
-            }}
-          >
-            HeLO-System - Hell Let Loose Competitive Clan Ranking
-          </span>
-          <div
+      return (
+        <html>
+          <head>
+            <style dangerouslySetInnerHTML={{ __html: style }} />
+          </head>
+          <body
             style={{
+              margin: "0px",
               height: "100%",
               width: "100%",
+              backgroundColor: "#121212",
               display: "flex",
-              padding: "50px",
-              gap: "50px",
+              flexDirection: "column",
+              color: "#D1D5DB",
+              fontFamily: "GothamBook",
             }}
           >
-            <div style={{ width: "200px" }}>
-              <img
-                src={icon || "http://helo-system.de/hll.png"}
-                alt="Clan Logo"
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  borderRadius: "1000px",
-                }}
-              />
-            </div>
-            <div>
-              <h1
-                style={{
-                  fontSize: "50px",
-                  margin: "0",
-                  color: "hsl(36, 100%, 50%)",
-                }}
-              >
-                {tag}
-              </h1>
-              <h2 style={{ fontSize: "30px" }}>{name}</h2>
-              <div
-                style={{
-                  display: "grid",
-                  fontSize: "50px",
-                  gridTemplateColumns: "repeat(2,max-content)",
-                  alignItems: "center",
-                  textAlign: "end",
-                  gap: "10px",
-                }}
-              >
-                <TrophyFilled style={{ color: "hsl(36, 100%, 50%)" }} />
-                <span>{score}</span>
-                <ShieldFilled />
-                <span>{num_matches}</span>
+            <span
+              style={{
+                textAlign: "center",
+                fontSize: "40px",
+
+                marginTop: "50px",
+              }}
+            >
+              HeLO-System - Hell Let Loose Competitive Clan Ranking
+            </span>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                padding: "50px",
+                gap: "50px",
+              }}
+            >
+              <div style={{ width: "200px" }}>
+                <img
+                  src={clan.icon || "http://helo-system.de/hll.png"}
+                  alt="Clan Logo"
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    borderRadius: "1000px",
+                  }}
+                />
+              </div>
+              <div>
+                <h1
+                  style={{
+                    fontSize: "50px",
+                    margin: "0",
+                    color: "hsl(36, 100%, 50%)",
+                  }}
+                >
+                  {clan.tag}
+                </h1>
+                <h2 style={{ fontSize: "30px" }}>{clan.name}</h2>
+                <div
+                  style={{
+                    display: "grid",
+                    fontSize: "50px",
+                    gridTemplateColumns: "repeat(2,max-content)",
+                    alignItems: "center",
+                    textAlign: "end",
+                    gap: "10px",
+                  }}
+                >
+                  <TrophyFilled style={{ color: "hsl(36, 100%, 50%)" }} />
+                  <span>{clan.score}</span>
+                  <ShieldFilled />
+                  <span>{clan.num_matches}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </body>
-      </html>
-    ),
+          </body>
+        </html>
+      );
+    },
   },
   width: imageWidth,
   height: imageHeight,
