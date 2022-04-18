@@ -1,6 +1,7 @@
 import { Button } from "@components/Button";
 import { RecordPanel } from "@components/RecordPanel";
 import { Clan } from "@types";
+import { fetchData } from "@util";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -15,19 +16,6 @@ const Home: NextPage = () => {
   const [topClansByScoreLoading, setTopClansByScoreLoading] = useState(true);
   const [topClansByGames, setTopClansByGames] = useState<Clan[]>([]);
   const [topClansByGamesLoading, setTopClansByGamesLoading] = useState(true);
-
-  const fetchData = function <G>(url: string): Promise<G> {
-    return new Promise<G>((resolve, reject) => {
-      fetch(url)
-        .then((res) => {
-          if (!res.ok) {
-            reject(res);
-          }
-          resolve(res.json());
-        })
-        .catch(reject);
-    });
-  };
 
   useEffect(() => {
     setTopClansByScoreLoading(true);
