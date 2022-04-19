@@ -13,6 +13,8 @@ updates:
     target-branch: "main"
     reviewers:
       - "HeLO-System/frontend"
+    commit-message:
+      prefix: "⬆️"
 
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
@@ -21,3 +23,5 @@ updates:
     target-branch: "main"
     reviewers:
       - "HeLO-System/frontend"
+    commit-message:
+      prefix: "⬆️"
