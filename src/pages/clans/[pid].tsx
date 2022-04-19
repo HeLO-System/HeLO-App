@@ -3,12 +3,13 @@ import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
 import { ArrowLeft24Regular } from "@fluentui/react-icons";
-import { Clan, Match } from "@types";
-import { fetchData, range } from "@util";
+import { fetchMatches, useClan } from "@queries";
+import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "react-query";
 
 const lastMatchesLength = 5;
 
@@ -18,32 +19,19 @@ interface ServerSideProps {
 
 const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
   const router = useRouter();
-  const [clan, setClan] = useState<Clan>();
-  const [lastMatches, setLastMatches] = useState<Match[]>();
 
-  const { pid } = router.query;
-
-  useEffect(() => {
-    if (pid) {
-      fetchData<Clan>(`/api/clan/${pid as string}`)
-        .then((clanData: Clan) => {
-          setClan(clanData);
-          if (clanData.tag !== pid) {
-            history.pushState(null, "", clanData.tag);
-          }
-          fetchData<Match[]>(
-            `/api/matches?limit=${lastMatchesLength}&sort_by=date&desc=true&clan_ids=${clanData._id.$oid}`
-          )
-            .then((matchData: Match[]) => {
-              setLastMatches(matchData);
-            })
-            .catch(null);
-        })
-        .catch(() => {
-          void router.push("/404");
-        });
-    }
-  }, [pid, router]);
+  const { data: clan } = useClan(clanTag);
+  const matchesParams = {
+    sort_by: "date",
+    limit: lastMatchesLength,
+    desc: true,
+    clan_ids: clan?._id.$oid,
+  };
+  const { data: lastMatches } = useQuery(
+    ["matches", matchesParams],
+    () => fetchMatches(matchesParams),
+    { enabled: !!clan }
+  );
 
   return (
     <>
