@@ -2,14 +2,16 @@
 import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
+import NoSSR from "@components/NoSSR/NoSSR";
 import { ArrowLeft24Regular } from "@fluentui/react-icons";
-import { fetchMatches, useClan } from "@queries";
+import { fetchMatches, fetchWinrate, useClan } from "@queries";
 import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { useQuery } from "react-query";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 const lastMatchesLength = 5;
 
@@ -30,6 +32,15 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
   const { data: lastMatches } = useQuery(
     ["matches", matchesParams],
     () => fetchMatches(matchesParams),
+    { enabled: !!clan }
+  );
+  const { data: winrate } = useQuery(
+    ["statistics", "winrate", clan?._id.$oid],
+    () =>
+      fetchWinrate(clan?._id.$oid as string).then((data) => [
+        { name: "Wins", value: data.wins },
+        { name: "Losses", value: data.total - data.wins },
+      ]),
     { enabled: !!clan }
   );
 
@@ -85,6 +96,38 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
               ))
             )}
           </div>
+        </GlassPanel>
+
+        <GlassPanel title="Statistics" className="p-4 mx-10">
+          <NoSSR>
+            <div className="grid md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
+              <div className="bg-e-2 rounded-lg text-center text-lg w-full">
+                <span>Winrate</span>
+                <ResponsiveContainer height={300} width="100%">
+                  <PieChart>
+                    <Pie
+                      data={winrate}
+                      dataKey="value"
+                      outerRadius="80%"
+                      fill="#ffffff"
+                      label
+                    >
+                      {winrate?.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          className={
+                            entry.name === "Wins"
+                              ? "fill-green-800"
+                              : "fill-red-800"
+                          }
+                        />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </NoSSR>
         </GlassPanel>
       </div>
     </>
