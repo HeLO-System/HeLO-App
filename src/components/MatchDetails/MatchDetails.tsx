@@ -79,7 +79,7 @@ export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => {
         {match?.map}
       </AutoTextSkeleton>{" "}
       <AutoTextSkeleton className="min-w-[3rem] text-center ">
-        {match && new Date(match.date.$date).toDateString()}
+        {match && new Date(match.date.$date).toISOString().split("T")[0]}
       </AutoTextSkeleton>
     </div>
   );
