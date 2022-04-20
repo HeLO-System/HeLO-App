@@ -1,5 +1,6 @@
 import { Button } from "@components/Button";
 import { RecordPanel } from "@components/RecordPanel";
+import Searchbar from "@components/Searchbar";
 import { Clan } from "@types";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -48,6 +49,9 @@ const Home: NextPage = () => {
 
   return (
     <div>
+      <div className="flex justify-end pt-10 pr-10">
+        <Searchbar />
+      </div>
       <div
         className="flex flex-col w-screen h-screen items-center"
         id="masked-overflow"
