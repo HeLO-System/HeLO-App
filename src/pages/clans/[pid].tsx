@@ -28,11 +28,21 @@ import {
 
 const lastMatchesLength = 5;
 
+type WinrateData = {
+  name: Map | undefined;
+  Wins: number;
+  Losses: number;
+  total: number;
+};
+
 function enumKeys<O extends object, K extends keyof O = keyof O>(obj: O): K[] {
   return Object.keys(obj).filter((k) => Number.isNaN(+k)) as K[];
 }
 
-const fetchWinRateByMap = (clanId: string, params: WinrateParams) =>
+const fetchWinRateByMap = (
+  clanId: string,
+  params: WinrateParams
+): Promise<WinrateData> =>
   fetchWinrate(clanId, params)
     .then((data) => ({
       name: params.map,
@@ -40,7 +50,7 @@ const fetchWinRateByMap = (clanId: string, params: WinrateParams) =>
       Losses: data.total - data.wins,
       total: data.total,
     }))
-    .catch(() => ({ name: params.map, wins: 0, losses: 0 }));
+    .catch(() => ({ name: params.map, Wins: 0, Losses: 0, total: 0 }));
 interface ServerSideProps {
   clanTag: string;
 }
@@ -163,10 +173,10 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              <div className="bg-e-2 rounded-lg text-center text-lg w-full">
+              <div className="bg-e-2 rounded-lg text-center text-lg w-full ">
                 <span>Winrate by map</span>
                 <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={winRateByMap} className="text-black">
+                  <BarChart data={winRateByMap}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="name"
@@ -175,19 +185,24 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                       interval={0}
                       height={100}
                     />
-                    <Tooltip content={<CustomWinratePerGameTooltip />} />
+                    <Tooltip
+                      content={<CustomWinratePerGameTooltip />}
+                      wrapperClassName="text-black rounded-lg !border-0 !bg-border"
+                    />
                     <Bar dataKey="Losses" stackId="a" fill="#991b1b">
                       <LabelList
                         dataKey="Losses"
                         position="middle"
-                        formatter={(value: number) => value || ""}
+                        formatter={(value: string): string => value || ""}
+                        className="fill-white"
                       />
                     </Bar>
                     <Bar dataKey="Wins" stackId="a" fill="#166534">
                       <LabelList
                         dataKey="Wins"
                         position="middle"
-                        formatter={(value: number) => value || ""}
+                        formatter={(value: string): string => value || ""}
+                        className="fill-white"
                       />
                     </Bar>
                   </BarChart>
