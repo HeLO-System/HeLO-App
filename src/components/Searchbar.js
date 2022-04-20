@@ -2,6 +2,20 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
 
+const searchBarStyles = {
+  control: (styles, { isFocused }) => ({
+    ...styles,
+    fontFamily: "Gotham-Book",
+    opacity: isFocused ? 1 : 0.6,
+    backgroundColor: "white",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    fontFamily: "Gotham-Book",
+    //maybe visual identification of match vs. clan
+  }),
+};
+
 //search component for search page
 function Searchbar() {
   const router = useRouter();
@@ -28,6 +42,7 @@ function Searchbar() {
   }
   function matchSearchUrl(input) {
     return "api/search?q=" + input + "&type=match&limit=2"; //for now: limit to max. 2 matches
+    //no sorting yet
   }
 
   //function to load clan and match options from API
@@ -35,10 +50,15 @@ function Searchbar() {
     const resClan = await fetchData(clanSearchUrl(input));
     const resMatch = await fetchData(matchSearchUrl(input));
 
-    const clanoptions = resClan.map((i) => ({ label: i.name, value: i.tag }));
+    const clanoptions = resClan.map((i) => ({
+      label: i.name,
+      value: i.tag,
+      type: "clan",
+    }));
     const matchoptions = resMatch.map((i) => ({
       label: i.match_id,
       value: i.match_id,
+      type: "match",
     }));
 
     callback([].concat(clanoptions, matchoptions));
@@ -47,7 +67,11 @@ function Searchbar() {
   //route to detail page of search selection
   function selectRedirect(value) {
     setSelectedValue(value);
-    router.push(`/clans/${value.value}`).catch(null);
+    if (value.type == "clan") {
+      router.push(`/clans/${value.value}`).catch(null);
+    } else if (value.type == "match") {
+      router.push(`/match/${value.value}`).catch(null);
+    }
   }
 
   return (
@@ -62,6 +86,7 @@ function Searchbar() {
           }}
           loadOptions={loadOptions}
           onChange={selectRedirect}
+          styles={searchBarStyles}
         />
       </div>
     </div>
