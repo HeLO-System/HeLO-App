@@ -165,10 +165,10 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
 
         <GlassPanel title="Statistics" className="p-4 mx-10">
           <NoSSR>
-            <div className="grid lg:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
+            <div className="grid lg:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5 justify-items-stretch">
               <div className="bg-e-2 rounded-lg text-center text-lg w-full ">
                 <span>Score over time</span>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="99%" height={300}>
                   <LineChart data={scoreHistory}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis />
@@ -189,7 +189,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
               </div>
               <div className="bg-e-2 rounded-lg text-center text-lg w-full">
                 <span>Winrate</span>
-                <ResponsiveContainer height={300} width="100%">
+                <ResponsiveContainer height={300} width="99%">
                   <PieChart>
                     <Pie
                       data={winrate}
@@ -214,7 +214,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
               </div>
               <div className="bg-e-2 rounded-lg text-center text-lg w-full ">
                 <span>Winrate by map</span>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="99%" height={300}>
                   <BarChart data={winRateByMap}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
