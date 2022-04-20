@@ -23,10 +23,12 @@ export type MatchesParams = {
   desc?: boolean;
 };
 
-export const fetchMatches = async (params?: any): Promise<Match[]> => {
+export const fetchMatches = async (
+  params?: MatchesParams
+): Promise<Match[]> => {
   const { data } = await axios.get<Match[]>("/api/matches", { params });
   return data;
 };
 
-export const useMatches = (params?: any): UseQueryResult<Match[]> =>
+export const useMatches = (params?: MatchesParams): UseQueryResult<Match[]> =>
   useQuery(["matches", params], () => fetchMatches(params));
