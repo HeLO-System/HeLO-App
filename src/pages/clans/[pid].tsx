@@ -5,9 +5,16 @@ import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
 import NoSSR from "@components/NoSSR/NoSSR";
 import { ArrowLeft24Regular } from "@fluentui/react-icons";
-import { fetchMatches, fetchWinrate, useClan, WinrateParams } from "@queries";
+import {
+  fetchMatches,
+  fetchScoreHistory,
+  fetchWinrate,
+  useClan,
+  WinrateParams,
+} from "@queries";
 import { Map } from "@types";
 import { range } from "@util";
+import { DateTime } from "luxon";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -19,13 +26,15 @@ import {
   CartesianGrid,
   Cell,
   LabelList,
+  Line,
+  LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
+  YAxis,
 } from "recharts";
-
 const lastMatchesLength = 5;
 
 type WinrateData = {
@@ -91,6 +100,15 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
     }))
   ).map((result) => result.data);
 
+  const scoreHistoryProps = {
+    start: DateTime.now().minus({ months: 3 }).toISODate(),
+  };
+  const { data: scoreHistory } = useQuery(
+    ["clan", clan?._id.$oid, "score_history"],
+    () => fetchScoreHistory(clan?._id.$oid as string, scoreHistoryProps),
+    { enabled: !!clan }
+  );
+
   return (
     <>
       <Head>
@@ -147,7 +165,28 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
 
         <GlassPanel title="Statistics" className="p-4 mx-10">
           <NoSSR>
-            <div className="grid md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
+            <div className="grid lg:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
+              <div className="bg-e-2 rounded-lg text-center text-lg w-full ">
+                <span>Score over time</span>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={scoreHistory}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <YAxis />
+                    <XAxis
+                      dataKey="date"
+                      angle={90}
+                      textAnchor="start"
+                      height={100}
+                    />
+                    <Tooltip wrapperClassName="text-black rounded-lg !border-0 !bg-border shadow-elevation-2" />
+                    <Line
+                      dataKey="score"
+                      stroke="var(--color-accent)"
+                      fill="var(--color-accent)"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
               <div className="bg-e-2 rounded-lg text-center text-lg w-full">
                 <span>Winrate</span>
                 <ResponsiveContainer height={300} width="100%">
@@ -187,7 +226,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                     />
                     <Tooltip
                       content={<CustomWinratePerGameTooltip />}
-                      wrapperClassName="text-black rounded-lg !border-0 !bg-border"
+                      wrapperClassName="text-black rounded-lg !border-0 !bg-border shadow-elevation-2"
                     />
                     <Bar dataKey="Losses" stackId="a" fill="#991b1b">
                       <LabelList
