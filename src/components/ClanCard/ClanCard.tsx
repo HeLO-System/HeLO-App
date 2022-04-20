@@ -3,7 +3,7 @@ import { Shield24Filled, Trophy24Filled } from "@fluentui/react-icons";
 import { Clan } from "@types";
 import classNames from "classnames";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { FC } from "react";
 
 interface ClanCardProps {
@@ -11,20 +11,13 @@ interface ClanCardProps {
   className?: string;
 }
 
-export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => {
-  const router = useRouter();
-
-  return (
-    <button
+export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
+  <Link href={clan ? `/clans/${clan.tag}` : ""}>
+    <a
       className={classNames(
-        "bg-e-2 rounded-lg hover:scale-105 shadow-elevation-1 text-font w-40 flex flex-col items-center py-4",
+        "bg-e-2 rounded-lg hover:scale-105 shadow-elevation-1 text-font  flex flex-col items-center py-4",
         className
       )}
-      onClick={(): void => {
-        if (clan) {
-          router.push(`/clans/${clan.tag}`).catch(null);
-        }
-      }}
     >
       <div
         className={classNames("h-16 w-16", {
@@ -48,7 +41,6 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => {
             />
           ))}
       </div>
-
       <h1
         className={classNames("text-lg", {
           "animate-pulse bg-border h-5 my-1 rounded-md w-2/3": !clan,
@@ -78,6 +70,6 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => {
           </span>
         </div>
       </div>
-    </button>
-  );
-};
+    </a>
+  </Link>
+);
