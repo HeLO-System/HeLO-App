@@ -3,8 +3,6 @@ import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
 export const fetchWinrate = async (clanId: string): Promise<Winrate> => {
-  // TODO
-  return { total: 10, wins: 6, winrate: 0.6 };
   const { data } = await axios.get<Winrate>(
     `/api/statistics/winrate/${clanId}`
   );
