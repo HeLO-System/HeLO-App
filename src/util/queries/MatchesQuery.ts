@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Match } from "@types";
+import { Map, Match } from "@types";
 import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
@@ -9,7 +8,7 @@ export type MatchesParams = {
   clan_ids?: string;
   caps?: number;
   caps_from?: number;
-  map?: string;
+  map?: Map;
   duration_from?: number;
   duration_to?: number;
   factor?: number;
@@ -25,7 +24,6 @@ export type MatchesParams = {
 };
 
 export const fetchMatches = async (params?: any): Promise<Match[]> => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data } = await axios.get<Match[]>("/api/matches", { params });
   return data;
 };
