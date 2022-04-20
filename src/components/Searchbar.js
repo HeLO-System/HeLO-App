@@ -22,16 +22,26 @@ function Searchbar() {
     });
   }
 
-  //helper function to concat strings to api path
+  //helper functions to concat strings
   function clanSearchUrl(input) {
-    const str = "/api/search?q=" + input + "&type=clan&limit=2";
-    return str;
+    return "/api/search?q=" + input + "&type=clan&limit=2";
+  }
+  function matchSearchUrl(input) {
+    return "api/search?q=" + input + "&type=match&limit=2"; //for now: limit to max. 2 matches
   }
 
-  //function to load clan options from API
+  //function to load clan and match options from API
   async function loadOptions(input, callback) {
-    const res = await fetchData(clanSearchUrl(input));
-    callback(res.map((i) => ({ label: i.name, value: i.tag })));
+    const resClan = await fetchData(clanSearchUrl(input));
+    const resMatch = await fetchData(matchSearchUrl(input));
+
+    const clanoptions = resClan.map((i) => ({ label: i.name, value: i.tag }));
+    const matchoptions = resMatch.map((i) => ({
+      label: i.match_id,
+      value: i.match_id,
+    }));
+
+    callback([].concat(clanoptions, matchoptions));
   }
 
   //route to detail page of search selection
