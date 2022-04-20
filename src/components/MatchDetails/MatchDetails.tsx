@@ -3,6 +3,7 @@ import { AutoTextSkeleton } from "@components/AutoSkeletons";
 import { fetchClan } from "@queries";
 import { Factions, Match } from "@types";
 import classNames from "classnames";
+import { DateTime } from "luxon";
 import { FC } from "react";
 import { useQuery } from "react-query";
 
@@ -77,9 +78,9 @@ export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => {
       </AutoTextSkeleton>
       <AutoTextSkeleton className="min-w-[3rem] text-center">
         {match?.map}
-      </AutoTextSkeleton>{" "}
+      </AutoTextSkeleton>
       <AutoTextSkeleton className="min-w-[3rem] text-center ">
-        {match && new Date(match.date.$date).toISOString().split("T")[0]}
+        {match && DateTime.fromMillis(match.date.$date).toISODate()}
       </AutoTextSkeleton>
     </div>
   );
