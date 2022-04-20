@@ -35,6 +35,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
+const scoreOverTimeMonths = 3;
 const lastMatchesLength = 5;
 
 type WinrateData = {
@@ -101,7 +103,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
   ).map((result) => result.data);
 
   const scoreHistoryProps = {
-    start: DateTime.now().minus({ months: 3 }).toISODate(),
+    start: DateTime.now().minus({ months: scoreOverTimeMonths }).toISODate(),
   };
   const { data: scoreHistory } = useQuery(
     ["clan", clan?._id.$oid, "score_history"],
