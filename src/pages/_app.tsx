@@ -28,10 +28,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
         content="Hell Let Loose Competitive Clan Ranking"
       />
     </Head>
-    <div
-      className="fixed w-screen h-screen -z-10"
-      style={{ backgroundImage: "url('/background.webp')" }}
-    ></div>
+    <div className="fixed w-screen h-screen -z-10" id="background-image"></div>
     <Component {...pageProps} />
   </Layout>
 );

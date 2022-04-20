@@ -1,5 +1,4 @@
 .glassmorphism::before {
-  background: url("/background.webp") fixed;
   content: "";
   margin: -20px;
   position: absolute;
@@ -15,4 +14,13 @@
   position: relative;
   background: hsla(0, 0%, 0%, 0.4);
   box-shadow: 2px 1px 10px hsla(0, 0%, 0%, 0.5);
+}
+
+.glassmorphism::before,
+#background-image {
+  background: url("/background.webp") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
