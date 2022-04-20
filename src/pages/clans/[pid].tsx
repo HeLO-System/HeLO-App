@@ -22,9 +22,9 @@ import React from "react";
 import { useQueries, useQuery } from "react-query";
 import {
   Bar,
-  BarChart,
   CartesianGrid,
   Cell,
+  ComposedChart,
   LabelList,
   Line,
   LineChart,
@@ -43,6 +43,7 @@ type WinrateData = {
   name: Map | undefined;
   Wins: number;
   Losses: number;
+  Winrate: number;
   total: number;
 };
 
@@ -60,8 +61,15 @@ const fetchWinRateByMap = (
       Wins: data.wins,
       Losses: data.total - data.wins,
       total: data.total,
+      Winrate: data.winrate,
     }))
-    .catch(() => ({ name: params.map, Wins: 0, Losses: 0, total: 0 }));
+    .catch(() => ({
+      name: params.map,
+      Wins: 0,
+      Losses: 0,
+      total: 0,
+      Winrate: 0,
+    }));
 interface ServerSideProps {
   clanTag: string;
 }
@@ -217,7 +225,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
               <div className="bg-e-2 rounded-lg text-center text-lg w-full ">
                 <span>Winrate by map</span>
                 <ResponsiveContainer width="99%" height={300}>
-                  <BarChart data={winRateByMap}>
+                  <ComposedChart data={winRateByMap}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="name"
@@ -228,6 +236,11 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                     />
                     <Tooltip
                       content={<CustomWinratePerGameTooltip />}
+                      formatter={(value: string, name: string): string =>
+                        name === "Winrate"
+                          ? `${parseInt(value, 10) * 100}%`
+                          : value
+                      }
                       wrapperClassName="text-black rounded-lg !border-0 !bg-border shadow-elevation-2"
                     />
                     <Bar dataKey="Losses" stackId="a" fill="#991b1b">
@@ -246,7 +259,12 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                         className="fill-white"
                       />
                     </Bar>
-                  </BarChart>
+                    <Line
+                      dataKey="Winrate"
+                      stroke="var(--color-accent)"
+                      fill="var(--color-accent)"
+                    />
+                  </ComposedChart>
                 </ResponsiveContainer>
               </div>
             </div>
