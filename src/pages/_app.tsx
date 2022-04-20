@@ -42,6 +42,3 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
 );
 
 export default App;
-function useState(arg0: () => QueryClient): [any] {
-  throw new Error("Function not implemented.");
-}
