@@ -48,27 +48,23 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
       >
         {clan && clan.name}
       </h1>
-      <div className="flex w-full md:flex-col justify-around px-2 items-center">
-        <div className="flex items-center w-1/2 justify-start ">
-          <Trophy24Filled className="h-4 text-accent" />
-          <span
-            className={classNames("w-full", {
-              "animate-pulse bg-border h-3 rounded-md": !clan,
-            })}
-          >
-            {clan && clan.score}
-          </span>
-        </div>
-        <div className="flex items-center w-1/2 justify-start">
-          <Shield24Filled className="h-4" />
-          <span
-            className={classNames("w-full", {
-              "animate-pulse bg-border h-3 rounded-md": !clan,
-            })}
-          >
-            {clan && clan.num_matches}
-          </span>
-        </div>
+      <div className="grid w-full grid-cols-4 md:grid-cols-2">
+        <Trophy24Filled className="h-4 text-accent self-center justify-self-end" />
+        <span
+          className={classNames({
+            "animate-pulse bg-border h-3 rounded-md": !clan,
+          })}
+        >
+          {clan && clan.score}
+        </span>
+        <Shield24Filled className="h-4 self-center justify-self-end" />
+        <span
+          className={classNames({
+            "animate-pulse bg-border h-3 rounded-md": !clan,
+          })}
+        >
+          {clan && clan.num_matches}
+        </span>
       </div>
     </a>
   </Link>
