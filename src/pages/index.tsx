@@ -87,7 +87,6 @@ const Home: NextPage = () => {
             : range(clanRecordLimit).map((index) => <ClanCard key={index} />)}
         </div>
       </GlassPanel>
-      <div className="h-1/2 flex-shrink-0"></div>
     </div>
   );
 };

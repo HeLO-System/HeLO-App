@@ -276,7 +276,6 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
             </div>
           </NoSSR>
         </GlassPanel>
-        <div className="h-1/2 flex-shrink-0"></div>
       </div>
     </>
   );
