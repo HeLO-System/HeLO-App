@@ -234,16 +234,23 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                       interval={0}
                       height={100}
                     />
+                    <YAxis yAxisId="winrate" hide={true} domain={[0, 1]} />
+                    <YAxis yAxisId="games" hide={true} />
                     <Tooltip
                       content={<CustomWinratePerGameTooltip />}
                       formatter={(value: string, name: string): string =>
                         name === "Winrate"
-                          ? `${parseInt(value, 10) * 100}%`
+                          ? `${parseFloat(value) * 100}%`
                           : value
                       }
                       wrapperClassName="text-black rounded-lg !border-0 !bg-border shadow-elevation-2"
                     />
-                    <Bar dataKey="Losses" stackId="a" fill="#991b1b">
+                    <Bar
+                      dataKey="Losses"
+                      stackId="a"
+                      fill="#991b1b"
+                      yAxisId="games"
+                    >
                       <LabelList
                         dataKey="Losses"
                         position="middle"
@@ -251,7 +258,12 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                         className="fill-white"
                       />
                     </Bar>
-                    <Bar dataKey="Wins" stackId="a" fill="#166534">
+                    <Bar
+                      dataKey="Wins"
+                      stackId="a"
+                      fill="#166534"
+                      yAxisId="games"
+                    >
                       <LabelList
                         dataKey="Wins"
                         position="middle"
@@ -260,6 +272,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                       />
                     </Bar>
                     <Line
+                      yAxisId="winrate"
                       dataKey="Winrate"
                       stroke="var(--color-accent)"
                       fill="var(--color-accent)"
