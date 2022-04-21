@@ -4,7 +4,6 @@ import { GlassPanel } from "@components/GlassPanel";
 import { ClansQueryParams, fetchClans } from "@queries";
 import { range } from "@util";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import Discord from "../../public/Discord-Logo-White.svg";
 
@@ -26,8 +25,6 @@ const topClansByGamesParams: ClansQueryParams = {
  * Landing page
  */
 const Home: NextPage = () => {
-  const router = useRouter();
-
   const { data: topClansByScore } = useQuery(
     ["clans", topClansByScoreParams],
     () => fetchClans(topClansByScoreParams)
@@ -64,7 +61,7 @@ const Home: NextPage = () => {
 
       <GlassPanel
         title="Top Clans By Score"
-        className="mx-10 lg:mx-auto mt-32 p-4 lg:min-w-[50%]"
+        className="mx-10 lg:mx-auto mt-32 p-4 lg:min-w-[1000px]"
       >
         <div className="grid md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-10 gap-y-5">
           {topClansByScore
@@ -77,7 +74,7 @@ const Home: NextPage = () => {
 
       <GlassPanel
         title="Top Clans By Games"
-        className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[50%]"
+        className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px]"
       >
         <div className="grid md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-10 gap-y-5">
           {topClansByGames
