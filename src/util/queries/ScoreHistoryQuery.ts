@@ -1,4 +1,4 @@
-import { ScoreHistory } from "@types";
+import { CustomUseQueryOptions, ScoreHistory } from "@types";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { useQuery, UseQueryResult } from "react-query";
@@ -25,10 +25,14 @@ export const fetchScoreHistory = async (
     return dataPoint;
   });
 };
-export const useScoreHistory = (
+
+export const useScoreHistory = <T = ScoreHistory[]>(
   clanId: string,
-  params?: ScoreHistoryParams
-): UseQueryResult<ScoreHistory[]> =>
-  useQuery(["clan", clanId, "score_history", params], () =>
-    fetchScoreHistory(clanId, params)
+  params?: ScoreHistoryParams,
+  options?: CustomUseQueryOptions<ScoreHistory[], T>
+): UseQueryResult<T> =>
+  useQuery(
+    ["clan", clanId, "score_history", params],
+    () => fetchScoreHistory(clanId, params),
+    options
   );

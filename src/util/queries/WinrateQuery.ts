@@ -1,4 +1,4 @@
-import { Factions, Map, Winrate } from "@types";
+import { CustomUseQueryOptions, Factions, Map, Winrate } from "@types";
 import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
@@ -18,10 +18,13 @@ export const fetchWinrate = async (
   return data;
 };
 
-export const useWinrate = (
+export const useWinrate = <T = Winrate>(
   clanId: string,
-  params?: WinrateParams
-): UseQueryResult<Winrate> =>
-  useQuery(["statistics", "winrate", clanId, params], () =>
-    fetchWinrate(clanId, params)
+  params?: WinrateParams,
+  options?: CustomUseQueryOptions<Winrate, T>
+): UseQueryResult<T> =>
+  useQuery<Winrate, unknown, T>(
+    ["statistics", "winrate", clanId, params],
+    () => fetchWinrate(clanId, params),
+    options
   );

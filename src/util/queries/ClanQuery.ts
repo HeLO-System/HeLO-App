@@ -1,4 +1,4 @@
-import { Clan } from "@types";
+import { Clan, CustomUseQueryOptions } from "@types";
 import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
@@ -7,5 +7,8 @@ export const fetchClan = async (clanId: string): Promise<Clan> => {
   return data;
 };
 
-export const useClan = (clanId: string): UseQueryResult<Clan> =>
-  useQuery(["clan", clanId], () => fetchClan(clanId));
+export const useClan = <T = Clan>(
+  clanId: string,
+  options?: CustomUseQueryOptions<Clan, T>
+): UseQueryResult<T> =>
+  useQuery(["clan", clanId], () => fetchClan(clanId), options);

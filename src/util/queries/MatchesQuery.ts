@@ -1,4 +1,4 @@
-import { Map, Match } from "@types";
+import { CustomUseQueryOptions, Map, Match } from "@types";
 import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
@@ -30,5 +30,8 @@ export const fetchMatches = async (
   return data;
 };
 
-export const useMatches = (params?: MatchesParams): UseQueryResult<Match[]> =>
-  useQuery(["matches", params], () => fetchMatches(params));
+export const useMatches = <T = Match[]>(
+  params?: MatchesParams,
+  options?: CustomUseQueryOptions<Match[], T>
+): UseQueryResult<T> =>
+  useQuery(["matches", params], () => fetchMatches(params), options);

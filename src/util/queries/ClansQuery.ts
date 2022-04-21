@@ -1,4 +1,4 @@
-import { Clan } from "@types";
+import { Clan, CustomUseQueryOptions } from "@types";
 import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
@@ -22,5 +22,8 @@ export const fetchClans = async (
   return data;
 };
 
-export const useClans = (params?: ClansQueryParams): UseQueryResult<Clan[]> =>
-  useQuery(["clana", params], () => fetchClans(params));
+export const useClans = <T = Clan[]>(
+  params?: ClansQueryParams,
+  options?: CustomUseQueryOptions<Clan[], T>
+): UseQueryResult<T> =>
+  useQuery(["clana", params], () => fetchClans(params), options);
