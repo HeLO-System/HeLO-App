@@ -2,7 +2,6 @@
 import { Shield24Filled, Trophy24Filled } from "@fluentui/react-icons";
 import { Clan } from "@types";
 import classNames from "classnames";
-import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -24,22 +23,11 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
           "animate-pulse bg-border": !clan,
         })}
       >
-        {clan &&
-          (clan.icon ? (
-            <img
-              src={clan.icon}
-              className="h-16 w-16 object-contain"
-              alt="Clan Logo"
-            />
-          ) : (
-            <Image
-              src="/hll.png"
-              height="64"
-              width="64"
-              className="rounded-full"
-              alt="Clan Logo"
-            />
-          ))}
+        <img
+          src={clan?.icon || "/HeLO.png"}
+          className="h-16 w-16 object-contain"
+          alt="Clan Logo"
+        />
       </div>
       <h1
         className={classNames("text-lg", {

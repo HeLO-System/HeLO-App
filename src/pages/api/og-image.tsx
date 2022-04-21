@@ -63,12 +63,11 @@ export default withOGImage<"query", { clan: string }>({
             >
               <div style={{ width: "200px" }}>
                 <img
-                  src={clan.icon || "http://helo-system.de/hll.png"}
+                  src={clan.icon || "/hll.png"}
                   alt="Clan Logo"
                   style={{
                     width: "200px",
                     height: "200px",
-                    borderRadius: clan.icon ? "0px" : "1000px",
                     objectFit: "contain",
                   }}
                 />

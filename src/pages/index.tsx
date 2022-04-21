@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ClanCard } from "@components/ClanCard";
 import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
@@ -37,7 +38,10 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex flex-col w-screen h-screen" id="masked-overflow">
-      <h1 className="text-5xl mt-40 text-center font-gotham-book tracking-[0.3em]">
+      <GlassPanel className=" mx-auto mt-32 bg-e-2 !rounded-full p-10">
+        <img src="/HeLo.png" className="h-32 w-32" alt="HeLo-Logo" />
+      </GlassPanel>
+      <h1 className="text-5xl mt-10 text-center font-gotham-book tracking-[0.3em]">
         HeLO-System
       </h1>
       <h2 className="text-[1.75rem] mt-5 text-center font-gotham-book text-gray-800">

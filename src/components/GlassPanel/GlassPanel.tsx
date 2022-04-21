@@ -15,7 +15,7 @@ export const GlassPanel: FC<GlassPanelProps> = ({
   children,
   titleClassName,
 }) => (
-  <div className={classNames(className, "rounded-lg", "glassmorphism")}>
+  <div className={classNames("rounded-lg", "glassmorphism", className)}>
     {title && (
       <PanelTitle
         title={title}
