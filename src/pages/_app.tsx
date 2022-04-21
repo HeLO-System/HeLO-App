@@ -34,7 +34,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
       </Head>
       <div
         className="fixed w-screen h-screen -z-10"
-        style={{ backgroundImage: "url('/background.webp')" }}
+        id="background-image"
       ></div>
       <Component {...pageProps} />
     </Layout>
