@@ -8,10 +8,12 @@ const searchBarStyles = {
     fontFamily: "Gotham-Book",
     opacity: isFocused ? 1 : 0.6,
     backgroundColor: "white",
+    fontSize: 14,
   }),
   option: (provided, state) => ({
     ...provided,
     fontFamily: "Gotham-Book",
+    fontSize: 12,
     //maybe visual identification of match vs. clan
   }),
 };
@@ -41,7 +43,7 @@ function Searchbar() {
     return "/api/search?q=" + input + "&type=clan&limit=2";
   }
   function matchSearchUrl(input) {
-    return "api/search?q=" + input + "&type=match&limit=2"; //for now: limit to max. 2 matches
+    return "api/matches?match_id=" + input + "&limit=3&sort_by=date&desc=true"; //for now: limit to max. 2 matches
     //no sorting yet
   }
 
@@ -76,10 +78,10 @@ function Searchbar() {
 
   return (
     <div className="flex items-center justify-center h-fit">
-      <div className="w-64">
+      <div className="w-64 ">
         <AsyncSelect
           value={selectedValue}
-          placeholder={"Search for clans"}
+          placeholder={"Search for clans, matches"}
           onInputChange={(e) => {
             setSearchInput(e);
             console.log("typed in: ", e);
