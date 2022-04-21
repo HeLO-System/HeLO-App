@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { AutoTextSkeleton } from "@components/AutoSkeletons";
-import { fetchClan } from "@queries";
+import { useClan } from "@queries";
 import { Factions, Match } from "@types";
 import classNames from "classnames";
 import { DateTime } from "luxon";
 import { FC } from "react";
-import { useQuery } from "react-query";
 
 interface MatchDetailsProps {
   match?: Match;
@@ -13,16 +12,12 @@ interface MatchDetailsProps {
 }
 
 export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => {
-  const { data: clan1 } = useQuery(
-    ["clan", match?.clans1_ids[0]],
-    () => fetchClan(match?.clans1_ids[0] as string),
-    { enabled: !!match?.clans1_ids }
-  );
-  const { data: clan2 } = useQuery(
-    ["clan", match?.clans2_ids[0]],
-    () => fetchClan(match?.clans2_ids[0] as string),
-    { enabled: !!match?.clans2_ids }
-  );
+  const { data: clan1 } = useClan(match?.clans1_ids[0] as string, {
+    enabled: !!match?.clans1_ids,
+  });
+  const { data: clan2 } = useClan(match?.clans2_ids[0] as string, {
+    enabled: !!match?.clans2_ids,
+  });
 
   return (
     <div className="bg-e-2 shadow-elevation-1 hover:scale-105 rounded-lg py-2 flex flex-col items-center ">

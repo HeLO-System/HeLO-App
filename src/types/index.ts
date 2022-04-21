@@ -5,3 +5,4 @@ export * from "./map";
 export * from "./match";
 export * from "./scoreHistory";
 export * from "./winrate";
+export * from "./winrateByResult";
