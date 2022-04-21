@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-head-element */
 import { ClanDetails } from "@components/ClanDetails";
+import { CustomLink } from "@components/CustomLink";
 import { CustomWinratePerGameTooltip } from "@components/CustomWinratePerGameTooltip";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
@@ -135,20 +136,13 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
         className="flex flex-col gap-8 text-white h-full"
         id="masked-overflow"
       >
-        <button
-          className="w-min mt-10 ml-10"
-          onClick={(): void => {
-            void router.push("/");
-          }}
-        >
-          <GlassPanel className="p-2 flex gap-2 items-center  text-xl font-gotham-book">
-            <ArrowLeft24Regular />
-            <span className="whitespace-nowrap">HeLO-System</span>
-          </GlassPanel>
-        </button>
-
+        <CustomLink
+          className="w-min mt-10 ml-10 text-xl font-gotham-book whitespace-nowrap"
+          icon={<ArrowLeft24Regular />}
+          text="Helo-System"
+          href="/"
+        ></CustomLink>
         <ClanDetails clan={clan} />
-
         <GlassPanel title="Recent matches" className="p-4 mx-10">
           <div className="grid md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
             {lastMatches ? (
@@ -172,7 +166,6 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
             )}
           </div>
         </GlassPanel>
-
         <GlassPanel title="Statistics" className="p-4 mx-10">
           <NoSSR>
             <div className="grid lg:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5 justify-items-stretch">

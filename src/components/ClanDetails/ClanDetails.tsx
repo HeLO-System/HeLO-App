@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button } from "@components/Button";
+import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
 import { ShieldFilled, TrophyFilled } from "@fluentui/react-icons";
 import { Clan } from "@types";
@@ -45,14 +45,13 @@ export const ClanDetails: FC<ClanDetailsProps> = ({ clan }) => (
     {clan?.invite && (
       <>
         <hr className="basis-full h-0 md:hidden border-black my-4"></hr>
-        <Button
+        <CustomLink
           text="Join Discord"
           className="text-3xl p-4 mx-auto md:ml-0 md:mr-8"
           icon={<Discord className="text-3xl" />}
-          onClick={(): void => {
-            window.open(clan.invite, "_blank");
-          }}
-        ></Button>
+          href={clan.invite}
+          target="_blank"
+        ></CustomLink>
       </>
     )}
   </GlassPanel>

@@ -25,7 +25,7 @@ export const fetchScoreHistory = async (
     return dataPoint;
   });
 };
-export const useCoreHistory = (
+export const useScoreHistory = (
   clanId: string,
   params?: ScoreHistoryParams
 ): UseQueryResult<ScoreHistory[]> =>
