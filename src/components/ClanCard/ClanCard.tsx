@@ -4,6 +4,7 @@ import { Clan } from "@types";
 import classNames from "classnames";
 import Link from "next/link";
 import { FC } from "react";
+import Logo from "../../../public/helo.svg";
 
 interface ClanCardProps {
   clan?: Clan;
@@ -23,11 +24,15 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
           "animate-pulse bg-border": !clan,
         })}
       >
-        <img
-          src={clan?.icon || "/HeLO.png"}
-          className="h-16 w-16 object-contain"
-          alt="Clan Logo"
-        />
+        {clan?.icon ? (
+          <img
+            src={clan?.icon}
+            className="h-full w-full object-contain"
+            alt="Clan Logo"
+          />
+        ) : (
+          <Logo className="w-full h-full fill-white" />
+        )}
       </div>
       <h1
         className={classNames("text-lg", {

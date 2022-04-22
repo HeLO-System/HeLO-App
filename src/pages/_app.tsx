@@ -31,6 +31,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
           name="twitter:description"
           content="Hell Let Loose Competitive Clan Ranking"
         />
+        <link rel="icon" type="image/svg+xml" href="/helo_white.svg" />
       </Head>
       <div
         className="fixed w-screen h-screen -z-10"
