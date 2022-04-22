@@ -8,13 +8,19 @@ import "../styles/globals.scss";
 
 const queryClient = new QueryClient();
 
-const MATOMO_URL =
-  process.env.NEXT_PUBLIC_MATOMO_URL || "https://matomo.helo-system.de/";
-const MATOMO_SITE_ID = process.env.NEXT_PUBLIC_MATOMO_SITE_ID || "1";
+const MATOMO_URL = process.env.NEXT_PUBLIC_MATOMO_URL || "";
+const MATOMO_SITE_ID = process.env.NEXT_PUBLIC_MATOMO_SITE_ID || "";
+const MATOMO_JS = process.env.NEXT_PUBLIC_MATOMO_JS || "";
+const MATOMO_PHP = process.env.NEXT_PUBLIC_MATOMO_PHP || "";
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
-    init({ url: MATOMO_URL, siteId: MATOMO_SITE_ID });
+    init({
+      url: MATOMO_URL,
+      siteId: MATOMO_SITE_ID,
+      jsTrackerFile: MATOMO_JS,
+      phpTrackerFile: MATOMO_PHP,
+    });
   }, []);
   return (
     <QueryClientProvider client={queryClient}>
