@@ -35,7 +35,7 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
         )}
       </div>
       <h1
-        className={classNames("text-lg", {
+        className={classNames("text-lg text-center", {
           "animate-pulse bg-border h-5 my-1 rounded-md w-2/3": !clan,
         })}
       >

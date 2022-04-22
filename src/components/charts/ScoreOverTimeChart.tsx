@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import clan from "@pages/clans";
 import { useClans, useScoreHistory } from "@queries";
 import { DateTime } from "luxon";
 import { FC } from "react";
@@ -32,7 +31,7 @@ export const ScoreOverTimeChart: FC<ScoreOverTimeChartProps> = ({
     {
       start: DateTime.now().minus({ months: scoreOverTimeMonths }).toISODate(),
     },
-    { enabled: !!clan }
+    { enabled: !!clanId }
   );
 
   const { data: minScore } = useClans<number>(

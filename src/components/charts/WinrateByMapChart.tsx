@@ -1,4 +1,3 @@
-import clan from "@pages/clans";
 import { fetchWinrate, WinrateParams } from "@queries";
 import { Map } from "@types";
 import { enumKeys } from "@util";
@@ -58,9 +57,10 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
     enumKeys(Map).map((map) => ({
       queryKey: ["statistics", "winrate", clanId, { map }],
       queryFn: () => fetchWinRateByMap(clanId as string, { map: Map[map] }),
-      enabled: !!clan,
+      enabled: !!clanId,
     }))
   ).map((result) => result.data);
+
   return (
     <ChartWrapper className={className} title="Winrate by map">
       <ComposedChart data={winRateByMap}>

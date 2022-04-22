@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import clan from "@pages/clans";
 import { useWinrateByResult } from "@queries";
 import { FC } from "react";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
@@ -22,7 +21,7 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
     clanId as string,
     {},
     {
-      enabled: !!clan,
+      enabled: !!clanId,
       select: (data) => {
         const result: WinrateData = {
           byResult: [],
@@ -39,6 +38,7 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
       },
     }
   );
+
   return (
     <ChartWrapper className={className} title="Winrate">
       <PieChart>
