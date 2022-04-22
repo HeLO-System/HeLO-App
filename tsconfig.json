@@ -14,12 +14,15 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "downlevelIteration": true,
     "baseUrl": "src",
     "paths": {
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@api/*": ["pages/api/*"],
-      "@types": ["types/index.ts"]
+      "@types": ["types/index.ts"],
+      "@util": ["util/index.ts"],
+      "@queries": ["util/queries/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],

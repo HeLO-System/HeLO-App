@@ -1,11 +1,7 @@
 import React from "react";
 
 function Layout({ children }) {
-  return (
-    <div>
-      <main className="overflow-x-auto">{children}</main>
-    </div>
-  );
+  return <main className="overflow-x-auto h-full">{children}</main>;
 }
 
 export default Layout;
