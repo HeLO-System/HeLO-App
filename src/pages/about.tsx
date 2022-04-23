@@ -10,7 +10,7 @@ const About: NextPage = () => (
       <h1 className="text-2xl">HeLO-System</h1>
 
       <p>
-        HeLo (Hell Let Loose Elo Score) is a system designed by Soxxes to rank
+        HeLO (Hell Let Loose Elo Score) is a system designed by Soxxes to rank
         competitive Clans playing the realistic multiplayer World War Two
         combined arms first person shooter{" "}
         <a
@@ -148,7 +148,7 @@ const About: NextPage = () => (
       <h2 className="text-xl mt-4">Full Example</h2>
       <p>
         Let’s have a look at a realistic example. Team A (746) plays a
-        competitive match (tournamebt mode) against Team B (613). They play with
+        competitive match (tournament mode) against Team B (613). They play with
         45 players on each side. Team A already played more than 30 games, but
         Team B is relatively new (played less than 30 games). Team B wins with a
         game score of 5-0. Wow! What a match!
