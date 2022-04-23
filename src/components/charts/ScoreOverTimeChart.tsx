@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { useClans, useScoreHistory } from "@queries";
-import { DateTime } from "luxon";
 import { FC } from "react";
 import {
   CartesianGrid,
@@ -11,11 +10,10 @@ import {
   YAxis,
 } from "recharts";
 import { ChartWrapper } from "./ChartWrapper";
-import { StyledTooltip } from "./StyledTooltip";
+import { ScoreOverTimeTooltip } from "./ScoreOverTimeTooltip";
 
 const scorePadding = 50;
 const scoreRoundTo = 50;
-const scoreOverTimeMonths = 3;
 
 interface ScoreOverTimeChartProps {
   className?: string;
@@ -28,9 +26,7 @@ export const ScoreOverTimeChart: FC<ScoreOverTimeChartProps> = ({
 }) => {
   const { data: scoreHistory } = useScoreHistory(
     clanId as string,
-    {
-      start: DateTime.now().minus({ months: scoreOverTimeMonths }).toISODate(),
-    },
+    {},
     { enabled: !!clanId }
   );
 
@@ -67,8 +63,18 @@ export const ScoreOverTimeChart: FC<ScoreOverTimeChartProps> = ({
       <LineChart data={scoreHistory}>
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis domain={[minScore || 0, maxScore || 1000]} />
-        <XAxis dataKey="date" angle={90} textAnchor="start" height={100} />
-        <Tooltip content={<StyledTooltip />} />
+        <XAxis
+          dataKey="_created_at.$date"
+          angle={90}
+          type="number"
+          textAnchor="start"
+          height={100}
+          domain={["dataMin", "dataMax"]}
+          tickFormatter={(_value, index): string =>
+            (scoreHistory && scoreHistory[index].date) || ""
+          }
+        />
+        <Tooltip content={<ScoreOverTimeTooltip />} />
         <Line
           dataKey="score"
           stroke="var(--color-accent)"
