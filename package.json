@@ -23,8 +23,10 @@
     "@heroicons/react": "1.0.6",
     "@svgr/webpack": "6.2.1",
     "axios": "0.26.1",
+    "bufferutil": "4.0.6",
     "chrome-aws-lambda": "6.0.0",
     "classnames": "2.3.1",
+    "encoding": "0.1.13",
     "luxon": "2.3.2",
     "next": "12.1.5",
     "next-api-og-image": "4.0.1",
@@ -32,7 +34,8 @@
     "react-dom": "17.0.2",
     "react-query": "3.35.0",
     "recharts": "2.1.9",
-    "sass": "1.50.0"
+    "sass": "1.50.0",
+    "utf-8-validate": "5.0.9"
   },
   "devDependencies": {
     "@types/luxon": "2.3.1",
