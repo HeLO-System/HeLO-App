@@ -39,7 +39,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex flex-col w-screen h-screen" id="masked-overflow">
-      <GlassPanel className=" mx-auto mt-32 bg-e-2 !rounded-full p-10">
+      <GlassPanel className="before:rounded-full mx-auto mt-32 bg-e-2 !rounded-full p-10">
         <Logo className="h-32 w-32 fill-white" />
       </GlassPanel>
       <h1 className="text-5xl mt-10 text-center font-gotham-book tracking-[0.3em]">
