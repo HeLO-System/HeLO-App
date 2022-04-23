@@ -14,7 +14,6 @@ import { useClan, useMatches } from "@queries";
 import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import React from "react";
 
 const lastMatchesLength = 5;
 interface ServerSideProps {
