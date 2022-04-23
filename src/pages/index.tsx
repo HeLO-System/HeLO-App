@@ -49,19 +49,24 @@ const Home: NextPage = () => {
         Hell Let Loose Competitive Clan Ranking
       </h2>
 
-      <section className="mt-10 mx-auto grid gap-10 md:grid-cols-2 justify-center items-center">
+      <section className="mt-10 mx-auto grid gap-y-10 md:gap-y-10 md:grid-cols-7 justify-center items-center whitespace-nowrap">
         <CustomLink
           text="What is HeLO?"
-          className="text-xl p-4"
+          className="text-xl p-4 md:col-span-3"
           href="/about"
-        ></CustomLink>
+        />
         <CustomLink
           text="Join our Discord"
-          className="text-xl p-4"
+          className="text-xl p-4 md:col-span-3 md:col-start-5"
           icon={<Discord className="text-xl" />}
           target="_blank"
           href="https://discord.gg/dmtcbrV7t5"
-        ></CustomLink>
+        />
+        <CustomLink
+          text="View all Clans"
+          className="text-xl p-4 md:col-span-3 md:col-start-3 mt-10"
+          href="/clans"
+        />
       </section>
 
       <GlassPanel
