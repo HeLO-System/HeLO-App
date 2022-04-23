@@ -23,7 +23,7 @@ const About: NextPage = () => (
         </a>
         .
       </p>
-      <h2 className="text-xl mt-4">What is Elo?</h2>
+      <h2 className="text-xl mt-6">What is Elo?</h2>
       <p>
         The Elo rating system is a method for calculating the relative skill
         levels of players in zero-sum games such as chess. It is named after its
@@ -45,7 +45,7 @@ const About: NextPage = () => (
         The system was adjusted slightly and adapted to fit the requirements of
         ranking Hell Let Loose Clans.
       </p>
-      <h2 className="text-xl mt-4">Which factors influence the HeLO Score?</h2>
+      <h2 className="text-xl mt-6">Which factors influence the HeLO Score?</h2>
       <p>
         In contrast to chess where you can either win, lose or draw, HLL offers
         additional outcomes determined by the amount of controlled cap points
@@ -57,7 +57,7 @@ const About: NextPage = () => (
         <li>Number of players</li>
         <li>Match types (regular or competitive)</li>
       </ol>
-      <h2 className="text-xl mt-4">
+      <h2 className="text-xl mt-6">
         How is the victory probability calculated?
       </h2>
       <h3 className="text-lg mt-2">Quick overview</h3>
@@ -72,7 +72,7 @@ const About: NextPage = () => (
         A. The probability for team B is simply the counter-probability: 1 –
         0.708 = 0.292 =&gt; 29.2%.
       </p>
-      <h3 className="text-lg mt-2">Detailed explanation</h3>
+      <h3 className="text-lg mt-4">Detailed explanation</h3>
       <p>
         The probability is calculated by an integral, which can be simplified to
         the{" "}
@@ -89,7 +89,7 @@ const About: NextPage = () => (
         500. Otherwise the score gain or loss would be either too significant or
         irrelevant.
       </p>
-      <h2 className="text-xl mt-4">How is the new HeLO-Score calculated?</h2>
+      <h2 className="text-xl mt-6">How is the new HeLO-Score calculated?</h2>
       <p>
         The system adds a number of points to the winning teams score and
         substracts points from the losing team. The number of points
@@ -145,7 +145,7 @@ const About: NextPage = () => (
         score between 550 and 650. In this case the affected team will be
         informed about that.
       </p>
-      <h2 className="text-xl mt-4">Full Example</h2>
+      <h2 className="text-xl mt-6">Full Example</h2>
       <p>
         Let’s have a look at a realistic example. Team A (746) plays a
         competitive match (tournament mode) against Team B (613). They play with
@@ -166,9 +166,11 @@ const About: NextPage = () => (
           Summary of the factors: <p>Match type: 1.2</p>
           <table className="space-x-4">
             <thead>
-              <th>Factor</th>
-              <th>Team A</th>
-              <th>Team B</th>
+              <tr>
+                <th>Factor</th>
+                <th>Team A</th>
+                <th>Team B</th>
+              </tr>
             </thead>
             <tbody>
               <tr>
@@ -179,14 +181,14 @@ const About: NextPage = () => (
               <tr>
                 <td>Number of players</td>
                 <td>
-                  log<sub>20</sub>45/50+1
+                  log<sub>20</sub>(45/50)+1
                 </td>
                 <td>
-                  log<sub>40</sub>45/50+1
+                  log<sub>40</sub>(45/50)+1
                 </td>
               </tr>
               <tr>
-                <td>Game score (normalised)</td>
+                <td>Game score (normalized)</td>
                 <td>0/5</td>
                 <td>5/5</td>
               </tr>
@@ -196,15 +198,15 @@ const About: NextPage = () => (
         <li>
           <p>New scores:</p>
           <p>
-            Team A: 746 + 20 * 1.2 * (log<sub>20</sub>45/50+1) * (0/5-0.681) ≈
+            Team A: 746 + 20 * 1.2 * (log<sub>20</sub>(45/50)+1) * (0/5-0.681) ≈
             730
             <br />
-            Team B: 613 + 40 * 1.2 * (log<sub>40</sub>45/50+1) * (5/5-0.681) ≈
+            Team B: 613 + 40 * 1.2 * (log<sub>40</sub>(45/50)+1) * (5/5-0.681) ≈
             645
           </p>
         </li>
       </ol>
-      <h2 className="text-xl mt-4">
+      <h2 className="text-xl mt-6">
         What if more than one team plays together?
       </h2>
       <p>

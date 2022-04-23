@@ -14,7 +14,7 @@ export const BackButton: FC<BackButtonProps> = ({ className }) => (
       className
     )}
     icon={<ArrowLeft24Regular />}
-    text="Helo-System"
+    text="HeLO-System"
     href="/"
   ></CustomLink>
 );
