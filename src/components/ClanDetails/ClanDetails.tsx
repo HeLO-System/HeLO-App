@@ -28,7 +28,7 @@ export const ClanDetails: FC<ClanDetailsProps> = ({ clan }) => (
       <h1 className="text-6xl">{clan?.tag}</h1>
       <h2 className="text-3xl hidden md:block">{clan?.name}</h2>
     </div>
-    <div className="basis-full h-0"></div>
+    <div className="basis-full h-0 md:hidden"></div>
     <h2 className="text-3xl font-gotham-book md:hidden">{clan?.name}</h2>
     <hr className="basis-full h-0 md:hidden border-white my-4"></hr>
     <div className="flex flex-col items-center mr-auto md:mr-0 mx-auto">
@@ -47,7 +47,7 @@ export const ClanDetails: FC<ClanDetailsProps> = ({ clan }) => (
     </div>
     {clan?.invite && (
       <>
-        <hr className="basis-full h-0 md:hidden border-black my-4"></hr>
+        <hr className="basis-full h-0 md:hidden border-white my-4"></hr>
         <CustomLink
           text="Join Discord"
           className="text-3xl p-4 mx-auto md:ml-0 md:mr-8"

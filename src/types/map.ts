@@ -4,7 +4,6 @@ export enum Map {
   Hill = "Hill",
   Hurtgen = "Hurtgen",
   Kursk = "Kursk",
-  Omaha = "Omaha",
   PHL = "PHL",
   SMDM = "SMDM",
   SME = "SME",

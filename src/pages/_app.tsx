@@ -1,8 +1,8 @@
+import { Layout } from "@components/Layout";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { FC } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Layout from "../components/Layout";
 import "../styles/globals.scss";
 
 const queryClient = new QueryClient();
