@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { BackButton } from "@components/BackButton";
+import { ClanIcon } from "@components/ClanIcon";
 import { GlassPanel } from "@components/GlassPanel";
 import { LinkCell } from "@components/LinkCell";
 import { useClans } from "@queries";
@@ -7,20 +8,19 @@ import { Clan } from "@types";
 import React, { FC, ReactNode } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Discord from "../../../public/Discord-Logo-White.svg";
-import Logo from "../../../public/helo.svg";
 
 const columns: TableColumn<Clan>[] = [
   {
-    cell: (clan): ReactNode =>
-      clan.icon ? (
-        <img
-          src={clan?.icon}
-          className="h-8 w-8 object-contain"
-          alt="Clan Logo"
+    cell: (clan): ReactNode => (
+      <div className="relative h-8 w-8">
+        <ClanIcon
+          // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+          imageProps={{ height: 128, width: 128, quality: 1 }}
+          logoClassName="fill-black"
+          icon={clan?.icon}
         />
-      ) : (
-        <Logo className="h-8 w-8 fill-black" />
-      ),
+      </div>
+    ),
     width: "64px",
   },
   {

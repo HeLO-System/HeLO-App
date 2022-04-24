@@ -38,14 +38,23 @@ const Home: NextPage = () => {
   );
 
   return (
-    <div className="flex flex-col w-screen h-screen" id="masked-overflow">
+    <div
+      className="flex flex-col w-screen h-screen text-white"
+      id="masked-overflow"
+    >
       <GlassPanel className="before:rounded-full mx-auto mt-32 bg-e-2 !rounded-full p-10">
         <Logo className="h-32 w-32 fill-white" />
       </GlassPanel>
-      <h1 className="text-5xl mt-10 text-center font-gotham-book tracking-[0.3em]">
+      <h1
+        className="text-5xl mt-10 text-center font-gotham-book tracking-[0.3em] font-bold"
+        style={{ textShadow: "0 0 8px black" }}
+      >
         HeLO-System
       </h1>
-      <h2 className="text-[1.75rem] mt-5 text-center font-gotham-book text-gray-800">
+      <h2
+        className="text-[1.75rem] mt-5 text-center font-gotham-book"
+        style={{ textShadow: "0 0 8px black" }}
+      >
         Hell Let Loose Competitive Clan Ranking
       </h2>
 

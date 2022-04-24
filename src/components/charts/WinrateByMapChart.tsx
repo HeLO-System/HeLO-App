@@ -80,17 +80,17 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
             name === "Winrate" ? `${parseFloat(value) * 100}%` : value
           }
         />
-        <Bar dataKey="Losses" stackId="a" fill="#991b1b" yAxisId="games">
+        <Bar dataKey="Wins" stackId="a" fill="#166534" yAxisId="games">
           <LabelList
-            dataKey="Losses"
+            dataKey="Wins"
             position="middle"
             formatter={(value: string): string => value || ""}
             className="fill-white"
           />
         </Bar>
-        <Bar dataKey="Wins" stackId="a" fill="#166534" yAxisId="games">
+        <Bar dataKey="Losses" stackId="a" fill="#991b1b" yAxisId="games">
           <LabelList
-            dataKey="Wins"
+            dataKey="Losses"
             position="middle"
             formatter={(value: string): string => value || ""}
             className="fill-white"
