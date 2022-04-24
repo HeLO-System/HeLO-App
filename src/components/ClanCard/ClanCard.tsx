@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { ClanIcon } from "@components/ClanIcon";
 import { Shield24Filled, Trophy24Filled } from "@fluentui/react-icons";
 import { Clan } from "@types";
 import classNames from "classnames";
-import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-import Logo from "../../../public/helo.svg";
 
 interface ClanCardProps {
   clan?: Clan;
@@ -25,18 +24,12 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
           "animate-pulse bg-border": !clan,
         })}
       >
-        {clan?.icon ? (
-          <Image
-            src={clan.icon}
-            alt="Clan Logo"
-            objectFit="contain"
-            width={128}
-            height={128}
-            quality={50}
-          />
-        ) : (
-          <Logo className="w-full h-full fill-white" />
-        )}
+        <ClanIcon
+          // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+          imageProps={{ height: 128, width: 128, quality: 50 }}
+          logoClassName="fill-white"
+          icon={clan?.icon}
+        />
       </div>
       <h1
         className={classNames("text-lg text-center", {
