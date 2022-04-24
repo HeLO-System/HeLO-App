@@ -164,36 +164,38 @@ const About: NextPage = () => (
         </li>
         <li>
           Summary of the factors: <p>Match type: 1.2</p>
-          <table className="space-x-4">
-            <thead>
-              <tr>
-                <th>Factor</th>
-                <th>Team A</th>
-                <th>Team B</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Number of matches</td>
-                <td>20</td>
-                <td>40</td>
-              </tr>
-              <tr>
-                <td>Number of players</td>
-                <td>
-                  log<sub>20</sub>(45/50)+1
-                </td>
-                <td>
-                  log<sub>40</sub>(45/50)+1
-                </td>
-              </tr>
-              <tr>
-                <td>Game score (normalized)</td>
-                <td>0/5</td>
-                <td>5/5</td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="w-full overflow-auto">
+            <table className="space-x-4">
+              <thead>
+                <tr>
+                  <th>Factor</th>
+                  <th>Team A</th>
+                  <th>Team B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Number of matches</td>
+                  <td>20</td>
+                  <td>40</td>
+                </tr>
+                <tr>
+                  <td>Number of players</td>
+                  <td>
+                    log<sub>20</sub>(45/50)+1
+                  </td>
+                  <td>
+                    log<sub>40</sub>(45/50)+1
+                  </td>
+                </tr>
+                <tr>
+                  <td>Game score (normalized)</td>
+                  <td>0/5</td>
+                  <td>5/5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </li>
         <li>
           <p>New scores:</p>
