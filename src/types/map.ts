@@ -6,7 +6,7 @@ export enum Map {
   Kursk = "Kursk",
   Omaha = "Omaha",
   PHL = "PHL",
-  SMD = "SMD",
+  SMDM = "SMDM",
   SME = "SME",
   Stalingrad = "Stalingrad",
   Utah = "Utah",
