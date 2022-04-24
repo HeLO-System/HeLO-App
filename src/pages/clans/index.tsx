@@ -4,6 +4,7 @@ import { GlassPanel } from "@components/GlassPanel";
 import { LinkCell } from "@components/LinkCell";
 import { useClans } from "@queries";
 import { Clan } from "@types";
+import Image from "next/image";
 import React, { FC, ReactNode } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Discord from "../../../public/Discord-Logo-White.svg";
@@ -11,16 +12,22 @@ import Logo from "../../../public/helo.svg";
 
 const columns: TableColumn<Clan>[] = [
   {
-    cell: (clan): ReactNode =>
-      clan.icon ? (
-        <img
-          src={clan?.icon}
-          className="h-8 w-8 object-contain"
-          alt="Clan Logo"
-        />
-      ) : (
-        <Logo className="h-8 w-8 fill-black" />
-      ),
+    cell: (clan): ReactNode => (
+      <div className="relative h-8 w-8">
+        {clan.icon ? (
+          <Image
+            src={clan.icon}
+            alt="Clan Logo"
+            objectFit="contain"
+            quality={1}
+            height={128}
+            width={128}
+          />
+        ) : (
+          <Logo className="h-full w-full fill-black" />
+        )}
+      </div>
+    ),
     width: "64px",
   },
   {

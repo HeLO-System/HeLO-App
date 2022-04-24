@@ -3,6 +3,7 @@ import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
 import { ShieldFilled, TrophyFilled } from "@fluentui/react-icons";
 import { Clan } from "@types";
+import Image from "next/image";
 import { FC } from "react";
 import Discord from "../../../public/Discord-Logo-White.svg";
 import Logo from "../../../public/helo.svg";
@@ -13,12 +14,15 @@ interface ClanDetailsProps {
 
 export const ClanDetails: FC<ClanDetailsProps> = ({ clan }) => (
   <GlassPanel className="p-4 mx-10 flex flex-wrap items-center">
-    <div className="w-16 h-16 md:w-32 md:h-32  mr-4 overflow-hidden">
+    <div className="relative w-16 h-16 md:w-32 md:h-32  mr-4 overflow-hidden">
       {clan?.icon ? (
-        <img
-          src={clan?.icon}
-          className="h-full w-full object-contain"
+        <Image
+          src={clan.icon}
           alt="Clan Logo"
+          objectFit="contain"
+          height={256}
+          width={256}
+          quality={50}
         />
       ) : (
         <Logo className="w-full h-full fill-white" />
