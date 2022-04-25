@@ -53,6 +53,6 @@
     "typescript": "4.6.3"
   },
   "optionalDependencies": {
-    "@next/swc-linux-x64-gnu": "12.1.0"
+    "@next/swc-linux-x64-gnu": "12.1.5"
   }
 }
