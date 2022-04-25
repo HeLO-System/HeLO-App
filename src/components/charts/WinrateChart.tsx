@@ -52,7 +52,7 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
   return (
     <ChartWrapper
       className={className}
-      title={`Winrate - ${winrate?.winrate || ""}%`}
+      title={`Winrate - ${winrate?.winrate.toFixed(1) || ""}%`}
     >
       <PieChart>
         <Pie
