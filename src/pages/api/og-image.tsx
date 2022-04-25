@@ -4,6 +4,7 @@ import { ShieldFilled, TrophyFilled } from "@fluentui/react-icons";
 import { Clan } from "@types";
 import { fetchData, GothamBook } from "@util";
 import { withOGImage } from "next-api-og-image";
+import Logo from "../../../public/helo.svg";
 
 const imageWidth = 1200;
 const imageHeight = 450;
@@ -62,15 +63,25 @@ export default withOGImage<"query", { clan: string }>({
               }}
             >
               <div style={{ width: "200px" }}>
-                <img
-                  src={clan.icon || "/hll.png"}
-                  alt="Clan Logo"
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    objectFit: "contain",
-                  }}
-                />
+                {clan?.icon ? (
+                  <img
+                    src={clan?.icon}
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      objectFit: "contain",
+                    }}
+                    alt="Clan Logo"
+                  />
+                ) : (
+                  <Logo
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      fill: "white",
+                    }}
+                  />
+                )}
               </div>
               <div>
                 <h1

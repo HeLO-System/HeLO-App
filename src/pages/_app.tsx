@@ -1,9 +1,9 @@
+import { Layout } from "@components/Layout";
 import { init } from "@socialgouv/matomo-next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { FC, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Layout from "../components/Layout";
 import "../styles/globals.scss";
 
 const queryClient = new QueryClient();

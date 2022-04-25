@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import clan from "@pages/clans";
-import { useWinrateByResult } from "@queries";
+import { useWinrateByResult, useWinrate } from "@queries";
 import { FC } from "react";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import { ChartWrapper } from "./ChartWrapper";
 import { StyledTooltip } from "./StyledTooltip";
 
 type WinrateDataEntry = { name: string; value: number }[];
+
 type WinrateData = {
-  total: WinrateDataEntry;
-  byResult: WinrateDataEntry;
+  data: WinrateDataEntry;
+  winrate: number;
 };
 
 interface WinrateChartProps {
@@ -18,38 +18,51 @@ interface WinrateChartProps {
 }
 
 export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
-  const { data: winrate } = useWinrateByResult<WinrateData>(
+  const { data: winrateByResult } = useWinrateByResult<WinrateDataEntry>(
     clanId as string,
     {},
     {
-      enabled: !!clan,
+      enabled: !!clanId,
       select: (data) => {
-        const result: WinrateData = {
-          byResult: [],
-          total: [
-            { name: "Wins", value: 0 },
-            { name: "Losses", value: 0 },
-          ],
-        };
-        Object.entries(data).forEach(([name, { count: value }], index) => {
-          result.byResult.push({ name, value });
-          result.total[Math.floor(index / 3)].value += value;
-        });
-        return result;
+        return Object.entries(data).map(([name, { count: value }], index) => ({
+          name,
+          value,
+        }));
       },
     }
   );
+
+  const { data: winrate } = useWinrate<WinrateData>(
+    clanId as string,
+    {},
+    {
+      enabled: !!clanId,
+      select: (data) => {
+        return {
+          data: [
+            { name: "Wins", value: data.wins },
+            { name: "Losses", value: data.total - data.wins },
+          ],
+          winrate: data.winrate * 100,
+        };
+      },
+    }
+  );
+
   return (
-    <ChartWrapper className={className} title="Winrate">
+    <ChartWrapper
+      className={className}
+      title={`Winrate - ${winrate?.winrate.toFixed(1) || ""}%`}
+    >
       <PieChart>
         <Pie
-          data={winrate?.total}
+          data={winrate?.data}
           dataKey="value"
           outerRadius="80%"
           innerRadius="60%"
           fill="#ffffff"
         >
-          {winrate?.total.map((entry, index) => (
+          {winrate?.data.map((entry, index) => (
             <Cell
               fill="#ff0000"
               key={`cell-${index}`}
@@ -60,12 +73,12 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
           ))}
         </Pie>
         <Pie
-          data={winrate?.byResult}
+          data={winrateByResult}
           dataKey="value"
           outerRadius="40%"
           fill="#ffffff"
         >
-          {winrate?.byResult.map((_entry, index) => (
+          {winrateByResult?.map((_entry, index) => (
             <Cell
               key={`cell-${index}`}
               className={index < 3 ? "fill-green-800" : "fill-red-800"}

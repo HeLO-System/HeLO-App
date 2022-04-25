@@ -1,21 +1,19 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @next/next/no-head-element */
+import { BackButton } from "@components/BackButton";
 import {
   ScoreOverTimeChart,
   WinrateByMapChart,
   WinrateChart,
 } from "@components/charts";
 import { ClanDetails } from "@components/ClanDetails";
-import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
 import NoSSR from "@components/NoSSR/NoSSR";
-import { ArrowLeft24Regular } from "@fluentui/react-icons";
 import { useClan, useMatches } from "@queries";
 import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import React from "react";
 
 const lastMatchesLength = 5;
 interface ServerSideProps {
@@ -51,12 +49,8 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
         className="flex flex-col gap-8 text-white h-full"
         id="masked-overflow"
       >
-        <CustomLink
-          className="w-min mt-10 ml-10 text-xl font-gotham-book whitespace-nowrap"
-          icon={<ArrowLeft24Regular />}
-          text="Helo-System"
-          href="/"
-        ></CustomLink>
+        <BackButton className="mt-10 ml-10" />
+
         <ClanDetails clan={clan} />
         <GlassPanel title="Recent matches" className="p-4 mx-10">
           <div className="grid md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">

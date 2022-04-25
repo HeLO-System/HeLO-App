@@ -1,4 +1,3 @@
-import clan from "@pages/clans";
 import { fetchWinrate, WinrateParams } from "@queries";
 import { Map } from "@types";
 import { enumKeys } from "@util";
@@ -58,9 +57,10 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
     enumKeys(Map).map((map) => ({
       queryKey: ["statistics", "winrate", clanId, { map }],
       queryFn: () => fetchWinRateByMap(clanId as string, { map: Map[map] }),
-      enabled: !!clan,
+      enabled: !!clanId,
     }))
   ).map((result) => result.data);
+
   return (
     <ChartWrapper className={className} title="Winrate by map">
       <ComposedChart data={winRateByMap}>
@@ -80,17 +80,17 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
             name === "Winrate" ? `${parseFloat(value) * 100}%` : value
           }
         />
-        <Bar dataKey="Losses" stackId="a" fill="#991b1b" yAxisId="games">
+        <Bar dataKey="Wins" stackId="a" fill="#166534" yAxisId="games">
           <LabelList
-            dataKey="Losses"
+            dataKey="Wins"
             position="middle"
             formatter={(value: string): string => value || ""}
             className="fill-white"
           />
         </Bar>
-        <Bar dataKey="Wins" stackId="a" fill="#166534" yAxisId="games">
+        <Bar dataKey="Losses" stackId="a" fill="#991b1b" yAxisId="games">
           <LabelList
-            dataKey="Wins"
+            dataKey="Losses"
             position="middle"
             formatter={(value: string): string => value || ""}
             className="fill-white"
