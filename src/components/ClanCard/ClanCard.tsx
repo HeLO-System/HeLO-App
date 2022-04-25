@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
+import { ClanIcon } from "@components/ClanIcon";
 import { Shield24Filled, Trophy24Filled } from "@fluentui/react-icons";
 import { Clan } from "@types";
 import classNames from "classnames";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { FC } from "react";
 
 interface ClanCardProps {
@@ -11,73 +11,51 @@ interface ClanCardProps {
   className?: string;
 }
 
-export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => {
-  const router = useRouter();
-
-  return (
-    <button
+export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
+  <Link href={clan ? `/clans/${clan.tag}` : ""}>
+    <a
       className={classNames(
-        "bg-e-2 rounded-lg hover:scale-105 shadow-elevation-1 text-font w-40 flex flex-col items-center py-4",
+        "bg-e-2 rounded-lg hover:scale-105 shadow-elevation-1 text-font  flex flex-col items-center py-4",
         className
       )}
-      onClick={(): void => {
-        if (clan) {
-          router.push(`/clans/${clan.tag}`).catch(null);
-        }
-      }}
     >
       <div
-        className={classNames("h-16 w-16 rounded-full", {
+        className={classNames("relative h-16 w-16", {
           "animate-pulse bg-border": !clan,
         })}
       >
-        {clan &&
-          (clan.icon ? (
-            <img
-              src={clan.icon}
-              className="rounded-full h-16 w-16"
-              alt="Clan Logo"
-            />
-          ) : (
-            <Image
-              src="/hll.png"
-              height="64"
-              width="64"
-              className="rounded-full"
-              alt="Clan Logo"
-            />
-          ))}
+        <ClanIcon
+          // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+          imageProps={{ height: 128, width: 128, quality: 50 }}
+          logoClassName="fill-white"
+          icon={clan?.icon}
+        />
       </div>
-
       <h1
-        className={classNames("text-lg", {
+        className={classNames("text-lg text-center", {
           "animate-pulse bg-border h-5 my-1 rounded-md w-2/3": !clan,
         })}
       >
         {clan && clan.name}
       </h1>
-      <div className="flex w-full md:flex-col justify-around px-2 items-center">
-        <div className="flex items-center w-1/2 justify-start ">
-          <Trophy24Filled className="h-4 text-accent" />
-          <span
-            className={classNames("w-full", {
-              "animate-pulse bg-border h-3 rounded-md": !clan,
-            })}
-          >
-            {clan && clan.score}
-          </span>
-        </div>
-        <div className="flex items-center w-1/2 justify-start">
-          <Shield24Filled className="h-4" />
-          <span
-            className={classNames("w-full", {
-              "animate-pulse bg-border h-3 rounded-md": !clan,
-            })}
-          >
-            {clan && clan.num_matches}
-          </span>
-        </div>
+      <div className="grid w-full grid-cols-4 md:grid-cols-2">
+        <Trophy24Filled className="h-4 text-accent self-center justify-self-end" />
+        <span
+          className={classNames({
+            "animate-pulse bg-border h-3 rounded-md": !clan,
+          })}
+        >
+          {clan && clan.score}
+        </span>
+        <Shield24Filled className="h-4 self-center justify-self-end" />
+        <span
+          className={classNames({
+            "animate-pulse bg-border h-3 rounded-md": !clan,
+          })}
+        >
+          {clan && clan.num_matches}
+        </span>
       </div>
-    </button>
-  );
-};
+    </a>
+  </Link>
+);
