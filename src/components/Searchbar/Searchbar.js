@@ -1,4 +1,3 @@
-import { gray } from "d3-color";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
@@ -8,7 +7,7 @@ const searchBarStyles = {
     ...provided,
     fontFamily: "Gotham-Book",
     color: "white",
-    backgroundColor: gray,
+    backgroundColor: "rgba(0, 0, 0, 0.12)",
     fontSize: 16,
     border: "0px",
     borderRadius: "8px",
