@@ -70,8 +70,24 @@ export const Searchbar = () => {
       );
 
     Promise.all([getClans(), getMatches()]).then((data) => {
-      console.log(data.flat(1));
-      callback(data.flat(1));
+      const clanOptions = data
+        .flat(1)
+        .filter((object) => object.type == "clan");
+      const matchOptions = data
+        .flat(1)
+        .filter((object) => object.type == "match");
+      const options = [
+        {
+          label: "Clans",
+          options: clanOptions,
+        },
+        {
+          label: "Matches",
+          options: matchOptions,
+        },
+      ];
+
+      callback(options);
     });
   }
 
@@ -85,6 +101,18 @@ export const Searchbar = () => {
       //router.push(`/match/${value.value}`).catch(null);
     }
   }
+
+  const options = [
+    {
+      label: "Group 1",
+      options: [
+        { label: "Group 1, option 1", value: "value_1" },
+        { label: "Group 1, option 2", value: "value_2" },
+      ],
+    },
+    { label: "A root option", value: "value_3" },
+    { label: "Another root option", value: "value_4" },
+  ];
 
   return (
     <div className="w-80 rounded-lg lg:bg-e-2 bg-e-1-dark shadow-elevation-1 text-font">
