@@ -17,7 +17,7 @@ export type Match = {
   date: {
     $date: number;
   };
-  factor: 1;
+  factor: number;
   conf1: string;
   conf2: string;
   recalculate: boolean;
