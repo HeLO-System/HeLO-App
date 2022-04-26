@@ -73,7 +73,7 @@ async function loadOptions(input, callback) {
     type: "match",
   }));
 
-  callback([].concat(clanoptions, matchoptions));
+  callback(clanoptions.concat(matchoptions));
 }
 
 //search component for search page
