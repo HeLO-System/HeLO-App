@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
-import { fetchData } from "@util";
+import axios from "axios";
 
 const searchBarStyles = {
   control: (provided) => ({
@@ -44,30 +44,36 @@ function matchSearchUrl(input) {
   return `/api/matches?match_id=${input}&limit=3&sort_by=date&desc=true`; //for now: limit to max. 2 matches
 }
 
-//function to load clan and match options from API
-async function loadOptions(input, callback) {
-  const resClan = await fetchData(clanSearchUrl(input));
-  const resMatch = await fetchData(matchSearchUrl(input));
-
-  const clanoptions = resClan.map((i) => ({
-    label: i.name || i.tag,
-    value: i.tag,
-    type: "clan",
-  }));
-  const matchoptions = resMatch.map((i) => ({
-    label: i.match_id,
-    value: i.match_id,
-    type: "match",
-  }));
-
-  callback(clanoptions.concat(matchoptions));
-}
-
 //search component for search page
 export const Searchbar = () => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
   const [selectedValue, setSelectedValue] = useState(null);
+
+  //function to load clan and match options from API
+  function loadOptions(input, callback) {
+    const getClans = () =>
+      axios.get(clanSearchUrl(input)).then(({ data }) =>
+        data.map((i) => ({
+          label: i.name || i.tag,
+          value: i.tag,
+          type: "clan",
+        }))
+      );
+    const getMatches = () =>
+      axios.get(matchSearchUrl(input)).then(({ data }) =>
+        data.map((i) => ({
+          label: i.match_id,
+          value: i.match_id,
+          type: "match",
+        }))
+      );
+
+    Promise.all([getClans(), getMatches()]).then((data) => {
+      console.log(data.flat(1));
+      callback(data.flat(1));
+    });
+  }
 
   //route to detail page of search selection
   function selectRedirect(value) {
