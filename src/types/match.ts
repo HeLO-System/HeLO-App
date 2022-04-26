@@ -23,4 +23,5 @@ export type Match = {
   recalculate: boolean;
   score_posted: boolean;
   map: string;
+  duration: number;
 };
