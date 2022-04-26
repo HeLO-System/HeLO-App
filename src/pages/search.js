@@ -1,7 +1,5 @@
-import Searchbar from "@components/Searchbar";
-import { useRouter } from "next/router";
+import Searchbar from "@components/Searchbar/Searchbar";
 import React, { useEffect, useState } from "react";
-import AsyncSelect from "react-select/async";
 
 function Search() {
   return (
