@@ -100,7 +100,6 @@ export const Searchbar = () => {
         placeholder={"Search for clans, matches"}
         onInputChange={(e) => {
           setSearchInput(e);
-          console.log("typed in: ", e);
         }}
         loadOptions={loadOptions}
         onChange={selectRedirect}
