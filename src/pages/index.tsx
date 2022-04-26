@@ -2,7 +2,7 @@
 import { ClanCard } from "@components/ClanCard";
 import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
-import Searchbar from "@components/Searchbar/Searchbar";
+import { Searchbar } from "@components/Searchbar";
 import { ClansQueryParams, fetchClans } from "@queries";
 import { range } from "@util";
 import { NextPage } from "next";

@@ -1,5 +1,4 @@
-import Searchbar from "@components/Searchbar/Searchbar";
-import { useEffect, useState } from "react";
+import { Searchbar } from "@components/Searchbar";
 
 function Search() {
   return (
