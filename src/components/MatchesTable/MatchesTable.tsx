@@ -1,6 +1,7 @@
 import { GlassPanel } from "@components/GlassPanel";
 import { useMatches } from "@queries";
 import { Factions, Match } from "@types";
+import { useClanTags } from "@util";
 import { DateTime } from "luxon";
 import { FC } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
@@ -70,11 +71,13 @@ const columns: TableColumn<FormattedMatch>[] = [
     name: "Allies",
     selector: (match) => match.allies.join(", "),
     sortable: true,
+    cell: (match) => <ClanTagsList clanIds={match.allies} />,
   },
   {
     name: "Enemies",
-    selector: (match) => match.enemies.join(","),
+    selector: (match) => match.allies.join(", "),
     sortable: true,
+    cell: (match) => <ClanTagsList clanIds={match.enemies} />,
   },
   {
     name: "Side",
@@ -132,4 +135,9 @@ export const MatchesTable: FC<MatchesTableProps> = ({ clanId }) => {
       />
     </GlassPanel>
   );
+};
+
+const ClanTagsList: FC<{ clanIds: string[] }> = ({ clanIds }) => {
+  const { getTag } = useClanTags();
+  return <div>{clanIds.map((clanId) => getTag(clanId)).join(", ")}</div>;
 };
