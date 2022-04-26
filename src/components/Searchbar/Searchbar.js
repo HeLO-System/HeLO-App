@@ -35,7 +35,7 @@ const searchBarStyles = {
 };
 
 //search component for search page
-function Searchbar() {
+export const Searchbar = () => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
   const [selectedValue, setSelectedValue] = useState(null);
