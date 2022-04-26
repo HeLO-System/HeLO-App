@@ -25,12 +25,11 @@ const About: NextPage = () => (
       </p>
       <h2 className="text-xl mt-6">What is Elo?</h2>
       <p>
-        The Elo rating system is a method for calculating the relative skill
-        levels of players in zero-sum games such as chess. It is named after its
+        The Elo rating system is a method to calculate the relative skill levels
+        of players in zero-sum games such as chess. It is named after its
         creator Arpad Elo, a Hungarian-American physics professor. If you have
         ever played chess online or in a competitive tournament you might be
-        already familiar with the concept. If not have you can read more about
-        the system on{" "}
+        familiar with the concept. If not, you can read more about the system on{" "}
         <a
           href="https://en.wikipedia.org/wiki/Elo_rating_system"
           target="_blank"
@@ -42,8 +41,8 @@ const About: NextPage = () => (
         .
       </p>
       <p>
-        The system was adjusted slightly and adapted to fit the requirements of
-        ranking Hell Let Loose Clans.
+        The system was adjusted slightly and adapted to rank clans in Hell Let
+        Loose in a meaningful way.
       </p>
       <h2 className="text-xl mt-6">Which factors influence the HeLO Score?</h2>
       <p>
@@ -66,10 +65,10 @@ const About: NextPage = () => (
         both teams:
       </p>
       <p>
-        For example, team A has a score of 734 and team B has a score of 579.
+        For example, Team A has a score of 734 and Team B has a score of 579.
         The difference is D = 734 – 579 = 155. Plugging this value in our magic
-        math black box will lead to a probability of winning of 70.8% for team
-        A. The probability for team B is simply the counter-probability: 1 –
+        math black box leads to a win probability of 70.8% for Team A. The
+        probability of Team B winning is simply the counter-probability: 1 –
         0.708 = 0.292 =&gt; 29.2%.
       </p>
       <h3 className="text-lg mt-4">Detailed explanation</h3>
@@ -91,25 +90,24 @@ const About: NextPage = () => (
       </p>
       <h2 className="text-xl mt-6">How is the new HeLO-Score calculated?</h2>
       <p>
-        The system adds a number of points to the winning teams score and
-        substracts points from the losing team. The number of points
-        added/subtracted depends on the factors mentioned above. Let’s have a
-        closer look at those:
+        The system adds points to the winning teams score and substracts points
+        from the losing team. The number of points added/subtracted depends on
+        the factors mentioned above. Let’s have a closer look at those:
       </p>
       <ol className="list-decimal pl-8">
         <li>
           <p>Game result</p>
           <p>
             The conquered strongpoints at the end of the game will be normalized
-            by five. This is supposed to map the original binary system from
-            chess to a non-binary point system in HLL. You can find an example
-            of this below
+            by five. The goal of this is to map the original binary outcome of a
+            chess game to a non-binary point system in HLL. You can find an
+            example of this below.
           </p>
         </li>
         <li>
           <p>Number of players</p>
           <p>
-            The number of players participating in a game is a logarithmic
+            The number of players participating in a game is a logarithmically
             scaled factor, since missing a whole squad in a 30v30 match has a
             much bigger impact than missing a squad in a 50v50 match. Therefore,
             the factor does not scale linearly and decreases even heavier the
@@ -133,8 +131,8 @@ const About: NextPage = () => (
             The default factor for the number of matches played is 40. If a team
             played more than 30 games, this factor changes to 20. This factor
             hasn&#39;t been mentioned yet, since its only purpose is to
-            accelerate the settling process in order to receive a reliable score
-            faster.
+            accelerate the settling process in order to calculate a reliable
+            score faster.
           </p>
         </li>
       </ol>
@@ -208,21 +206,19 @@ const About: NextPage = () => (
           </p>
         </li>
       </ol>
-      <h2 className="text-xl mt-6">
-        What if more than one team plays together?
-      </h2>
+      <h2 className="text-xl mt-6">What if multiple teams play together?</h2>
       <p>
         This is called a cooperation. Cooperations can consist of teams fielding
-        the same amount of players, e.g. 25 each, or different amounts of
+        an equal amount of players, e.g. 25 each, or a different amount of
         players, e.g. 15 and 35.
       </p>
       <p>
         We have multiple options here. The most intuitive one is to assign the
-        score gain or loss of that specific game according to the player
-        distributions. And that is exactly what a weighted average does. The
-        second option, easier and not so accurate, is leaving out the weights,
-        computing a normal average and share the gain/loss equally among the
-        participants of the cooperation. This will be used in case no player
+        score changes of that specific game according to the player
+        distributions. This is done by weighing the average. If the easier and
+        less accurate option is used, the player distributions are ignored. The
+        normal average is computed and score changes are shared equally among
+        the participants of the cooperation. This will be used in case no player
         distributions are given.
       </p>
     </GlassPanel>
