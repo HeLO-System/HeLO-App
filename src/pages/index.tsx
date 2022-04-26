@@ -43,7 +43,7 @@ const Home: NextPage = () => {
       className="flex flex-col w-screen h-screen text-white"
       id="masked-overflow"
     >
-      <div className="absolute flex flex-row w-full lg:justify-end justify-center lg:p-10 p-4 top-0 z-10">
+      <div className="absolute flex flex-row w-full md:justify-end justify-center md:p-10 p-4 top-0 z-10">
         <Searchbar />
       </div>
       <GlassPanel className="before:rounded-full mx-auto mt-32 bg-e-2 !rounded-full p-10">
