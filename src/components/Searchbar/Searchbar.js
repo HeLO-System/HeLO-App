@@ -56,7 +56,7 @@ export const Searchbar = () => {
 
   //helper functions to concat strings
   function clanSearchUrl(input) {
-    return "/api/search?q=" + input + "&type=clan&limit=2";
+    return `/api/search?q=${input}"&type=clan&limit=2`;
   }
   function matchSearchUrl(input) {
     return "api/matches?match_id=" + input + "&limit=3&sort_by=date&desc=true"; //for now: limit to max. 2 matches
