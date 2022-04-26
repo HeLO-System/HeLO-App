@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
+import { fetchData } from "@util";
 
 const searchBarStyles = {
   control: (provided) => ({
@@ -34,27 +35,13 @@ const searchBarStyles = {
   }),
 };
 
-//helper function to fetch from api
-function fetchData(url) {
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) {
-          reject(res);
-        }
-        resolve(res.json());
-      })
-      .catch(reject);
-  });
-}
-
 //helper functions to concat strings
 function clanSearchUrl(input) {
-  return "/api/search?q=" + input + "&type=clan&limit=2";
+  return `/api/search?q=${input}&type=clan&limit=2`;
+  //return `/api/clans?tag=${input}&limit=3&sort_by=tag&desc=true`;
 }
 function matchSearchUrl(input) {
-  return "api/matches?match_id=" + input + "&limit=3&sort_by=date&desc=true"; //for now: limit to max. 2 matches
-  //no sorting yet
+  return `/api/matches?match_id=${input}&limit=3&sort_by=date&desc=true`; //for now: limit to max. 2 matches
 }
 
 //function to load clan and match options from API
