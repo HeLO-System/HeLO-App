@@ -44,7 +44,9 @@ const Home: NextPage = () => {
       id="masked-overflow"
     >
       <div className="absolute flex flex-row w-full md:justify-end justify-center md:p-10 p-4 top-0 z-10">
-        <Searchbar />
+        <div className="w-80 rounded-lg shadow-elevation-1 text-font lg:bg-e-2 bg-e-1-dark">
+          <Searchbar />
+        </div>
       </div>
       <GlassPanel className="before:rounded-full mx-auto mt-32 bg-e-2 !rounded-full p-10">
         <Logo className="h-32 w-32 fill-white" />

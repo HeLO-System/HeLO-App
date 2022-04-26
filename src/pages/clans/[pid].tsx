@@ -52,7 +52,9 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
         <div className="flex flex-row">
           <BackButton className="mt-10 ml-10" />
           <div className="md:flex justify-end items-end ml-auto mr-10 hidden">
-            <Searchbar />
+            <div className="w-80 rounded-lg shadow-elevation-1 text-font bg-e-2">
+              <Searchbar />
+            </div>
           </div>
         </div>
 

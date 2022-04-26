@@ -115,18 +115,16 @@ export const Searchbar = () => {
   ];
 
   return (
-    <div className="w-80 rounded-lg lg:bg-e-2 bg-e-1-dark shadow-elevation-1 text-font">
-      <AsyncSelect
-        value={selectedValue}
-        placeholder={"Search for clans, matches"}
-        onInputChange={(e) => {
-          setSearchInput(e);
-        }}
-        loadOptions={loadOptions}
-        onChange={selectRedirect}
-        styles={searchBarStyles}
-        noOptionsMessage={() => "No matches"}
-      />
-    </div>
+    <AsyncSelect
+      value={selectedValue}
+      placeholder={"Search for clans, matches"}
+      onInputChange={(e) => {
+        setSearchInput(e);
+      }}
+      loadOptions={loadOptions}
+      onChange={selectRedirect}
+      styles={searchBarStyles}
+      noOptionsMessage={() => "No matches"}
+    />
   );
 };
