@@ -1,26 +1,20 @@
-import * as React from "react";
-import { FC, useContext } from "react";
-import { useClans } from "./queries/ClansQuery";
+import { ClanTagStore } from "@api/clantags";
+import axios from "axios";
+import { createContext, FC, useContext } from "react";
+import { useQuery } from "react-query";
 
-type ClanTagStore = Record<string, string>;
 type ClanTagContextType = {
   clans: ClanTagStore | undefined;
   getTag: (id: string) => string;
 };
 
-const ClanTagCtx = React.createContext<ClanTagContextType | null>(null);
+const ClanTagCtx = createContext<ClanTagContextType | null>(null);
 
 export const ClanTagProvider: FC = ({ children }) => {
-  const { data: clans } = useClans<ClanTagStore>(
-    { select: "tag" },
-    {
-      select: (clansData) =>
-        clansData.reduce((acc: ClanTagStore, curr) => {
-          acc[curr._id.$oid] = curr.tag;
-          return acc;
-        }, {}),
-    }
-  );
+  const { data: clans } = useQuery<ClanTagStore>("clantags", async () => {
+    const { data } = await axios.get<ClanTagStore>("/api/clantags");
+    return data;
+  });
 
   const getTag = (id: string): string => (clans && clans[id]) || "";
 
