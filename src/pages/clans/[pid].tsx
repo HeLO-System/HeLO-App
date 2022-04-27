@@ -9,6 +9,7 @@ import {
 import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
+import { MatchesTable } from "@components/MatchesTable";
 import NoSSR from "@components/NoSSR/NoSSR";
 import { useClan, useMatches } from "@queries";
 import { range } from "@util";
@@ -84,6 +85,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
             </div>
           </NoSSR>
         </GlassPanel>
+        <MatchesTable clanId={clan?._id.$oid} />
       </div>
     </>
   );
