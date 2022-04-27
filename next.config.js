@@ -13,7 +13,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/:path*",
+        source: "/helo-api/:path*",
         destination: "http://api.helo-system.de/:path*",
       },
     ];

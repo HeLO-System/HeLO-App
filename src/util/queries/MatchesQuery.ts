@@ -26,7 +26,7 @@ export type MatchesParams = {
 export const fetchMatches = async (
   params?: MatchesParams
 ): Promise<Match[]> => {
-  const { data } = await axios.get<Match[]>("/api/matches", { params });
+  const { data } = await axios.get<Match[]>("/helo-api/matches", { params });
   return data;
 };
 

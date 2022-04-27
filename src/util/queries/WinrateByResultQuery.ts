@@ -12,7 +12,7 @@ export const fetchWinrateByResult = async (
   params?: WinrateByResultParams
 ): Promise<WinrateByResult> => {
   const { data } = await axios.get<WinrateByResult>(
-    `/api/statistics/result_types/${clanId}`,
+    `/helo-api/statistics/result_types/${clanId}`,
     { params }
   );
   return data;
