@@ -1,33 +1,25 @@
-import { ClanCard } from "@components/ClanCard";
 import { GlassPanel } from "@components/GlassPanel";
-import { Clan } from "@types";
 import classNames from "classnames";
 import { FC } from "react";
 
+export const DEFAULT_RECORD_COUNT = 5;
+
 interface RecordPanelProps {
   title: string;
-  clans?: Clan[];
   className?: string;
 }
 
 export const RecordPanel: FC<RecordPanelProps> = ({
   title,
-  clans,
   className,
+  children,
 }) => (
-  <GlassPanel title={title} className={classNames(className, "p-5")}>
-    <div className="grid gap-x-10 gap-y-5 h-max md:grid-cols-5 grid-cols-1 ">
-      {!clans?.length ? (
-        <>
-          <ClanCard />
-          <ClanCard />
-          <ClanCard />
-          <ClanCard />
-          <ClanCard />
-        </>
-      ) : (
-        clans.map((clan) => <ClanCard clan={clan} key={clan.tag} />)
-      )}
+  <GlassPanel
+    title={title}
+    className={classNames(className, "mx-10 lg:mx-auto p-4 lg:min-w-[1000px]")}
+  >
+    <div className="grid md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-10 gap-y-5">
+      {children}
     </div>
   </GlassPanel>
 );
