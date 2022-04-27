@@ -34,7 +34,10 @@ export const RecordMiscPanel: FC<RecordMiscPanelProps> = ({ className }) => {
           <MiscRecordCard
             title="Most played Map"
             record={records.most_played_map.map}
-            footer={records.most_played_map.count}
+            footer={`${records.most_played_map.count} - ${(
+              (records.most_played_map.count / records.total_matches) *
+              100
+            ).toFixed(2)}%`}
           />
           <MiscRecordCard
             title="Total Score Diff"
