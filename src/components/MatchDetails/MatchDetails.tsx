@@ -81,14 +81,14 @@ const WinLoseBanner: FC<{ caps1?: number; caps2?: number }> = ({
   caps1,
   caps2,
 }) => {
-  let text = "LOSS";
+  let text = "DEFEAT";
   let background = "bg-red-800";
 
   if (caps1 === undefined || caps2 === undefined) {
     text = "\u200B";
     background = "bg-gray-700";
   } else if (caps1 > caps2) {
-    text = "WIN";
+    text = "VICTORY";
     background = "bg-green-800";
   }
 

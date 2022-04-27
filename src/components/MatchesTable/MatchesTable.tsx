@@ -6,6 +6,8 @@ import { DateTime } from "luxon";
 import { FC } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 
+const CAPS_TO_WIN = 3;
+
 type FormattedMatch = {
   id: string;
   name: string;
@@ -55,61 +57,6 @@ const matchFormatter = (
   return formattedMatch as FormattedMatch;
 };
 
-const columns: TableColumn<FormattedMatch>[] = [
-  {
-    name: "Name",
-    selector: (match) => match.name,
-    sortable: true,
-  },
-  {
-    name: "Date",
-    selector: (match) => match.date,
-    sortable: true,
-    id: "date",
-  },
-  {
-    name: "Allies",
-    selector: (match) => match.allies.join(", "),
-    sortable: true,
-    cell: (match) => <ClanTagsList clanIds={match.allies} />,
-  },
-  {
-    name: "Enemies",
-    selector: (match) => match.allies.join(", "),
-    sortable: true,
-    cell: (match) => <ClanTagsList clanIds={match.enemies} />,
-  },
-  {
-    name: "Side",
-    selector: (match) => match.side,
-    sortable: true,
-  },
-  {
-    name: "Caps",
-    selector: (match) => match.caps,
-    sortable: true,
-  },
-  {
-    name: "Map",
-    selector: (match) => match.map,
-    sortable: true,
-  },
-  {
-    name: "Players",
-    selector: (match) => match.players,
-    sortable: true,
-  },
-  {
-    name: "Duration",
-    selector: (match) => match.duration,
-    sortable: true,
-  },
-  {
-    name: "Factor",
-    selector: (match) => match.factor,
-    sortable: true,
-  },
-];
 export interface MatchesTableProps {
   clanId?: string;
 }
@@ -123,6 +70,68 @@ export const MatchesTable: FC<MatchesTableProps> = ({ clanId }) => {
         data.map((match) => matchFormatter(match, clanId as string)),
     }
   );
+  const { getTag } = useClanTags();
+
+  const columns: TableColumn<FormattedMatch>[] = [
+    {
+      name: "Name",
+      selector: (match) => match.name,
+      sortable: true,
+    },
+    {
+      name: "Date",
+      selector: (match) => match.date,
+      sortable: true,
+      id: "date",
+    },
+    {
+      name: "Result",
+      selector: (match) => (match.caps >= CAPS_TO_WIN ? "Victory" : "Defeat"),
+      sortable: true,
+    },
+    {
+      name: "Allies",
+      selector: (match) => getTag(match.allies[0]),
+      sortable: true,
+      cell: (match) => <ClanTagsList clanIds={match.allies} />,
+    },
+    {
+      name: "Enemies",
+      selector: (match) => getTag(match.enemies[0]),
+      sortable: true,
+      cell: (match) => <ClanTagsList clanIds={match.enemies} />,
+    },
+    {
+      name: "Side",
+      selector: (match) => match.side,
+      sortable: true,
+    },
+    {
+      name: "Caps",
+      selector: (match) => match.caps,
+      sortable: true,
+    },
+    {
+      name: "Map",
+      selector: (match) => match.map,
+      sortable: true,
+    },
+    {
+      name: "Players",
+      selector: (match) => match.players,
+      sortable: true,
+    },
+    {
+      name: "Duration",
+      selector: (match) => match.duration,
+      sortable: true,
+    },
+    {
+      name: "Factor",
+      selector: (match) => match.factor,
+      sortable: true,
+    },
+  ];
 
   return (
     <GlassPanel title="Match Archive" className="p-4 mx-10">
