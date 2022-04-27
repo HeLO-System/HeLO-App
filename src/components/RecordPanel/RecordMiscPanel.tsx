@@ -39,9 +39,11 @@ export const RecordMiscPanel: FC<RecordMiscPanelProps> = ({ className }) => {
           <MiscRecordCard
             title="Total Score Diff"
             record={records.score_diff.diff}
-            footer={`${getTag(records.score_diff.lowest_clan_id)} : ${getTag(
-              records.score_diff.highest_clan_id
-            )}`}
+            footer={`${getTag(records.score_diff.highest_clan_id)} (${
+              records.score_diff.highest_score
+            }) - ${getTag(records.score_diff.lowest_clan_id)} (${
+              records.score_diff.lowest_score
+            })`}
           />
           <MiscRecordCard
             title="Shortest Match"
