@@ -92,8 +92,8 @@ Wow! What a match!
    Game score (normalized) | 0/5 | 5/5
 5. New scores:
 
-   Team A: 746 + 20 _ 1.2 _ (log<sub>20</sub>(45/50)+1) _ (0/5-0.681) ≈ 730<br>
-   Team B: 613 + 40 _ 1.2 _ (log<sub>40</sub>(45/50)+1) _ (5/5-0.681) ≈ 645
+   Team A: 746 + 20 * 1.2 * (log<sub>20</sub>(45/50)+1) * (0/5-0.681) ≈ 730<br>
+   Team B: 613 + 40 * 1.2 * (log<sub>40</sub>(45/50)+1) * (5/5-0.681) ≈ 645
 
 ## What if more than one team plays together?
 
