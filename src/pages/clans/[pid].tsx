@@ -11,12 +11,13 @@ import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
 import { MatchesTable } from "@components/MatchesTable";
 import NoSSR from "@components/NoSSR/NoSSR";
+import { Searchbar } from "@components/Searchbar";
 import { useClan, useMatches } from "@queries";
 import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-
 const lastMatchesLength = 5;
+
 interface ServerSideProps {
   clanTag: string;
 }
@@ -50,7 +51,14 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
         className="flex flex-col gap-8 text-white h-full"
         id="masked-overflow"
       >
-        <BackButton className="mt-10 ml-10" />
+        <div className="flex flex-row">
+          <BackButton className="mt-10 ml-10" />
+          <div className="md:flex justify-end items-end ml-auto mr-10 hidden">
+            <div className="w-80 rounded-lg shadow-elevation-1 text-font bg-e-2">
+              <Searchbar />
+            </div>
+          </div>
+        </div>
 
         <ClanDetails clan={clan} />
         <GlassPanel title="Recent matches" className="p-4 mx-10">
