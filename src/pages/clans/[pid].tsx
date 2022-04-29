@@ -17,6 +17,7 @@ import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 const lastMatchesLength = 5;
+
 interface ServerSideProps {
   clanTag: string;
 }
