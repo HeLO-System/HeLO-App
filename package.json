@@ -32,7 +32,7 @@
     "next": "12.1.6",
     "next-api-og-image": "4.0.1",
     "react": "17.0.2",
-    "react-data-table-component": "7.5.0",
+    "react-data-table-component": "7.5.1",
     "react-dom": "17.0.2",
     "react-query": "3.38.1",
     "react-select": "5.3.1",
