@@ -48,7 +48,7 @@
     "@typescript-eslint/eslint-plugin": "5.23.0",
     "autoprefixer": "10.4.7",
     "eslint": "8.14.0",
-    "eslint-config-next": "12.1.5",
+    "eslint-config-next": "12.1.6",
     "eslint-plugin-simple-import-sort": "7.0.0",
     "postcss": "8.4.13",
     "tailwindcss": "3.0.24",
