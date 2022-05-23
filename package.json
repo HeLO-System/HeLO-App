@@ -37,7 +37,7 @@
     "react-query": "3.39.0",
     "react-select": "5.3.2",
     "recharts": "2.1.9",
-    "sass": "1.51.0",
+    "sass": "1.52.1",
     "styled-components": "5.3.5",
     "utf-8-validate": "5.0.9"
   },
