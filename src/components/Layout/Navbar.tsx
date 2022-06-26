@@ -31,6 +31,11 @@ export const NavBar: FC = () => {
           className="bg-transparent shadow-none  hidden md:block"
         ></CustomLink>
         <CustomLink
+          text="Statistics"
+          href="/statistics"
+          className="bg-transparent shadow-none  hidden md:block"
+        ></CustomLink>
+        <CustomLink
           text="About"
           href="/about"
           className="bg-transparent shadow-none  hidden md:block"
@@ -73,6 +78,13 @@ export const NavBar: FC = () => {
           <CustomLink
             text="Matches"
             href="/matches"
+            className="bg-transparent shadow-none !justify-start"
+          ></CustomLink>
+        </li>{" "}
+        <li>
+          <CustomLink
+            text="Statistics"
+            href="/statistics"
             className="bg-transparent shadow-none !justify-start"
           ></CustomLink>
         </li>
