@@ -40,7 +40,7 @@ export const RecordMiscPanel: FC<RecordMiscPanelProps> = ({ className }) => {
             ).toFixed(2)}%`}
           />
           <MiscRecordCard
-            title="Total Score Diff"
+            title="Largest Score Diff"
             record={records.score_diff.diff}
             footer={`${getTag(records.score_diff.highest_clan_id)} (${
               records.score_diff.highest_score
