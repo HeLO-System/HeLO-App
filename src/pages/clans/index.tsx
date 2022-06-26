@@ -5,7 +5,8 @@ import { GlassPanel } from "@components/GlassPanel";
 import { ClanLinkCell } from "@components/LinkCell";
 import { useClans } from "@queries";
 import { Clan } from "@types";
-import { FC, ReactNode } from "react";
+import { useRouter } from "next/router";
+import { FC, ReactNode, useEffect } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Discord from "../../../public/Discord-Logo-White.svg";
 
@@ -60,7 +61,12 @@ const columns: TableColumn<Clan>[] = [
 ];
 
 const ClanList: FC = () => {
-  const { data: clans } = useClans();
+  const router = useRouter();
+  const { data: clans, isLoading } = useClans();
+
+  useEffect(() => {
+    void router.prefetch("/clan/[pid]");
+  }, [router]);
 
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
@@ -72,6 +78,7 @@ const ClanList: FC = () => {
           defaultSortFieldId="score"
           defaultSortAsc={false}
           theme="dark"
+          progressPending={isLoading}
         />
       </GlassPanel>
     </div>

@@ -5,6 +5,8 @@ import { GlassPanel } from "@components/GlassPanel";
 import { ClansQueryParams, fetchClans } from "@queries";
 import { range } from "@util";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import Discord from "../../public/Discord-Logo-White.svg";
 import Logo from "../../public/helo.svg";
@@ -27,6 +29,8 @@ const topClansByGamesParams: ClansQueryParams = {
  * Landing page
  */
 const Home: NextPage = () => {
+  const router = useRouter();
+
   const { data: topClansByScore } = useQuery(
     ["clans", topClansByScoreParams],
     () => fetchClans(topClansByScoreParams)
@@ -36,6 +40,10 @@ const Home: NextPage = () => {
     ["clans", topClansByGamesParams],
     () => fetchClans(topClansByGamesParams)
   );
+
+  useEffect(() => {
+    void router.prefetch("/clan/[pid]");
+  }, [router]);
 
   return (
     <div

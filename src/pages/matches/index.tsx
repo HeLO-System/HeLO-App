@@ -93,8 +93,8 @@ const getColumns = (
   },
 ];
 
-const ClanList: FC = () => {
-  const { data: matches } = useMatches();
+const MatchesList: FC = () => {
+  const { data: matches, isLoading } = useMatches();
   const { getTag } = useClanTags();
 
   const columns = getColumns(getTag);
@@ -102,17 +102,18 @@ const ClanList: FC = () => {
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
       <BackButton className="mt-10 ml-10" />
-      <GlassPanel title="Clans" className="p-4 mx-10 pb-8 mb-20">
+      <GlassPanel title="Matches" className="p-4 mx-10 pb-8 mb-20">
         <DataTable
           columns={columns}
           data={matches || []}
           defaultSortFieldId="score"
           defaultSortAsc={false}
           theme="dark"
+          progressPending={isLoading}
         />
       </GlassPanel>
     </div>
   );
 };
 
-export default ClanList;
+export default MatchesList;
