@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { useWinrateByResult, useWinrate } from "@queries";
+import { useWinrate, useWinrateByResult } from "@queries";
 import { FC } from "react";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import { ChartWrapper } from "./ChartWrapper";
-import { StyledTooltip } from "./StyledTooltip";
 
 type WinrateDataEntry = { name: string; value: number }[];
 
@@ -23,12 +22,11 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
     {},
     {
       enabled: !!clanId,
-      select: (data) => {
-        return Object.entries(data).map(([name, { count: value }], index) => ({
+      select: (data) =>
+        Object.entries(data).map(([name, { count: value }]) => ({
           name,
           value,
-        }));
-      },
+        })),
     }
   );
 
@@ -37,15 +35,13 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
     {},
     {
       enabled: !!clanId,
-      select: (data) => {
-        return {
-          data: [
-            { name: "Wins", value: data.wins },
-            { name: "Losses", value: data.total - data.wins },
-          ],
-          winrate: data.winrate * 100,
-        };
-      },
+      select: (data) => ({
+        data: [
+          { name: "Wins", value: data.wins },
+          { name: "Losses", value: data.total - data.wins },
+        ],
+        winrate: data.winrate * 100,
+      }),
     }
   );
 
@@ -85,7 +81,7 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
             />
           ))}
         </Pie>
-        <Tooltip content={<StyledTooltip />} />
+        <Tooltip />
       </PieChart>
     </ChartWrapper>
   );

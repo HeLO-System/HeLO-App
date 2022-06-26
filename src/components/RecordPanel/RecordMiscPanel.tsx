@@ -1,8 +1,6 @@
-import { MiscRecords } from "@pages/api/misc-records";
+import { useMiscRecords } from "@queries";
 import { range, useClanTags } from "@util";
-import axios from "axios";
 import { FC } from "react";
-import { useQuery } from "react-query";
 import { MiscRecordCard, RecordCard } from "./Cards";
 import { DEFAULT_RECORD_COUNT, RecordPanel } from "./RecordPanel";
 
@@ -11,9 +9,7 @@ interface RecordMiscPanelProps {
 }
 
 export const RecordMiscPanel: FC<RecordMiscPanelProps> = ({ className }) => {
-  const { data: records } = useQuery("misc-records", () =>
-    axios.get<MiscRecords>("/api/misc-records").then(({ data }) => data)
-  );
+  const { data: records } = useMiscRecords();
 
   const { getTag } = useClanTags();
 
