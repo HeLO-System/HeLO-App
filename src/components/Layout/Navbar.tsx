@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import { CustomLink } from "@components/CustomLink";
 import { Navigation24Regular } from "@fluentui/react-icons";
 import classNames from "classnames";
-import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
 import Logo from "../../../public/helo.svg";
@@ -36,14 +36,8 @@ export const NavBar: FC = () => {
           className="bg-transparent shadow-none  hidden md:block"
         ></CustomLink>
         <Link href="https://ko-fi.com/helosystem">
-          <a className="h-10 ml-auto hidden md:flex">
-            <Image
-              src="/kofi.png"
-              height={48}
-              width={48}
-              alt="Ko-Fi"
-              className="h-full w-auto"
-            />
+          <a className="h-10 ml-auto hidden md:flex items-center">
+            <img src="/kofi.png" className="h-6" alt="KoFi" />
           </a>
         </Link>
         <Link href="https://github.com/helo-system/">
@@ -83,15 +77,9 @@ export const NavBar: FC = () => {
         </li>
         <li className="flex">
           <Link href="https://ko-fi.com/helosystem">
-            <a className="h-10 flex ml-auto">
-              <span className="my-auto text-white">Support us</span>
-              <Image
-                src="/kofi.png"
-                height={48}
-                width={48}
-                alt="Ko-Fi"
-                className="h-full w-auto"
-              />
+            <a className="h-10 flex ml-auto items-center">
+              <span className="my-auto text-white mr-2">Support us</span>
+              <img src="/kofi.png" className="h-6" alt="KoFi" />
             </a>
           </Link>
           <Link href="https://github.com/helo-system/">
