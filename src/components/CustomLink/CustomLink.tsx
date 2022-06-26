@@ -4,7 +4,7 @@ import { AnchorHTMLAttributes, DetailedHTMLProps, FC } from "react";
 
 interface CustomLinkProps {
   icon?: JSX.Element;
-  text: string;
+  text?: string;
   className?: string;
   href: string;
 }
@@ -15,7 +15,7 @@ export const CustomLink: FC<
       AnchorHTMLAttributes<HTMLAnchorElement>,
       HTMLAnchorElement
     >
-> = ({ text, icon, className, href, ...props }) => (
+> = ({ text, icon, className, href, children, ...props }) => (
   <Link href={href}>
     <a
       className={classNames(

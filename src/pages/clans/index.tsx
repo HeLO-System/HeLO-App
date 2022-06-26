@@ -2,10 +2,10 @@
 import { BackButton } from "@components/BackButton";
 import { ClanIcon } from "@components/ClanIcon";
 import { GlassPanel } from "@components/GlassPanel";
-import { LinkCell } from "@components/LinkCell";
+import { ClanLinkCell } from "@components/LinkCell";
 import { useClans } from "@queries";
 import { Clan } from "@types";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Discord from "../../../public/Discord-Logo-White.svg";
 
@@ -27,26 +27,26 @@ const columns: TableColumn<Clan>[] = [
     name: "Tag",
     selector: (clan) => clan.tag,
     sortable: true,
-    cell: (clan) => <LinkCell tag={clan.tag} value={clan.tag} />,
+    cell: (clan) => <ClanLinkCell tag={clan.tag} value={clan.tag} />,
   },
   {
     name: "Name",
     selector: (clan) => clan.name,
     sortable: true,
-    cell: (clan) => <LinkCell tag={clan.tag} value={clan.name} />,
+    cell: (clan) => <ClanLinkCell tag={clan.tag} value={clan.name} />,
   },
   {
     name: "Score",
     selector: (clan) => clan.score,
     sortable: true,
     id: "score",
-    cell: (clan) => <LinkCell tag={clan.tag} value={clan.score} />,
+    cell: (clan) => <ClanLinkCell tag={clan.tag} value={clan.score} />,
   },
   {
     name: "Matches",
     selector: (clan) => clan.num_matches,
     sortable: true,
-    cell: (clan) => <LinkCell tag={clan.tag} value={clan.num_matches} />,
+    cell: (clan) => <ClanLinkCell tag={clan.tag} value={clan.num_matches} />,
   },
   {
     cell: (clan): ReactNode =>
@@ -65,7 +65,7 @@ const ClanList: FC = () => {
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
       <BackButton className="mt-10 ml-10" />
-      <GlassPanel title="Clans" className="p-4 mx-10 pb-8">
+      <GlassPanel title="Clans" className="p-4 mx-10 pb-8 mb-20">
         <DataTable
           columns={columns}
           data={clans || []}
