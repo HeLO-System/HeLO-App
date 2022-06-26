@@ -1,12 +1,11 @@
 import { BackButton } from "@components/BackButton";
 import { GlassPanel } from "@components/GlassPanel";
 import { NextPage } from "next";
-import React from "react";
 
 const About: NextPage = () => (
   <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
     <BackButton className="mt-10 ml-10" />
-    <GlassPanel title="About" className="p-4 mx-10 pb-8">
+    <GlassPanel title="About" className="p-4 mx-10 pb-8 mb-20">
       <h1 className="text-2xl">HeLO-System</h1>
 
       <p>

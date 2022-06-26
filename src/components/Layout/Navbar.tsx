@@ -31,7 +31,8 @@ export const NavBar: FC = () => {
           className="bg-transparent shadow-none  hidden md:block"
         ></CustomLink>
         <Link href="https://ko-fi.com/helosystem">
-          <a className="h-10 w-10 ml-auto hidden md:block">
+          <a className="h-10 ml-auto hidden md:flex">
+            <span className="my-auto text-white">Support us</span>
             <Image
               src="/kofi.png"
               height={48}
