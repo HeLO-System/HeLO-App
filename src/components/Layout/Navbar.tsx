@@ -30,9 +30,13 @@ export const NavBar: FC = () => {
           href="/matches"
           className="bg-transparent shadow-none  hidden md:block"
         ></CustomLink>
+        <CustomLink
+          text="About"
+          href="/about"
+          className="bg-transparent shadow-none  hidden md:block"
+        ></CustomLink>
         <Link href="https://ko-fi.com/helosystem">
           <a className="h-10 ml-auto hidden md:flex">
-            <span className="my-auto text-white">Support us</span>
             <Image
               src="/kofi.png"
               height={48}
@@ -70,9 +74,17 @@ export const NavBar: FC = () => {
             className="bg-transparent shadow-none !justify-start"
           ></CustomLink>
         </li>
+        <li>
+          <CustomLink
+            text="About"
+            href="/about"
+            className="bg-transparent shadow-none !justify-start"
+          ></CustomLink>
+        </li>
         <li className="flex">
           <Link href="https://ko-fi.com/helosystem">
-            <a className="h-10 w-10 ml-auto">
+            <a className="h-10 flex ml-auto">
+              <span className="my-auto text-white">Support us</span>
               <Image
                 src="/kofi.png"
                 height={48}

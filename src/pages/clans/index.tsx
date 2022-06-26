@@ -65,7 +65,7 @@ const ClanList: FC = () => {
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
       <BackButton className="mt-10 ml-10" />
-      <GlassPanel title="Clans" className="p-4 mx-10 pb-8">
+      <GlassPanel title="Clans" className="p-4 mx-10 pb-8 mb-20">
         <DataTable
           columns={columns}
           data={clans || []}

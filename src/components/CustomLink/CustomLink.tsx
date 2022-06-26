@@ -15,7 +15,7 @@ export const CustomLink: FC<
       AnchorHTMLAttributes<HTMLAnchorElement>,
       HTMLAnchorElement
     >
-> = ({ text, icon, className, href, ...props }) => (
+> = ({ text, icon, className, href, children, ...props }) => (
   <Link href={href}>
     <a
       className={classNames(

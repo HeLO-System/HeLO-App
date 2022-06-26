@@ -60,9 +60,10 @@ const Home: NextPage = () => {
 
       <section className="mt-10 mx-auto grid gap-y-10 md:gap-y-10 md:grid-cols-7 justify-center items-center whitespace-nowrap">
         <CustomLink
-          text="What is HeLO?"
+          icon={<img src="/kofi.png" className="h-6" alt="KoFi" />}
+          text="Support us"
           className="text-xl p-4 md:col-span-3"
-          href="/about"
+          href="https://ko-fi.com/helosystem"
         />
         <CustomLink
           text="Join our Discord"
