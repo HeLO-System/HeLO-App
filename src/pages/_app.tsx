@@ -35,6 +35,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
       phpTrackerFile: MATOMO_PHP,
     });
   }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ClanTagProvider>

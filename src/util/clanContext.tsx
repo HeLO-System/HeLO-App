@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 
 type ClanTagContextType = {
   clans: ClanTagStore | undefined;
-  getTag: (id: string) => string;
+  getTag: (id: string, fallback?: string) => string;
 };
 
 const ClanTagCtx = createContext<ClanTagContextType | null>(null);
@@ -16,7 +16,8 @@ export const ClanTagProvider: FC = ({ children }) => {
     return data;
   });
 
-  const getTag = (id: string): string => (clans && clans[id]) || "";
+  const getTag = (id: string, fallback = ""): string =>
+    (clans && clans[id]) || fallback;
 
   return (
     <ClanTagCtx.Provider value={{ clans, getTag }}>

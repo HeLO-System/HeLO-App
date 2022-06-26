@@ -15,15 +15,17 @@ import { useClan, useMatches } from "@queries";
 import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 const lastMatchesLength = 5;
+
 interface ServerSideProps {
   clanTag: string;
 }
 
 const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
-  const { data: clan } = useClan(clanTag);
-
+  const router = useRouter();
+  const { data: clan, error } = useClan(clanTag);
   const { data: lastMatches } = useMatches(
     {
       sort_by: "date",
@@ -33,6 +35,12 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
     },
     { enabled: !!clan }
   );
+
+  useEffect(() => {
+    if (error) {
+      void router.push("/404");
+    }
+  }, [error, router]);
 
   return (
     <>
@@ -50,7 +58,9 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
         className="flex flex-col gap-8 text-white h-full"
         id="masked-overflow"
       >
-        <BackButton className="mt-10 ml-10" />
+        <div className="flex flex-row">
+          <BackButton className="mt-10 ml-10" />
+        </div>
 
         <ClanDetails clan={clan} />
         <GlassPanel title="Recent matches" className="p-4 mx-10">

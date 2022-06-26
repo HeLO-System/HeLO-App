@@ -1,7 +1,6 @@
 import { BackButton } from "@components/BackButton";
 import { GlassPanel } from "@components/GlassPanel";
 import { NextPage } from "next";
-import React from "react";
 
 const About: NextPage = () => (
   <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
@@ -12,7 +11,7 @@ const About: NextPage = () => (
       <p>
         HeLO (Hell Let Loose Elo Score) is a system designed by Soxxes to rank
         competitive Clans playing the realistic multiplayer World War Two
-        combined arms first person shooter{" "}
+        combined arms first person shooter
         <a
           href="https://store.steampowered.com/app/686810/Hell_Let_Loose/"
           target="_blank"
@@ -29,7 +28,7 @@ const About: NextPage = () => (
         of players in zero-sum games such as chess. It is named after its
         creator Arpad Elo, a Hungarian-American physics professor. If you have
         ever played chess online or in a competitive tournament you might be
-        familiar with the concept. If not, you can read more about the system on{" "}
+        familiar with the concept. If not, you can read more about the system on
         <a
           href="https://en.wikipedia.org/wiki/Elo_rating_system"
           target="_blank"
@@ -74,7 +73,7 @@ const About: NextPage = () => (
       <h3 className="text-lg mt-4">Detailed explanation</h3>
       <p>
         The probability is calculated by an integral, which can be simplified to
-        the{" "}
+        the
         <a
           href="https://en.wikipedia.org/wiki/Error_function"
           target="_blank"
@@ -221,6 +220,24 @@ const About: NextPage = () => (
         the participants of the cooperation. This will be used in case no player
         distributions are given.
       </p>
+    </GlassPanel>
+    <GlassPanel title="Impressum" className="p-4 mx-10 pb-8 mb-20">
+      <h2 className="text-xl mt-6">Angaben gemäß § 5 TMG</h2>
+      <address className="not-italic">
+        Samuel Höra
+        <br />
+        Selftlstr. 1a
+        <br />
+        81541 München
+        <br /> Deutschland
+      </address>
+      <h2 className="text-xl mt-6">Kontakt</h2>
+      <address className="not-italic">
+        {"E-Mail: "}
+        <a href="mailto:webmaster@hoera.dev" className="text-accent">
+          webmaster@hoera.dev
+        </a>
+      </address>
     </GlassPanel>
   </div>
 );

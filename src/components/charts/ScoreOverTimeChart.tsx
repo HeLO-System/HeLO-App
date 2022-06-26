@@ -71,7 +71,8 @@ export const ScoreOverTimeChart: FC<ScoreOverTimeChartProps> = ({
           height={100}
           domain={["dataMin", "dataMax"]}
           tickFormatter={(_value, index): string =>
-            (scoreHistory && scoreHistory[index].date) || ""
+            (scoreHistory && scoreHistory[index] && scoreHistory[index].date) ||
+            ""
           }
         />
         <Tooltip content={<ScoreOverTimeTooltip />} />

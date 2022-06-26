@@ -1,5 +1,9 @@
-import React, { FC } from "react";
+import { FC } from "react";
+import { NavBar } from "./Navbar";
 
 export const Layout: FC = ({ children }) => (
-  <main className="overflow-x-auto h-full">{children}</main>
+  <>
+    <NavBar />
+    <main className="overflow-x-auto h-full">{children}</main>
+  </>
 );

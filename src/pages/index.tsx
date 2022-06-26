@@ -4,6 +4,8 @@ import { GlassPanel } from "@components/GlassPanel";
 import { RecordClanPanel, RecordMiscPanel } from "@components/RecordPanel";
 import { ClansQueryParams, fetchClans } from "@queries";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import Discord from "../../public/Discord-Logo-White.svg";
 import Logo from "../../public/helo.svg";
@@ -26,6 +28,8 @@ const topClansByGamesParams: ClansQueryParams = {
  * Landing page
  */
 const Home: NextPage = () => {
+  const router = useRouter();
+
   const { data: topClansByScore } = useQuery(
     ["clans", topClansByScoreParams],
     () => fetchClans(topClansByScoreParams)
@@ -35,6 +39,10 @@ const Home: NextPage = () => {
     ["clans", topClansByGamesParams],
     () => fetchClans(topClansByGamesParams)
   );
+
+  useEffect(() => {
+    void router.prefetch("/clan/[pid]");
+  }, [router]);
 
   return (
     <div
@@ -59,9 +67,10 @@ const Home: NextPage = () => {
 
       <section className="mt-10 mx-auto grid gap-y-10 md:gap-y-10 md:grid-cols-7 justify-center items-center whitespace-nowrap">
         <CustomLink
-          text="What is HeLO?"
+          icon={<img src="/kofi.png" className="h-6" alt="KoFi" />}
+          text="Support us"
           className="text-xl p-4 md:col-span-3"
-          href="/about"
+          href="https://ko-fi.com/helosystem"
         />
         <CustomLink
           text="Join our Discord"
@@ -69,11 +78,6 @@ const Home: NextPage = () => {
           icon={<Discord className="text-xl" />}
           target="_blank"
           href="https://discord.gg/dmtcbrV7t5"
-        />
-        <CustomLink
-          text="View all Clans"
-          className="text-xl p-4 md:col-span-3 md:col-start-3 mt-10"
-          href="/clans"
         />
       </section>
 
@@ -87,7 +91,7 @@ const Home: NextPage = () => {
         className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px]"
         clans={topClansByGames}
       />
-      <RecordMiscPanel className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px]" />
+      <RecordMiscPanel className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px] mb-20" />
     </div>
   );
 };
