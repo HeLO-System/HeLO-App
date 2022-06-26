@@ -18,7 +18,7 @@ export type ClansQueryParams = {
 export const fetchClans = async (
   params?: ClansQueryParams
 ): Promise<Clan[]> => {
-  const { data } = await axios.get<Clan[]>("/api/clans", { params });
+  const { data } = await axios.get<Clan[]>("/helo-api/clans", { params });
   return data;
 };
 

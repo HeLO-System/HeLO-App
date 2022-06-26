@@ -13,8 +13,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/:path*",
-        destination: "http://api.helo-system.de/:path*",
+        source: "/helo-api/:path*",
+        destination: "https://helo-system.herokuapp.com/:path*",
       },
     ];
   },

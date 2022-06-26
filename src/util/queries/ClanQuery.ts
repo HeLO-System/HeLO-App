@@ -3,7 +3,7 @@ import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
 export const fetchClan = async (clanId: string): Promise<Clan> => {
-  const { data } = await axios.get<Clan>(`/api/clan/${clanId}`);
+  const { data } = await axios.get<Clan>(`/helo-api/clan/${clanId}`);
   return data;
 };
 

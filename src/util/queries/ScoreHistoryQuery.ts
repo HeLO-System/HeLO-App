@@ -15,7 +15,7 @@ export const fetchScoreHistory = async (
   params?: ScoreHistoryParams
 ): Promise<ScoreHistory[]> => {
   const { data } = await axios.get<ScoreHistory[]>(
-    `/api/clan/${clanId}/score_history`,
+    `/helo-api/clan/${clanId}/score_history`,
     { params }
   );
   return data.map((dataPoint) => {

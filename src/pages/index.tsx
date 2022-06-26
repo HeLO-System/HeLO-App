@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { ClanCard } from "@components/ClanCard";
 import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
+import { RecordClanPanel, RecordMiscPanel } from "@components/RecordPanel";
 import { ClansQueryParams, fetchClans } from "@queries";
-import { range } from "@util";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -82,31 +81,17 @@ const Home: NextPage = () => {
         />
       </section>
 
-      <GlassPanel
+      <RecordClanPanel
         title="Top Clans By Score"
         className="mx-10 lg:mx-auto mt-32 p-4 lg:min-w-[1000px]"
-      >
-        <div className="grid md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-10 gap-y-5">
-          {topClansByScore
-            ? topClansByScore?.map((clan) => (
-                <ClanCard clan={clan} key={clan._id.$oid} />
-              ))
-            : range(clanRecordLimit).map((index) => <ClanCard key={index} />)}
-        </div>
-      </GlassPanel>
-
-      <GlassPanel
+        clans={topClansByScore}
+      />
+      <RecordClanPanel
         title="Top Clans By Games"
-        className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px] mb-20"
-      >
-        <div className="grid md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-10 gap-y-5">
-          {topClansByGames
-            ? topClansByGames?.map((clan) => (
-                <ClanCard clan={clan} key={clan._id.$oid} />
-              ))
-            : range(clanRecordLimit).map((index) => <ClanCard key={index} />)}
-        </div>
-      </GlassPanel>
+        className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px]"
+        clans={topClansByGames}
+      />
+      <RecordMiscPanel className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px] mb-20" />
     </div>
   );
 };
