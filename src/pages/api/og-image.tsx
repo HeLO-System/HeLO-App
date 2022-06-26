@@ -23,7 +23,7 @@ export default withOGImage<"query", { clan: string }>({
     // include HTML template here
     react: async ({ clan: clanName }) => {
       const clan = await fetchData<Clan>(
-        `http://api.helo-system.de/clan/${clanName}`
+        `https://helo-system.herokuapp.com/clan/${clanName}`
       );
 
       return (

@@ -39,7 +39,7 @@ type MatchRecords = {
 
 const getMatchRecords = (): Promise<MatchRecords> =>
   axios
-    .get<Match[]>("http://api.helo-system.de/matches", {
+    .get<Match[]>("https://helo-system.herokuapp.com/matches", {
       params: { select: "map,duration,match_id" },
     })
     .then(({ data }) => {
@@ -65,19 +65,19 @@ const getMatchRecords = (): Promise<MatchRecords> =>
     });
 const getTotalClans = (): Promise<number> =>
   axios
-    .get<Clan[]>("http://api.helo-system.de/clans", {
+    .get<Clan[]>("https://helo-system.herokuapp.com/clans", {
       params: { select: "id" },
     })
     .then(({ data }) => data.length);
 const getMinScore = (): Promise<Clan> =>
   axios
-    .get<Clan[]>("http://api.helo-system.de/clans", {
+    .get<Clan[]>("https://helo-system.herokuapp.com/clans", {
       params: { select: "score", limit: 1, sort_by: "score" },
     })
     .then(({ data }) => data[0]);
 const getMaxScore = (): Promise<Clan> =>
   axios
-    .get<Clan[]>("http://api.helo-system.de/clans", {
+    .get<Clan[]>("https://helo-system.herokuapp.com/clans", {
       params: { select: "score", limit: 1, sort_by: "score", desc: true },
     })
     .then(({ data }) => data[0]);

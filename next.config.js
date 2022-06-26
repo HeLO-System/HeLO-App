@@ -14,7 +14,7 @@ const nextConfig = {
     return [
       {
         source: "/helo-api/:path*",
-        destination: "http://api.helo-system.de/:path*",
+        destination: "https://helo-system.herokuapp.com/:path*",
       },
     ];
   },
