@@ -60,7 +60,7 @@ const columns: TableColumn<Clan>[] = [
 ];
 
 const ClanList: FC = () => {
-  const { data: clans } = useClans();
+  const { data: clans, isLoading } = useClans();
 
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
@@ -72,6 +72,7 @@ const ClanList: FC = () => {
           defaultSortFieldId="score"
           defaultSortAsc={false}
           theme="dark"
+          progressPending={isLoading}
         />
       </GlassPanel>
     </div>
