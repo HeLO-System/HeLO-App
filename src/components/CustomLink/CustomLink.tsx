@@ -4,7 +4,7 @@ import { AnchorHTMLAttributes, DetailedHTMLProps, FC } from "react";
 
 interface CustomLinkProps {
   icon?: JSX.Element;
-  text: string;
+  text?: string;
   className?: string;
   href: string;
 }

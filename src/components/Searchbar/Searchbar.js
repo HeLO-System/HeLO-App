@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import AsyncSelect from "react-select/async";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import AsyncSelect from "react-select/async";
 
 const searchBarStyles = {
   control: (provided) => ({
@@ -38,16 +38,15 @@ const searchBarStyles = {
 //helper functions to concat strings
 function clanSearchUrl(input) {
   return `/api/search?q=${input}&type=clan&limit=2`;
-  //return `/api/clans?tag=${input}&limit=3&sort_by=tag&desc=true`;
 }
 function matchSearchUrl(input) {
   return `/api/matches?match_id=${input}&limit=3&sort_by=date&desc=true`; //for now: limit to max. 2 matches
 }
 
 //search component for search page
-export const Searchbar = () => {
+export const Searchbar = ({ className }) => {
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState("");
+  const [, setSearchInput] = useState("");
   const [selectedValue, setSelectedValue] = useState(null);
 
   //function to load clan and match options from API
@@ -102,22 +101,10 @@ export const Searchbar = () => {
     }
   }
 
-  const options = [
-    {
-      label: "Group 1",
-      options: [
-        { label: "Group 1, option 1", value: "value_1" },
-        { label: "Group 1, option 2", value: "value_2" },
-      ],
-    },
-    { label: "A root option", value: "value_3" },
-    { label: "Another root option", value: "value_4" },
-  ];
-
   return (
     <AsyncSelect
       value={selectedValue}
-      placeholder={"Search for clans, matches"}
+      placeholder={"Search"}
       onInputChange={(e) => {
         setSearchInput(e);
       }}
@@ -125,6 +112,7 @@ export const Searchbar = () => {
       onChange={selectRedirect}
       styles={searchBarStyles}
       noOptionsMessage={() => "No matches"}
+      className={className}
     />
   );
 };

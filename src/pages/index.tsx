@@ -2,7 +2,6 @@
 import { ClanCard } from "@components/ClanCard";
 import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
-import { Searchbar } from "@components/Searchbar";
 import { ClansQueryParams, fetchClans } from "@queries";
 import { range } from "@util";
 import { NextPage } from "next";
@@ -43,11 +42,6 @@ const Home: NextPage = () => {
       className="flex flex-col w-screen h-screen text-white"
       id="masked-overflow"
     >
-      <div className="absolute flex flex-row w-full md:justify-end justify-center md:p-10 p-4 top-0 z-10">
-        <div className="w-80 rounded-lg shadow-elevation-1 text-font lg:bg-e-2 bg-e-1-dark">
-          <Searchbar />
-        </div>
-      </div>
       <GlassPanel className="before:rounded-full mx-auto mt-32 bg-e-2 !rounded-full p-10">
         <Logo className="h-32 w-32 fill-white" />
       </GlassPanel>
@@ -77,11 +71,6 @@ const Home: NextPage = () => {
           target="_blank"
           href="https://discord.gg/dmtcbrV7t5"
         />
-        <CustomLink
-          text="View all Clans"
-          className="text-xl p-4 md:col-span-3 md:col-start-3 mt-10"
-          href="/clans"
-        />
       </section>
 
       <GlassPanel
@@ -99,7 +88,7 @@ const Home: NextPage = () => {
 
       <GlassPanel
         title="Top Clans By Games"
-        className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px]"
+        className="mx-10 lg:mx-auto mt-10 p-4 lg:min-w-[1000px] mb-20"
       >
         <div className="grid md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-10 gap-y-5">
           {topClansByGames
