@@ -65,7 +65,8 @@ const getMatchRecords = (): Promise<Statistics> =>
         map_statistics: Object.entries(gamesPerMap).map(([map, games]) => ({
           map,
           games,
-        })),
+        })).sort(({games:gamesA},{games:gamesB})=>gamesA-gamesB)
+        ,
         avg_length_per_map: Object.entries(avgLength).map(
           ([map, duration]) => ({
             map,
