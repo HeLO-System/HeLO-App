@@ -10,6 +10,10 @@ import GitHub from "../../../public/mark-github-16.svg";
 export const NavBar: FC = () => {
   const [open, setOpen] = useState(false);
 
+  const close = (): void => {
+    setOpen(false);
+  };
+
   return (
     <nav
       className={classNames("w-full glassmorphism", open ? "h-auto" : "h-10")}
@@ -72,6 +76,7 @@ export const NavBar: FC = () => {
             text="Clans"
             href="/clans"
             className="bg-transparent shadow-none !justify-start"
+            onClick={close}
           ></CustomLink>
         </li>
         <li>
@@ -79,13 +84,15 @@ export const NavBar: FC = () => {
             text="Matches"
             href="/matches"
             className="bg-transparent shadow-none !justify-start"
+            onClick={close}
           ></CustomLink>
-        </li>{" "}
+        </li>
         <li>
           <CustomLink
             text="Statistics"
             href="/statistics"
             className="bg-transparent shadow-none !justify-start"
+            onClick={close}
           ></CustomLink>
         </li>
         <li>
@@ -93,6 +100,7 @@ export const NavBar: FC = () => {
             text="About"
             href="/about"
             className="bg-transparent shadow-none !justify-start"
+            onClick={close}
           ></CustomLink>
         </li>
         <li className="flex">
