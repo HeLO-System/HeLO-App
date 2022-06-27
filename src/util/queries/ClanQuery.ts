@@ -2,10 +2,8 @@ import { Clan, CustomUseQueryOptions } from "@types";
 import axios from "axios";
 import { useQuery, UseQueryResult } from "react-query";
 
-export const fetchClan = async (clanId: string): Promise<Clan> => {
-  const { data } = await axios.get<Clan>(`/helo-api/clan/${clanId}`);
-  return data;
-};
+export const fetchClan = async (clanId: string): Promise<Clan> =>
+  axios.get<Clan>(`/helo-api/clan/${clanId}`).then(({ data }) => data);
 
 export const useClan = <T = Clan>(
   clanId: string,

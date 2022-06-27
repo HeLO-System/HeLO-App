@@ -23,12 +23,8 @@ export type MatchesParams = {
   desc?: boolean;
 };
 
-export const fetchMatches = async (
-  params?: MatchesParams
-): Promise<Match[]> => {
-  const { data } = await axios.get<Match[]>("/helo-api/matches", { params });
-  return data;
-};
+export const fetchMatches = async (params?: MatchesParams): Promise<Match[]> =>
+  axios.get<Match[]>("/helo-api/matches", { params }).then(({ data }) => data);
 
 export const useMatches = <T = Match[]>(
   params?: MatchesParams,

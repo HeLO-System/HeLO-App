@@ -11,10 +11,9 @@ type ClanTagContextType = {
 const ClanTagCtx = createContext<ClanTagContextType | null>(null);
 
 export const ClanTagProvider: FC = ({ children }) => {
-  const { data: clans } = useQuery<ClanTagStore>("clantags", async () => {
-    const { data } = await axios.get<ClanTagStore>("/api/clantags");
-    return data;
-  });
+  const { data: clans } = useQuery<ClanTagStore>("clantags", async () =>
+    axios.get<ClanTagStore>("/api/clantags").then(({ data }) => data)
+  );
 
   const getTag = (id: string, fallback = ""): string =>
     (clans && clans[id]) || fallback;
