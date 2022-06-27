@@ -10,13 +10,12 @@ export type WinrateByResultParams = {
 export const fetchWinrateByResult = async (
   clanId: string,
   params?: WinrateByResultParams
-): Promise<WinrateByResult> => {
-  const { data } = await axios.get<WinrateByResult>(
-    `/helo-api/statistics/result_types/${clanId}`,
-    { params }
-  );
-  return data;
-};
+): Promise<WinrateByResult> =>
+  axios
+    .get<WinrateByResult>(`/helo-api/statistics/result_types/${clanId}`, {
+      params,
+    })
+    .then(({ data }) => data);
 
 export const useWinrateByResult = <T = WinrateByResult>(
   clanId: string,
