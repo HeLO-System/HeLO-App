@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/luxon": "2.3.2",
-    "@types/node": "18.0.0",
+    "@types/node": "18.0.1",
     "@types/react": "17.0.44",
     "@typescript-eslint/eslint-plugin": "5.29.0",
     "autoprefixer": "10.4.7",
