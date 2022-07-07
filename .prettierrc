@@ -1,6 +1,5 @@
 {
   "endOfLine": "auto",
-  "printWidth": 120,
   "quoteProps": "consistent",
   "tabWidth": 2,
   "useTabs": false
