@@ -1,4 +1,3 @@
-export * from "./clanContext";
 export * from "./enumKeys";
 export * from "./fetchData";
 export * from "./GothamBook";

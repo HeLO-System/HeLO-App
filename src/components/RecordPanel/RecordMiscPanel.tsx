@@ -1,5 +1,7 @@
+import { useClanTags } from "@hooks";
+
 import { useMiscRecords } from "@queries";
-import { range, useClanTags } from "@util";
+import { range } from "@util";
 import { FC } from "react";
 import { MiscRecordCard, RecordCard } from "./Cards";
 import { DEFAULT_RECORD_COUNT, RecordPanel } from "./RecordPanel";

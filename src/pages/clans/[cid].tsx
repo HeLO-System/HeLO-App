@@ -4,7 +4,7 @@ import { BackButton } from "@components/BackButton";
 import {
   ScoreOverTimeChart,
   WinrateByMapChart,
-  WinrateChart,
+  WinrateChart
 } from "@components/charts";
 import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
@@ -104,4 +104,4 @@ export default ClanPage;
 export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (
   context
   // eslint-disable-next-line @typescript-eslint/require-await
-) => ({ props: { clanTag: context.query.pid as string } });
+) => ({ props: { clanTag: context.query.cid as string } });

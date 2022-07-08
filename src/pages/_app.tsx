@@ -1,6 +1,6 @@
 import { Layout } from "@components/Layout";
+import { ClanTagProvider } from "@hooks";
 import { init } from "@socialgouv/matomo-next";
-import { ClanTagProvider } from "@util";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { FC, useEffect } from "react";
