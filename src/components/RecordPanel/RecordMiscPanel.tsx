@@ -53,7 +53,11 @@ export const RecordMiscPanel: FC<RecordMiscPanelProps> = ({ className }) => {
           />
         </>
       ) : (
-        range(DEFAULT_RECORD_COUNT).map((index) => <RecordCard key={index} />)
+        range(DEFAULT_RECORD_COUNT).map((index) => (
+          <RecordCard key={index}>
+            <></>
+          </RecordCard>
+        ))
       )}
     </RecordPanel>
   );

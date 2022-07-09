@@ -6,13 +6,14 @@ import { FC, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { ShortCutReminder } from "./ShortcutReminder";
 
+const MATCH_LIMIT = 20;
+const CLAN_LIMIT = 5;
 interface SearchPanelProps {
-  className?: string;
   isOpen: boolean;
   onRequestClose: () => void;
 }
 
-export const SearchPanel: FC<SearchPanelProps> = ({ className, ...props }) => {
+export const SearchPanel: FC<SearchPanelProps> = ({ ...props }) => {
   const [searchString, setSearchString] = useState("");
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export const SearchPanel: FC<SearchPanelProps> = ({ className, ...props }) => {
 
   const { data: clans } = useSearch<Clan>(
     {
-      limit: 5,
+      limit: CLAN_LIMIT,
       q: searchString,
       type: "clan",
     },
@@ -32,7 +33,7 @@ export const SearchPanel: FC<SearchPanelProps> = ({ className, ...props }) => {
 
   const { data: matches } = useSearch<Match>(
     {
-      limit: 20,
+      limit: MATCH_LIMIT,
       q: searchString,
       type: "match",
       desc: true,

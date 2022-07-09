@@ -1,6 +1,6 @@
 import { GlassPanel } from "@components/GlassPanel";
+import { FCC } from "@types";
 import classNames from "classnames";
-import { FC } from "react";
 
 export const DEFAULT_RECORD_COUNT = 5;
 
@@ -9,7 +9,7 @@ interface RecordPanelProps {
   className?: string;
 }
 
-export const RecordPanel: FC<RecordPanelProps> = ({
+export const RecordPanel: FCC<RecordPanelProps> = ({
   title,
   className,
   children,

@@ -124,7 +124,6 @@ export const NavBar: FC = () => {
       <SearchPanel
         isOpen={searchPanelOpen}
         onRequestClose={(): void => {
-          console.log("test");
           setSearchPanelOpen(false);
         }}
       />
