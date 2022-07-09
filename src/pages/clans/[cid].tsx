@@ -4,7 +4,7 @@ import { BackButton } from "@components/BackButton";
 import {
   ScoreOverTimeChart,
   WinrateByMapChart,
-  WinrateChart
+  WinrateChart,
 } from "@components/charts";
 import { ClanDetails } from "@components/ClanDetails";
 import { GlassPanel } from "@components/GlassPanel";
@@ -48,9 +48,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
         <title> {clan?.name ? `HeLO | ${clanTag}` : "HeLo-System"}</title>
         <meta
           property="og:image"
-          content={`https://${
-            process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
-          }/api/og-image?clan=${clanTag}`}
+          content={`https://image.helo-system.de/api/og-image?clan=${clanTag}`}
         />
       </Head>
 
