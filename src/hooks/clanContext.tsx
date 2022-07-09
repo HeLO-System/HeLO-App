@@ -1,6 +1,7 @@
 import { ClanTagStore } from "@api/clantags";
+import { FCC } from "@types";
 import axios from "axios";
-import { createContext, FC, useContext } from "react";
+import { createContext, useContext } from "react";
 import { useQuery } from "react-query";
 
 type ClanTagContextType = {
@@ -10,7 +11,7 @@ type ClanTagContextType = {
 
 const ClanTagCtx = createContext<ClanTagContextType | null>(null);
 
-export const ClanTagProvider: FC = ({ children }) => {
+export const ClanTagProvider: FCC = ({ children }) => {
   const { data: clans } = useQuery<ClanTagStore>("clantags", async () =>
     axios.get<ClanTagStore>("/api/clantags").then(({ data }) => data)
   );

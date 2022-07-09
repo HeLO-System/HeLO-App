@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { AutoTextSkeleton } from "@components/AutoSkeletons";
+import { useClanTags } from "@hooks";
 import { Factions, Match } from "@types";
-import { useClanTags } from "@util";
 import classNames from "classnames";
 import { DateTime } from "luxon";
 import { FC } from "react";

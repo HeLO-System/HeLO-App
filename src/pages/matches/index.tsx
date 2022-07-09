@@ -2,9 +2,9 @@
 import { BackButton } from "@components/BackButton";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchLinkCell } from "@components/LinkCell";
+import { useClanTags } from "@hooks";
 import { useMatches } from "@queries";
 import { Match } from "@types";
-import { useClanTags } from "@util";
 import { DateTime } from "luxon";
 import { FC } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";

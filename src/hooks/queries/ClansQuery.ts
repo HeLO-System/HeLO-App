@@ -22,4 +22,4 @@ export const useClans = <T = Clan[]>(
   params?: ClansQueryParams,
   options?: CustomUseQueryOptions<Clan[], T>
 ): UseQueryResult<T> =>
-  useQuery(["clana", params], () => fetchClans(params), options);
+  useQuery(["clans", params], () => fetchClans(params), options);

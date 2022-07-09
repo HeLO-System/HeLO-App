@@ -1,5 +1,7 @@
+import { useClanTags } from "@hooks";
+
 import { useMiscRecords } from "@queries";
-import { range, useClanTags } from "@util";
+import { range } from "@util";
 import { FC } from "react";
 import { MiscRecordCard, RecordCard } from "./Cards";
 import { DEFAULT_RECORD_COUNT, RecordPanel } from "./RecordPanel";
@@ -51,7 +53,11 @@ export const RecordMiscPanel: FC<RecordMiscPanelProps> = ({ className }) => {
           />
         </>
       ) : (
-        range(DEFAULT_RECORD_COUNT).map((index) => <RecordCard key={index} />)
+        range(DEFAULT_RECORD_COUNT).map((index) => (
+          <RecordCard key={index}>
+            <></>
+          </RecordCard>
+        ))
       )}
     </RecordPanel>
   );

@@ -48,9 +48,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
         <title> {clan?.name ? `HeLO | ${clanTag}` : "HeLo-System"}</title>
         <meta
           property="og:image"
-          content={`https://${
-            process.env.NEXT_PUBLIC_VERCEL_URL || "helo-system.de"
-          }/api/og-image?clan=${clanTag}`}
+          content={`https://image.helo-system.de/api/og-image?clan=${clanTag}`}
         />
       </Head>
 
@@ -104,4 +102,4 @@ export default ClanPage;
 export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (
   context
   // eslint-disable-next-line @typescript-eslint/require-await
-) => ({ props: { clanTag: context.query.pid as string } });
+) => ({ props: { clanTag: context.query.cid as string } });
