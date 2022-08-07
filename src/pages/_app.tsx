@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Layout } from "@components/Layout";
 import { ClanTagProvider } from "@hooks";
 import { init } from "@socialgouv/matomo-next";
+import { DefaultSeo, DefaultSeoProps } from "next-seo";
 import { AppProps } from "next/app";
-import Head from "next/head";
 import { FC, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "../styles/globals.scss";
@@ -21,6 +22,42 @@ const queryClient = new QueryClient({
   },
 });
 
+const defaultSeoConfig: DefaultSeoProps = {
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://helo-system.de",
+    description: "Hell Let Loose Competitive Clan Ranking",
+    images: [
+      {
+        url: "https://helo-system.de/og-preview.webp",
+        alt: "Hell Let Loose Competitive Clan Ranking",
+        type: "image/webp",
+      },
+      {
+        url: "https://helo-system.de/og-preview.png",
+        alt: "Hell Let Loose Competitive Clan Ranking",
+        type: "image/png",
+      },
+    ],
+    site_name: "HeLO-System",
+  },
+  defaultOpenGraphImageHeight: 630,
+  defaultOpenGraphImageWidth: 1200,
+  twitter: {
+    cardType: "summary_large_image",
+  },
+  defaultTitle: "HeLO-System",
+  titleTemplate: "HeLO | %s",
+  additionalLinkTags: [
+    {
+      rel: "icon",
+      href: "/helo_white.svg",
+      type: "image/svg+xml",
+    },
+  ],
+};
+
 const MATOMO_URL = process.env.NEXT_PUBLIC_MATOMO_URL || "";
 const MATOMO_SITE_ID = process.env.NEXT_PUBLIC_MATOMO_SITE_ID || "";
 const MATOMO_JS = process.env.NEXT_PUBLIC_MATOMO_JS || "";
@@ -38,31 +75,9 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <DefaultSeo {...defaultSeoConfig} />
       <ClanTagProvider>
         <Layout>
-          <Head>
-            <title>HeLO-System</title>
-            <meta
-              name="description"
-              content="Hell Let Loose Competitive Clan Ranking"
-            />
-            <meta property="og:url" content="https://helo-system.de/" />
-            <meta property="og:type" content="website" />
-            <meta property="og:title" content="HeLO-System" />
-            <meta
-              property="og:description"
-              content="Hell Let Loose Competitive Clan Ranking"
-            />
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta property="twitter:domain" content="helo-system.de" />
-            <meta property="twitter:url" content="https://helo-system.de/" />
-            <meta name="twitter:title" content="HeLO-System" />
-            <meta
-              name="twitter:description"
-              content="Hell Let Loose Competitive Clan Ranking"
-            />
-            <link rel="icon" type="image/svg+xml" href="/helo_white.svg" />
-          </Head>
           <div
             className="fixed w-screen h-screen -z-10"
             id="background-image"

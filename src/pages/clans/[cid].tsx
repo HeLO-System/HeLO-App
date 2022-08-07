@@ -14,7 +14,7 @@ import NoSSR from "@components/NoSSR/NoSSR";
 import { useClan, useMatches } from "@queries";
 import { range } from "@util";
 import { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 const lastMatchesLength = 5;
@@ -44,13 +44,18 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
 
   return (
     <>
-      <Head>
-        <title> {clan?.name ? `HeLO | ${clanTag}` : "HeLo-System"}</title>
-        <meta
-          property="og:image"
-          content={`https://image.helo-system.de/api/og-image?clan=${clanTag}`}
-        />
-      </Head>
+      <NextSeo
+        title={clan?.name}
+        openGraph={{
+          images: [
+            {
+              url: `https://image.helo-system.de/api/og-image?clan=${clanTag}`,
+              width: 1200,
+              height: 450,
+            },
+          ],
+        }}
+      />
 
       <div
         className="flex flex-col gap-8 text-white h-full"
