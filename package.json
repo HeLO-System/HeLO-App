@@ -22,39 +22,40 @@
     "prettier:check": "prettier --check src"
   },
   "dependencies": {
-    "@fluentui/react-icons": "2.0.175",
+    "@fluentui/react-icons": "2.0.178",
     "@socialgouv/matomo-next": "1.4.0",
+    "@types/recharts": "1.8.23",
     "axios": "0.27.2",
     "classnames": "2.3.1",
     "luxon": "3.0.1",
-    "next": "12.2.2",
+    "next": "12.2.4",
     "next-seo": "5.5.0",
     "next-sitemap": "3.1.16",
     "react": "18.2.0",
     "react-data-table-component": "7.5.2",
     "react-dom": "18.2.0",
     "react-modal": "3.15.1",
-    "react-query": "3.39.1",
-    "recharts": "2.1.12"
+    "react-query": "4.0.0",
+    "recharts": "2.1.13"
   },
   "devDependencies": {
-    "@svgr/webpack": "6.2.1",
-    "@types/luxon": "2.3.2",
-    "@types/node": "18.0.4",
-    "@types/react": "18.0.15",
+    "@svgr/webpack": "6.3.1",
+    "@types/luxon": "3.0.0",
+    "@types/node": "18.6.4",
+    "@types/react": "18.0.16",
     "@types/react-modal": "3.13.1",
-    "@typescript-eslint/eslint-plugin": "5.30.6",
-    "autoprefixer": "10.4.7",
-    "eslint": "8.19.0",
+    "@typescript-eslint/eslint-plugin": "5.32.0",
+    "autoprefixer": "10.4.8",
+    "eslint": "8.21.0",
     "eslint-config-next": "12.2.4",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "postcss": "8.4.14",
+    "postcss": "8.4.16",
     "prettier": "2.7.1",
     "sass": "1.54.3",
-    "tailwindcss": "3.1.6",
+    "tailwindcss": "3.1.8",
     "typescript": "4.7.4"
   },
   "optionalDependencies": {
-    "@next/swc-linux-x64-gnu": "12.2.2"
+    "@next/swc-linux-x64-gnu": "11.1.2"
   }
 }
