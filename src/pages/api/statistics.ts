@@ -39,7 +39,12 @@ const getMatchRecords = (): Promise<Statistics> =>
           factionWinrateByMap[map][faction] = 0;
         });
       });
+
       data.forEach((match) => {
+        if (!enumKeys(Map).includes(match.map as Map)) {
+          return;
+        }
+
         const mapIndex = gamesPerMap[match.map] + 1;
         const winningFaction =
           match.caps1 > match.caps2 ? match.side1 : match.side2;
@@ -90,6 +95,9 @@ const handler = (
 ): Promise<void> =>
   getMatchRecords()
     .then((data) => res.status(200).json(data))
-    .catch(() => res.status(500).json({ error: "Internal Server Error" }));
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    });
 
 export default handler;

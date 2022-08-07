@@ -23,6 +23,7 @@ export const MapsChart: FC<MapsChartProps> = ({ className }) => {
     SME: "#e8c600",
     Stalingrad: "#cb5d00",
     Utah: "#008f5d",
+    Omaha: "#00a8ff",
   };
 
   return (

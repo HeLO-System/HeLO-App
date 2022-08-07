@@ -9,4 +9,5 @@ export enum Map {
   SME = "SME",
   Stalingrad = "Stalingrad",
   Utah = "Utah",
+  Omaha = "Omaha",
 }
