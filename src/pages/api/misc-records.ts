@@ -1,15 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Clan, Map, Match } from "@types";
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-export type MiscRecords = {
-  total_matches: number;
-  total_clans: number;
-  score_diff: ScoreDiffRecord;
-  min_duration: MinDurationRecord;
-  most_played_map: MostPlayedMapRecord;
-};
 
 type MinDurationRecord = {
   duration: number;
@@ -27,6 +20,14 @@ type ScoreDiffRecord = {
 type MostPlayedMapRecord = {
   map: string;
   count: number;
+};
+
+export type MiscRecords = {
+  total_matches: number;
+  total_clans: number;
+  score_diff: ScoreDiffRecord;
+  min_duration: MinDurationRecord;
+  most_played_map: MostPlayedMapRecord;
 };
 
 type MatchRecords = {

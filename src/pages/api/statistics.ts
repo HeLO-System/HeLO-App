@@ -4,13 +4,6 @@ import { enumKeys } from "@util";
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export type Statistics = {
-  total_matches: number;
-  map_statistics: MapStatistic;
-  faction_winrate_by_map: FactionWinrateByMap;
-  avg_length_per_map: AvgLengthPerMap;
-};
-
 export type MapStatistic = { map: string; games: number }[];
 export type AvgLengthPerMap = { map: string; duration: string }[];
 export type FactionWinrateByMap = {
@@ -18,6 +11,13 @@ export type FactionWinrateByMap = {
   Axis: string;
   Allies: string;
 }[];
+
+export type Statistics = {
+  total_matches: number;
+  map_statistics: MapStatistic;
+  faction_winrate_by_map: FactionWinrateByMap;
+  avg_length_per_map: AvgLengthPerMap;
+};
 
 const getMatchRecords = (): Promise<Statistics> =>
   axios
@@ -95,8 +95,7 @@ const handler = (
 ): Promise<void> =>
   getMatchRecords()
     .then((data) => res.status(200).json(data))
-    .catch((error) => {
-      console.error(error);
+    .catch(() => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 

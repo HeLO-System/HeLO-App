@@ -3,10 +3,10 @@ import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
 import { RecordClanPanel, RecordMiscPanel } from "@components/RecordPanel";
 import { ClansQueryParams, fetchClans } from "@queries";
+import { useQuery } from "@tanstack/react-query";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
 import Discord from "../../public/Discord-Logo-White.svg";
 import Logo from "../../public/helo.svg";
 
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
   );
 
   useEffect(() => {
-    void router.prefetch("/clan/[pid]");
+    router.prefetch("/clan/[pid]");
   }, [router]);
 
   return (

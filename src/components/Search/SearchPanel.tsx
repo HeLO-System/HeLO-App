@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { Search24Filled } from "@fluentui/react-icons";
+import { useSearch } from "@hooks";
 import { Clan, Match } from "@types";
-import { useSearch } from "hooks/queries/SearchQuery";
-import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import Modal from "react-modal";
+import { SearchResult } from "./SearchResult";
 import { ShortCutReminder } from "./ShortcutReminder";
 
 const MATCH_LIMIT = 20;
@@ -82,11 +83,11 @@ export const SearchPanel: FC<SearchPanelProps> = ({ ...props }) => {
         {!!matches?.length && (
           <>
             <span>Matches</span>
-            {matches.map(({ match_id }) => (
+            {matches.map(({ match_id: matchId }) => (
               <SearchResult
-                title={match_id}
-                key={match_id}
-                href={`/matches/${match_id}`}
+                title={matchId}
+                key={matchId}
+                href={`/matches/${matchId}`}
                 onClick={props.onRequestClose}
               />
             ))}
@@ -99,18 +100,3 @@ export const SearchPanel: FC<SearchPanelProps> = ({ ...props }) => {
     </Modal>
   );
 };
-
-const SearchResult: FC<{
-  title: string;
-  href: string;
-  onClick: () => void;
-}> = ({ title, href, onClick }) => (
-  <Link href={href}>
-    <a
-      onClick={onClick}
-      className="block p-2 border rounded-md border-transparent focus:border-accent hover:border-accent focus:bg-e-1-dark    hover:bg-e-1-dark focus:!outline-none"
-    >
-      {title}
-    </a>
-  </Link>
-);

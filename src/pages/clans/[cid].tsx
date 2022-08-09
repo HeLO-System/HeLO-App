@@ -1,12 +1,13 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @next/next/no-head-element */
 import { BackButton } from "@components/BackButton";
+import { ClanDetails } from "@components/ClanDetails";
 import {
   ScoreOverTimeChart,
   WinrateByMapChart,
   WinrateChart,
-} from "@components/charts";
-import { ClanDetails } from "@components/ClanDetails";
+} from "@components/Diagrams";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchDetails } from "@components/MatchDetails";
 import { MatchesTable } from "@components/MatchesTable";
@@ -17,6 +18,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+
 const lastMatchesLength = 5;
 
 interface ServerSideProps {
@@ -38,7 +40,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
 
   useEffect(() => {
     if (error) {
-      void router.push("/404");
+      router.push("/404");
     }
   }, [error, router]);
 

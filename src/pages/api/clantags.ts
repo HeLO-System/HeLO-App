@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Clan } from "@types";
 import axios from "axios";

@@ -58,10 +58,10 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
           innerRadius="60%"
           fill="#ffffff"
         >
-          {winrate?.data.map((entry, index) => (
+          {winrate?.data.map((entry) => (
             <Cell
               fill="#ff0000"
-              key={`cell-${index}`}
+              key={entry.name}
               className={
                 entry.name === "Wins" ? "fill-green-800" : "fill-red-800"
               }
@@ -74,9 +74,9 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
           outerRadius="40%"
           fill="#ffffff"
         >
-          {winrateByResult?.map((_entry, index) => (
+          {winrateByResult?.map((entry, index) => (
             <Cell
-              key={`cell-${index}`}
+              key={entry.name}
               className={index < 3 ? "fill-green-800" : "fill-red-800"}
             />
           ))}

@@ -1,7 +1,7 @@
 import { MiscRecords } from "@pages/api/misc-records";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { CustomUseQueryOptions } from "@types";
 import axios from "axios";
-import { useQuery, UseQueryResult } from "react-query";
 
 export const fetchMiscRecords = async (): Promise<MiscRecords> =>
   axios.get<MiscRecords>("/api/misc-records").then(({ data }) => data);

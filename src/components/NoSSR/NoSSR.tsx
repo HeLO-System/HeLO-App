@@ -1,9 +1,8 @@
+import { FCC } from "@types";
 import dynamic from "next/dynamic";
-import { FC, Fragment, ReactNode } from "react";
 
-const NoSsr: FC<{ children: ReactNode }> = ({ children }) => (
-  <Fragment>{children}</Fragment>
-);
+// eslint-disable-next-line react/jsx-no-useless-fragment
+const NoSsr: FCC = ({ children }) => <>{children}</>;
 
 export default dynamic(() => Promise.resolve(NoSsr), {
   ssr: false,

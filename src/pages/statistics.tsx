@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { BackButton } from "@components/BackButton";
-import { AvgDurationChart, MapsChart } from "@components/charts";
-import { FactionWinrateChart } from "@components/charts/FactionWinrate";
+import {
+  AvgDurationChart,
+  FactionWinrateChart,
+  MapsChart,
+} from "@components/Diagrams";
 import { GlassPanel } from "@components/GlassPanel";
 import NoSSR from "@components/NoSSR/NoSSR";
 import { FC } from "react";

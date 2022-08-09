@@ -5,6 +5,7 @@ import { Factions, Match } from "@types";
 import classNames from "classnames";
 import { DateTime } from "luxon";
 import { FC } from "react";
+import { WinLoseBanner } from "./WinLooseBanner";
 
 interface MatchDetailsProps {
   match?: Match;
@@ -27,7 +28,7 @@ export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => {
             ? match.caps2
             : match?.caps1
         }
-      ></WinLoseBanner>
+      />
       <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
         {match &&
           `${getTag(match.clans1_ids[0])} : ${getTag(match.clans2_ids[0])}`}
@@ -73,33 +74,6 @@ export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => {
       <AutoTextSkeleton className="min-w-[3rem] text-center ">
         {match && DateTime.fromMillis(match.date.$date).toISODate()}
       </AutoTextSkeleton>
-    </div>
-  );
-};
-
-const WinLoseBanner: FC<{ caps1?: number; caps2?: number }> = ({
-  caps1,
-  caps2,
-}) => {
-  let text = "DEFEAT";
-  let background = "bg-red-800";
-
-  if (caps1 === undefined || caps2 === undefined) {
-    text = "\u200B";
-    background = "bg-gray-700";
-  } else if (caps1 > caps2) {
-    text = "VICTORY";
-    background = "bg-green-800";
-  }
-
-  return (
-    <div
-      className={classNames(
-        "w-full text-center mb-2 font-semibold",
-        background
-      )}
-    >
-      {text}
     </div>
   );
 };

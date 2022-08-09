@@ -15,6 +15,7 @@ export const Searchbar: FC<SearchbarProps> = ({ className, onClick }) => (
       className
     )}
     onClick={onClick}
+    type="button"
   >
     <Search24Filled />
     <span className="md:block hidden">Search...</span>

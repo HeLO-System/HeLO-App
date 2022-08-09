@@ -1,9 +1,14 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { AnchorHTMLAttributes, DetailedHTMLProps, FC } from "react";
+import {
+  AnchorHTMLAttributes,
+  DetailedHTMLProps,
+  FC,
+  ReactElement,
+} from "react";
 
 interface CustomLinkProps {
-  icon?: JSX.Element;
+  icon?: ReactElement;
   text?: string;
   className?: string;
   href: string;

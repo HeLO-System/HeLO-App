@@ -1,8 +1,8 @@
 import { fetchWinrate, WinrateParams } from "@queries";
+import { useQueries } from "@tanstack/react-query";
 import { Map } from "@types";
 import { enumKeys } from "@util";
 import { FC } from "react";
-import { useQueries } from "react-query";
 import {
   Bar,
   CartesianGrid,
@@ -53,13 +53,13 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
   className,
   clanId,
 }) => {
-  const winRateByMap = useQueries(
-    enumKeys(Map).map((map) => ({
+  const winRateByMap = useQueries({
+    queries: enumKeys(Map).map((map) => ({
       queryKey: ["statistics", "winrate", clanId, { map }],
       queryFn: () => fetchWinRateByMap(clanId as string, { map: Map[map] }),
       enabled: !!clanId,
-    }))
-  ).map((result) => result.data);
+    })),
+  }).map((result) => result.data);
 
   return (
     <ChartWrapper className={className} title="Winrate by map">
@@ -72,8 +72,8 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
           interval={0}
           height={100}
         />
-        <YAxis yAxisId="winrate" hide={true} domain={[0, 1]} />
-        <YAxis yAxisId="games" hide={true} />
+        <YAxis yAxisId="winrate" hide domain={[0, 1]} />
+        <YAxis yAxisId="games" hide />
         <Tooltip
           content={<WinrateByMapTooltip />}
           formatter={(value: string, name: string): string =>

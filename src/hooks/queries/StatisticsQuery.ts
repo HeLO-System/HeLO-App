@@ -1,7 +1,7 @@
 import { Statistics } from "@pages/api/statistics";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { CustomUseQueryOptions } from "@types";
 import axios from "axios";
-import { useQuery, UseQueryResult } from "react-query";
 
 export const fetchStatistics = async (): Promise<Statistics> =>
   axios.get<Statistics>("/api/statistics").then(({ data }) => data);

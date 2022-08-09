@@ -1,6 +1,6 @@
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { Clan, CustomUseQueryOptions } from "@types";
 import axios from "axios";
-import { useQuery, UseQueryResult } from "react-query";
 
 export type ClansQueryParams = {
   select?: string;

@@ -4,6 +4,7 @@ export * from "./MatchesQuery";
 export * from "./MatchQuery";
 export * from "./MiscRecordsQuery";
 export * from "./ScoreHistoryQuery";
+export * from "./SearchQuery";
 export * from "./StatisticsQuery";
 export * from "./WinrateByResultQuery";
 export * from "./WinrateQuery";

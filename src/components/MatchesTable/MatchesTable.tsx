@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable camelcase */
 import { GlassPanel } from "@components/GlassPanel";
 import { useClanTags } from "@hooks";
 import { useMatches } from "@queries";
@@ -20,6 +23,11 @@ type FormattedMatch = {
   date: string;
   duration: string;
   factor: number;
+};
+
+const ClanTagsList: FC<{ clanIds: string[] }> = ({ clanIds }) => {
+  const { getTag } = useClanTags();
+  return <div>{clanIds.map((clanId) => getTag(clanId)).join(", ")}</div>;
 };
 
 const matchFormatter = (
@@ -144,9 +152,4 @@ export const MatchesTable: FC<MatchesTableProps> = ({ clanId }) => {
       />
     </GlassPanel>
   );
-};
-
-const ClanTagsList: FC<{ clanIds: string[] }> = ({ clanIds }) => {
-  const { getTag } = useClanTags();
-  return <div>{clanIds.map((clanId) => getTag(clanId)).join(", ")}</div>;
 };

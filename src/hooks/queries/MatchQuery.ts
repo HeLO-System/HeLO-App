@@ -1,6 +1,6 @@
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { CustomUseQueryOptions, Match } from "@types";
 import axios from "axios";
-import { useQuery, UseQueryResult } from "react-query";
 
 export const fetchMatch = async (matchId: string): Promise<Match> =>
   axios.get<Match>(`/helo-api/clan/${matchId}`).then(({ data }) => data);

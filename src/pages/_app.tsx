@@ -2,10 +2,11 @@
 import { Layout } from "@components/Layout";
 import { ClanTagProvider } from "@hooks";
 import { init } from "@socialgouv/matomo-next";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
 import { DefaultSeo, DefaultSeoProps } from "next-seo";
 import { AppProps } from "next/app";
 import { FC, useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
 import "../styles/globals.scss";
 
 const hourInMs = 3600000;
@@ -63,7 +64,10 @@ const MATOMO_SITE_ID = process.env.NEXT_PUBLIC_MATOMO_SITE_ID || "";
 const MATOMO_JS = process.env.NEXT_PUBLIC_MATOMO_JS || "";
 const MATOMO_PHP = process.env.NEXT_PUBLIC_MATOMO_PHP || "";
 
-const App: FC<AppProps> = ({ Component, pageProps }) => {
+const App: FC<AppProps> = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   useEffect(() => {
     init({
       url: MATOMO_URL,
@@ -74,18 +78,20 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <DefaultSeo {...defaultSeoConfig} />
-      <ClanTagProvider>
-        <Layout>
-          <div
-            className="fixed w-screen h-screen -z-10"
-            id="background-image"
-          ></div>
-          <Component {...pageProps} />
-        </Layout>
-      </ClanTagProvider>
-    </QueryClientProvider>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        <DefaultSeo {...defaultSeoConfig} />
+        <ClanTagProvider>
+          <Layout>
+            <div
+              className="fixed w-screen h-screen -z-10"
+              id="background-image"
+            />
+            <Component {...pageProps} />
+          </Layout>
+        </ClanTagProvider>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 };
 

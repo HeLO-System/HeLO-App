@@ -41,8 +41,8 @@ export const MapsChart: FC<MapsChartProps> = ({ className }) => {
               outerRadius="80%"
               fill="#ffffff"
             >
-              {data?.map_statistics?.map((entry, index) => (
-                <Cell fill={colors[entry.map as Map]} key={`cell-${index}`} />
+              {data?.map_statistics?.map((entry) => (
+                <Cell fill={colors[entry.map as Map]} key={entry.map} />
               ))}
               <LabelList
                 dataKey="map"

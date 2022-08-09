@@ -65,7 +65,7 @@ const ClanList: FC = () => {
   const { data: clans, isLoading } = useClans();
 
   useEffect(() => {
-    void router.prefetch("/clan/[pid]");
+    router.prefetch("/clan/[pid]");
   }, [router]);
 
   return (

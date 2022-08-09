@@ -1,7 +1,8 @@
+/* eslint-disable no-underscore-dangle */
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { CustomUseQueryOptions, ScoreHistory } from "@types";
 import axios from "axios";
 import { DateTime } from "luxon";
-import { useQuery, UseQueryResult } from "react-query";
 
 export type ScoreHistoryParams = {
   start?: string;
@@ -19,6 +20,7 @@ export const fetchScoreHistory = async (
     { params }
   );
   return data.map((dataPoint) => {
+    // eslint-disable-next-line no-param-reassign
     dataPoint.date = DateTime.fromMillis(
       parseInt(dataPoint._created_at.$date, 10)
     ).toISODate();

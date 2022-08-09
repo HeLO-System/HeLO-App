@@ -3,10 +3,10 @@ import { CustomLink } from "@components/CustomLink";
 import { Searchbar } from "@components/Search";
 import { SearchPanel } from "@components/Search/SearchPanel";
 import { Navigation24Regular } from "@fluentui/react-icons";
-import { EventListener, useEventListener } from "@hooks";
 import classNames from "classnames";
 import Link from "next/link";
-import { FC, useCallback, useState } from "react";
+import { FC, useState } from "react";
+import { useEventListener } from "usehooks-ts";
 import Logo from "../../../public/helo.svg";
 import GitHub from "../../../public/mark-github-16.svg";
 
@@ -21,17 +21,14 @@ export const NavBar: FC = () => {
   const [navPanelOpen, setNavPanelOpen] = useState(false);
   const [searchPanelOpen, setSearchPanelOpen] = useState(false);
 
-  const searchPanelKeyListener: EventListener<"keydown"> = useCallback(
-    (e) => {
-      if (e.ctrlKey && e.key === "k") {
-        e.preventDefault();
-        e.stopPropagation();
+  const searchPanelKeyListener = (e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === "k") {
+      e.preventDefault();
+      e.stopPropagation();
 
-        setSearchPanelOpen(!searchPanelOpen);
-      }
-    },
-    [searchPanelOpen]
-  );
+      setSearchPanelOpen(!searchPanelOpen);
+    }
+  };
 
   useEventListener("keydown", searchPanelKeyListener);
 
@@ -52,9 +49,9 @@ export const NavBar: FC = () => {
             <Logo className="fill-white h-14 w-auto p-2" />
           </a>
         </Link>
-        {navElements.map((element, index) => (
+        {navElements.map((element) => (
           <CustomLink
-            key={index}
+            key={element.text}
             className="bg-transparent shadow-none hidden md:block text-xl"
             {...element}
           />
@@ -86,6 +83,7 @@ export const NavBar: FC = () => {
         <button
           onClick={(): void => setNavPanelOpen(!navPanelOpen)}
           className="h-14 block md:hidden"
+          type="button"
         >
           <Navigation24Regular className="text-white mr-2" />
         </button>
@@ -94,8 +92,8 @@ export const NavBar: FC = () => {
         className={classNames("h-0 border-e-2", navPanelOpen ? "" : "hidden")}
       />
       <ul className={navPanelOpen ? "" : "hidden"}>
-        {navElements.map((element, index) => (
-          <li key={index}>
+        {navElements.map((element) => (
+          <li key={element.text}>
             <CustomLink
               className="bg-transparent shadow-none !justify-start"
               onClick={close}

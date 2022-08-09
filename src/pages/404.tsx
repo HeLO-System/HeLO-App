@@ -16,13 +16,14 @@ const NotFound: FC = () => (
         icon={<Home24Filled />}
         text="Home"
         href="/"
-      ></CustomLink>
+      />
       <button
         className="bg-e-2 p-2 rounded-lg shadow-elevation-1 text-font flex justify-center items-center gap-2 hover:scale-105"
         onClick={(): void => {
           // eslint-disable-next-line @typescript-eslint/no-magic-numbers
           window.history.go(-2);
         }}
+        type="button"
       >
         <ArrowLeft24Regular />
         <span className="text-xl font-gotham-book whitespace-nowrap">Back</span>
