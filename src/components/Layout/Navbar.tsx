@@ -2,10 +2,11 @@
 import { CustomLink } from "@components/CustomLink";
 import { Searchbar } from "@components/Search";
 import { SearchPanel } from "@components/Search/SearchPanel";
-import { Navigation24Regular } from "@fluentui/react-icons";
+import { Navigation24Regular, Person24Filled } from "@fluentui/react-icons";
 import classNames from "classnames";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import Logo from "../../../public/helo.svg";
 import GitHub from "../../../public/mark-github-16.svg";
@@ -20,6 +21,11 @@ const navElements: { text: string; href: string }[] = [
 export const NavBar: FC = () => {
   const [navPanelOpen, setNavPanelOpen] = useState(false);
   const [searchPanelOpen, setSearchPanelOpen] = useState(false);
+  const { status, data } = useSession();
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const searchPanelKeyListener = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === "k") {
@@ -56,6 +62,13 @@ export const NavBar: FC = () => {
             {...element}
           />
         ))}
+        {status === "authenticated" && (
+          <CustomLink
+            className="bg-transparent shadow-none hidden md:block text-xl"
+            text="Report Match"
+            href="/report-match"
+          />
+        )}
         <Searchbar
           className="ml-auto"
           onClick={(): void => {
@@ -73,13 +86,25 @@ export const NavBar: FC = () => {
         </Link>
         <Link href="https://github.com/helo-system/">
           <a
-            className="h-14 w-14 p-3 hidden md:block"
+            className="h-14 w-12 p-3 hidden md:block"
             target="_blank"
             rel="noreferrer"
           >
             <GitHub className="fill-white h-full w-auto" />
           </a>
         </Link>
+        <button
+          className="h-14 w-10 hidden md:flex text-white justify-center items-center"
+          type="button"
+          onClick={() => {
+            if (status === "authenticated") return signOut();
+            return signIn("discord");
+          }}
+          title={status === "authenticated" ? "Sign out" : "Sign in"}
+        >
+          <Person24Filled className="h-8 w-8" />
+        </button>
+
         <button
           onClick={(): void => setNavPanelOpen(!navPanelOpen)}
           className="h-14 block md:hidden"
