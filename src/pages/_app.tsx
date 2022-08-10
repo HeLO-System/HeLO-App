@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Layout } from "@components/Layout";
 import { ClanTagProvider } from "@hooks";
 import { init } from "@socialgouv/matomo-next";
@@ -64,6 +65,34 @@ const MATOMO_SITE_ID = process.env.NEXT_PUBLIC_MATOMO_SITE_ID || "";
 const MATOMO_JS = process.env.NEXT_PUBLIC_MATOMO_JS || "";
 const MATOMO_PHP = process.env.NEXT_PUBLIC_MATOMO_PHP || "";
 
+const theme = extendTheme({
+  styles: {
+    global: () => ({
+      body: {
+        bg: "",
+      },
+    }),
+  },
+  components: {
+    Radio: {
+      baseStyle: {
+        control: {
+          _checked: {
+            _before: { display: "none" },
+            background: "var(--color-accent)",
+            borderColor: "var(--color-accent)",
+            _hover: {
+              background: "var(--color-accent)",
+              borderColor: "var(--color-accent)",
+            },
+          },
+        },
+      },
+    },
+  },
+  colors: {},
+});
+
 const App: FC<AppProps> = ({
   Component,
   pageProps: { session, ...pageProps },
@@ -78,20 +107,24 @@ const App: FC<AppProps> = ({
   }, []);
 
   return (
-    <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <DefaultSeo {...defaultSeoConfig} />
-        <ClanTagProvider>
-          <Layout>
-            <div
-              className="fixed w-screen h-screen -z-10"
-              id="background-image"
-            />
-            <Component {...pageProps} />
-          </Layout>
-        </ClanTagProvider>
-      </QueryClientProvider>
-    </SessionProvider>
+    <>
+      <DefaultSeo {...defaultSeoConfig} />
+      <ChakraProvider theme={theme}>
+        <SessionProvider session={session}>
+          <QueryClientProvider client={queryClient}>
+            <ClanTagProvider>
+              <Layout>
+                <div
+                  className="fixed w-screen h-screen -z-10"
+                  id="background-image"
+                />
+                <Component {...pageProps} />
+              </Layout>
+            </ClanTagProvider>
+          </QueryClientProvider>
+        </SessionProvider>
+      </ChakraProvider>
+    </>
   );
 };
 

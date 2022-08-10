@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { Maps } from "@constants";
 import { Factions, Map, Match } from "@types";
 import { enumKeys } from "@util";
 import axios from "axios";
@@ -31,7 +32,7 @@ const getMatchRecords = (): Promise<Statistics> =>
         string,
         { Axis: number; Allies: number }
       > = {};
-      enumKeys(Map).forEach((map) => {
+      Maps.options.forEach((map) => {
         gamesPerMap[map] = 0;
         avgLength[map] = 0;
         factionWinrateByMap[map] = { Axis: 0, Allies: 0 };
@@ -41,7 +42,7 @@ const getMatchRecords = (): Promise<Statistics> =>
       });
 
       data.forEach((match) => {
-        if (!enumKeys(Map).includes(match.map as Map)) {
+        if (!Maps.options.includes(match.map as Map)) {
           return;
         }
 

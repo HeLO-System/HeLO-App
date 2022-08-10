@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/helo-system/next-helo-app/issues"
   },
-  "homepage": "https://libramate.de",
+  "homepage": "https://helo-system.de",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -26,12 +26,19 @@
     "pre-commit": "lint-staged"
   },
   "dependencies": {
+    "@chakra-ui/react": "2.2.6",
+    "@emotion/react": "11.10.0",
+    "@emotion/styled": "11.10.0",
     "@fluentui/react-icons": "2.0.178",
     "@socialgouv/matomo-next": "1.4.0",
     "@tanstack/react-query": "4.0.10",
     "@types/recharts": "1.8.23",
     "axios": "0.27.2",
+    "chakra-dayzed-datepicker": "0.2.2",
     "classnames": "2.3.1",
+    "date-fns": "2.29.1",
+    "dayzed": "3.2.3",
+    "framer-motion": "7.0.1",
     "luxon": "3.0.1",
     "next": "12.2.4",
     "next-auth": "4.10.3",
@@ -40,9 +47,11 @@
     "react": "18.2.0",
     "react-data-table-component": "7.5.2",
     "react-dom": "18.2.0",
+    "react-hook-form": "7.34.0",
     "react-modal": "3.15.1",
     "recharts": "2.1.12",
-    "usehooks-ts": "2.6.0"
+    "usehooks-ts": "2.6.0",
+    "zod": "3.18.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "12.2.3",

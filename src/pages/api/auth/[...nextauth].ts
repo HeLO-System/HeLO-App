@@ -1,8 +1,8 @@
 import axios from "axios";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { DiscordProvider } from "util/discordProvider";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
@@ -14,7 +14,7 @@ export default NextAuth({
       if (account) {
         const isInGuild = !!(await axios
           .get<{ id: string }[]>(
-            `https://discord.com/api/users/@me/guilds/884131322318029332/member`,
+            `https://discord.com/api/users/@me/guilds/${process.env.DISCORD_GUILD_ID}/member`,
             {
               headers: { Authorization: `Bearer ${account.access_token}` },
             }
@@ -25,5 +25,15 @@ export default NextAuth({
       }
       return token;
     },
+    session({ session, token }) {
+      if (session.user) {
+        Object.assign(session.user, { isInGuild: token.isInGuild });
+      } else {
+        Object.assign(session, { user: { isInGuild: token.isInGuild } });
+      }
+      return session;
+    },
   },
-});
+};
+
+export default NextAuth(authOptions);

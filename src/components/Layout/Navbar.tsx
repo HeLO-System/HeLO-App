@@ -6,7 +6,7 @@ import { Navigation24Regular, Person24Filled } from "@fluentui/react-icons";
 import classNames from "classnames";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import Logo from "../../../public/helo.svg";
 import GitHub from "../../../public/mark-github-16.svg";
@@ -21,11 +21,7 @@ const navElements: { text: string; href: string }[] = [
 export const NavBar: FC = () => {
   const [navPanelOpen, setNavPanelOpen] = useState(false);
   const [searchPanelOpen, setSearchPanelOpen] = useState(false);
-  const { status, data } = useSession();
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { status } = useSession();
 
   const searchPanelKeyListener = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === "k") {
