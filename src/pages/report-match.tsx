@@ -112,8 +112,14 @@ const ReportMatch: FC = () => {
     time,
   }: ReportMatchForm) => {
     const transformedDate: MatchReport = {
-      alliesClans: alliesClans as MatchReport["alliesClans"],
-      axisClans: axisClans as MatchReport["axisClans"],
+      alliesClans: alliesClans.map(({ tag, players }) => ({
+        tag,
+        players: Number.parseInt(players.toString(), 10),
+      })) as MatchReport["alliesClans"],
+      axisClans: axisClans.map(({ tag, players }) => ({
+        tag,
+        players: Number.parseInt(players.toString(), 10),
+      })) as MatchReport["axisClans"],
       map,
       matchType,
       result,
@@ -197,27 +203,7 @@ const ReportMatch: FC = () => {
               </FormControl>
             )}
           />
-          <Controller
-            name="matchType"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FormControl isInvalid={!!errors.matchType}>
-                <FormLabel htmlFor="matchType">Match type</FormLabel>
-                <RadioGroup onChange={onChange} value={value} id="matchType">
-                  <Stack direction="row">
-                    {MatchTypes.options.map((option) => (
-                      <Radio value={option} key={option}>
-                        {option}
-                      </Radio>
-                    ))}
-                  </Stack>
-                </RadioGroup>
-                <FormErrorMessage>
-                  {errors.matchType && errors.matchType.message}
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          />
+
           <Controller
             name="date"
             control={control}
@@ -285,7 +271,7 @@ const ReportMatch: FC = () => {
           <Stack direction="row">
             <Stack flex={1}>
               <h1 className="w-full text-center">Axis</h1>
-              <Grid templateColumns="1fr 1fr auto" columnGap={2}>
+              <Grid templateColumns="1fr 1fr auto" gap={2}>
                 <GridItem>Clan</GridItem>
                 <GridItem>Players</GridItem>
                 <p />
@@ -338,7 +324,7 @@ const ReportMatch: FC = () => {
             </Stack>
             <Stack flex={1}>
               <h1 className="w-full text-center">Allies</h1>
-              <Grid templateColumns="1fr 1fr auto" columnGap={2}>
+              <Grid templateColumns="1fr 1fr auto" gap={2}>
                 <GridItem>Clan</GridItem>
                 <GridItem>Players</GridItem>
                 <p />

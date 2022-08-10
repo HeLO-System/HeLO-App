@@ -100,9 +100,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(403).json({ message: "Forbidden" });
 
   const result = MatchReportSchema.safeParse(req.body);
-  if (!result.success) {
-    return res.status(400).json({ message: result.error });
-  }
+  if (!result.success) return res.status(400).json({ message: result.error });
+  if (
+    playerCount(result.data.axisClans) > 50 ||
+    playerCount(result.data.alliesClans) > 50
+  )
+    return res.status(400).json({ message: "Too many players" });
 
   if (!process.env.DISCORD_REPORT_MATCH_WEBHOOK)
     return res.status(500).json({ message: "Internal server error" });
