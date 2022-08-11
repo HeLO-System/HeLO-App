@@ -26,6 +26,7 @@ import {
   MatchResult,
   MatchType,
 } from "@types";
+import { numberTransformer } from "@util";
 import axios from "axios";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { useSession } from "next-auth/react";
@@ -112,19 +113,13 @@ const ReportMatch: FC = () => {
     time,
   }: ReportMatchForm) => {
     const transformedDate: MatchReport = {
-      alliesClans: alliesClans.map(({ tag, players }) => ({
-        tag,
-        players: Number.parseInt(players.toString(), 10),
-      })) as MatchReport["alliesClans"],
-      axisClans: axisClans.map(({ tag, players }) => ({
-        tag,
-        players: Number.parseInt(players.toString(), 10),
-      })) as MatchReport["axisClans"],
+      alliesClans: alliesClans as MatchReport["alliesClans"],
+      axisClans: axisClans as MatchReport["axisClans"],
       map,
       matchType,
       result,
       date: date.toISOString().split("T")[0],
-      time: Number.parseInt(time.toString(), 10),
+      time,
       caps: caps.map((cap) => cap.name) as MatchReport["caps"],
     };
     axios.post("/api/reportMatch", transformedDate);
@@ -203,7 +198,6 @@ const ReportMatch: FC = () => {
               </FormControl>
             )}
           />
-
           <Controller
             name="date"
             control={control}
@@ -230,10 +224,17 @@ const ReportMatch: FC = () => {
                 message: "Time is required",
               },
             }}
-            render={({ field: { ref, ...field } }) => (
+            render={({ field: { ref, value, onChange, ...field } }) => (
               <FormControl isInvalid={!!errors.time}>
                 <FormLabel htmlFor="time">Match duration</FormLabel>
-                <NumberInput {...field} min={10} max={90} id="time">
+                <NumberInput
+                  value={numberTransformer.input(value)}
+                  onChange={(e) => onChange(numberTransformer.output(e))}
+                  {...field}
+                  min={10}
+                  max={90}
+                  id="time"
+                >
                   <NumberInputField name="time" ref={ref} />
                 </NumberInput>
                 <FormErrorMessage>
@@ -293,8 +294,18 @@ const ReportMatch: FC = () => {
                     <Controller
                       name={`axisClans.${index}.players` as const}
                       control={control}
-                      render={({ field: { ref, ...renderField } }) => (
-                        <NumberInput {...renderField} min={1} max={50}>
+                      render={({
+                        field: { ref, value, onChange, ...renderField },
+                      }) => (
+                        <NumberInput
+                          value={numberTransformer.input(value)}
+                          onChange={(e) =>
+                            onChange(numberTransformer.output(e))
+                          }
+                          {...renderField}
+                          min={1}
+                          max={50}
+                        >
                           <NumberInputField ref={ref} />
                         </NumberInput>
                       )}
@@ -346,8 +357,18 @@ const ReportMatch: FC = () => {
                     <Controller
                       name={`alliesClans.${index}.players` as const}
                       control={control}
-                      render={({ field: { ref, ...renderField } }) => (
-                        <NumberInput {...renderField} min={1} max={50}>
+                      render={({
+                        field: { ref, value, onChange, ...renderField },
+                      }) => (
+                        <NumberInput
+                          {...renderField}
+                          min={1}
+                          max={50}
+                          value={numberTransformer.input(value)}
+                          onChange={(e) =>
+                            onChange(numberTransformer.output(e))
+                          }
+                        >
                           <NumberInputField ref={ref} />
                         </NumberInput>
                       )}

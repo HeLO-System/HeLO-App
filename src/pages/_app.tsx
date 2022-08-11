@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Layout } from "@components/Layout";
 import { ClanTagProvider } from "@hooks";
 import { init } from "@socialgouv/matomo-next";
@@ -9,6 +9,7 @@ import { DefaultSeo, DefaultSeoProps } from "next-seo";
 import { AppProps } from "next/app";
 import { FC, useEffect } from "react";
 import "../styles/globals.scss";
+import { theme } from "../styles/theme";
 
 const hourInMs = 3600000;
 
@@ -64,34 +65,6 @@ const MATOMO_URL = process.env.NEXT_PUBLIC_MATOMO_URL || "";
 const MATOMO_SITE_ID = process.env.NEXT_PUBLIC_MATOMO_SITE_ID || "";
 const MATOMO_JS = process.env.NEXT_PUBLIC_MATOMO_JS || "";
 const MATOMO_PHP = process.env.NEXT_PUBLIC_MATOMO_PHP || "";
-
-const theme = extendTheme({
-  styles: {
-    global: () => ({
-      body: {
-        bg: "",
-      },
-    }),
-  },
-  components: {
-    Radio: {
-      baseStyle: {
-        control: {
-          _checked: {
-            _before: { display: "none" },
-            background: "var(--color-accent)",
-            borderColor: "var(--color-accent)",
-            _hover: {
-              background: "var(--color-accent)",
-              borderColor: "var(--color-accent)",
-            },
-          },
-        },
-      },
-    },
-  },
-  colors: {},
-});
 
 const App: FC<AppProps> = ({
   Component,
