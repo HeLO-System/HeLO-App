@@ -6,16 +6,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: "var(--color-bg)",
-        font: "var(--color-font)",
+        "bg": "var(--color-bg)",
+        "font": "var(--color-font)",
         "accent-font": "var(--color-accent-font)",
-        accent: "var(--color-accent)",
-        danger: "var(--danger)",
+        "accent": "var(--color-accent)",
+        "danger": "var(--danger)",
         "btn-hover": "var(--btn-hover)",
         "e-1": "var(--color-bg-elevation-1)",
         "e-1-dark": "var(--color-bg-elevation-1-dark)",
         "e-2": "var(--color-bg-elevation-2)",
-        border: "var(--color-border)",
+        "border": "var(--color-border)",
       },
       fontFamily: { "gotham-book": ["Gotham-Book"] },
       animation: {
