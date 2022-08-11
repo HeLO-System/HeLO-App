@@ -49,7 +49,7 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
         <GridItem>Players</GridItem>
         <p />
         {fields.map((field, index) => (
-          <Stack key={field.id} direction="row">
+          <>
             <Select
               key={`${name}.${field.id}.tag`}
               {...register(`${name}.${index}.tag` as const, {
@@ -68,6 +68,7 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
               control={control}
               render={({ field: { ref, value, onChange, ...renderField } }) => (
                 <NumberInput
+                  key={`${name}.${field.id}.players`}
                   value={numberTransformer.input(value)}
                   onChange={(e) => onChange(numberTransformer.output(e))}
                   {...renderField}
@@ -79,6 +80,7 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
               )}
             />
             <Button
+              key={`${name}.${field.id}.delete`}
               leftIcon={<Delete24Regular />}
               variant="ghost"
               color="red.800"
@@ -88,7 +90,7 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
               }}
               title="Remove clan"
             />
-          </Stack>
+          </>
         ))}
       </Grid>
       <Box className="w-full flex justify-center">
