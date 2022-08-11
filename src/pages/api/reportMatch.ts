@@ -105,7 +105,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await unstable_getServerSession(req, res, authOptions);
 
   if (!session) return res.status(401).json({ message: "You need to login" });
-  if (!session.user.isInGuild || !session.user.isTeamManager)
+  if (!session.user.isInGuild)
     return res.status(403).json({ message: "You are not a teammanager" });
 
   const result = MatchReportSchema.safeParse(req.body);
