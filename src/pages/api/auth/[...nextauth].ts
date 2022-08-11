@@ -2,7 +2,7 @@
 import { Clan } from "@types";
 import axios from "axios";
 import NextAuth, { NextAuthOptions, Session } from "next-auth";
-import { DiscordProvider } from "util/discordProvider";
+import DiscordProvider from "next-auth/providers/discord";
 
 const DISCORD_TEAMMANAGER_ID = process.env.DISCORD_TEAMMANAGER_ID;
 const DISCORD_IGNORE_ROLES = process.env.DISCORD_IGNORE_ROLES?.split(",");
@@ -27,6 +27,8 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+      authorization:
+        "https://discord.com/api/oauth2/authorize?scope=identify+guilds.members.read",
     }),
   ],
   callbacks: {
