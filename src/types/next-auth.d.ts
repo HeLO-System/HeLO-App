@@ -6,7 +6,9 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
-      isInGuild: boolean;
+      isInGuild?: boolean;
+      isTeamManager?: boolean;
+      clan?: string;
       name: string;
       image: string;
     };

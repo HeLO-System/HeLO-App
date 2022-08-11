@@ -25,6 +25,61 @@ const buildPayload = (report: MatchReport, session: Session) => {
     new Date(report.date).toISOString().split("T")[0]
   }`;
 
+  const fields = [
+    {
+      name: "Axis",
+      value: joinClansForFactions(report.axisClans),
+      inline: true,
+    },
+    {
+      name: "Allies",
+      value: joinClansForFactions(report.alliesClans),
+      inline: true,
+    },
+    { name: "\u200B", value: "\u200B", inline: true },
+    {
+      name: "Map",
+      value: report.map,
+      inline: true,
+    },
+    {
+      name: "Format",
+      value: `${playerCount(report.axisClans)} vs ${playerCount(
+        report.alliesClans
+      )}`,
+      inline: true,
+    },
+    { name: "\u200B", value: "\u200B", inline: true },
+    {
+      name: "Result",
+      value: report.result,
+      inline: true,
+    },
+    {
+      name: "Time",
+      value: `${report.time}min`,
+      inline: true,
+    },
+    { name: "\u200B", value: "\u200B", inline: true },
+    {
+      name: "Date",
+      value: new Date(report.date).toISOString().split("T")[0],
+    },
+    {
+      name: "Caps",
+      value: report.caps
+        .map((value, index) => (index === 2 ? `**${value}**` : value))
+        .join(" / "),
+    },
+  ];
+
+  if (report.streamUrl) {
+    fields.push({
+      name: "Video",
+      value: report.streamUrl,
+    });
+  }
+
   return {
     embeds: [
       {
@@ -36,53 +91,7 @@ const buildPayload = (report: MatchReport, session: Session) => {
         title: matchId,
         url: `https://helo-system.de/matches/${matchId}`,
         description: report.matchType,
-        fields: [
-          {
-            name: "Axis",
-            value: joinClansForFactions(report.axisClans),
-            inline: true,
-          },
-          {
-            name: "Allies",
-            value: joinClansForFactions(report.alliesClans),
-            inline: true,
-          },
-          { name: "\u200B", value: "\u200B", inline: true },
-          {
-            name: "Map",
-            value: report.map,
-            inline: true,
-          },
-          {
-            name: "Format",
-            value: `${playerCount(report.axisClans)} vs ${playerCount(
-              report.alliesClans
-            )}`,
-            inline: true,
-          },
-          { name: "\u200B", value: "\u200B", inline: true },
-          {
-            name: "Result",
-            value: report.result,
-            inline: true,
-          },
-          {
-            name: "Time",
-            value: `${report.time}min`,
-            inline: true,
-          },
-          { name: "\u200B", value: "\u200B", inline: true },
-          {
-            name: "Date",
-            value: new Date(report.date).toISOString().split("T")[0],
-          },
-          {
-            name: "Caps",
-            value: report.caps
-              .map((value, index) => (index === 2 ? `**${value}**` : value))
-              .join(" / "),
-          },
-        ],
+        fields,
         thumbnail: {
           url: "https://avatars.githubusercontent.com/u/103606217?s=200&v=4",
         },
@@ -95,12 +104,15 @@ const buildPayload = (report: MatchReport, session: Session) => {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await unstable_getServerSession(req, res, authOptions);
 
-  if (!session) return res.status(401).json({ message: "Unauthorized" });
-  if (!session.user.isInGuild)
-    return res.status(403).json({ message: "Forbidden" });
+  if (!session) return res.status(401).json({ message: "You need to login" });
+  if (!session.user.isInGuild || !session.user.isTeamManager)
+    return res.status(403).json({ message: "You are not a teammanager" });
 
   const result = MatchReportSchema.safeParse(req.body);
-  if (!result.success) return res.status(400).json({ message: result.error });
+  if (!result.success)
+    return res
+      .status(400)
+      .json({ message: "Please check your inputs", error: result.error });
   if (
     playerCount(result.data.axisClans) > 50 ||
     playerCount(result.data.alliesClans) > 50
@@ -108,7 +120,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ message: "Too many players" });
 
   if (!process.env.DISCORD_REPORT_MATCH_WEBHOOK)
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Please try again later" });
 
   try {
     await axios.post(
