@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { ChakraProvider } from "@chakra-ui/react";
 import { Layout } from "@components/Layout";
 import { ClanTagProvider } from "@hooks";
 import { init } from "@socialgouv/matomo-next";
@@ -8,6 +9,7 @@ import { DefaultSeo, DefaultSeoProps } from "next-seo";
 import { AppProps } from "next/app";
 import { FC, useEffect } from "react";
 import "../styles/globals.scss";
+import { theme } from "../styles/theme";
 
 const hourInMs = 3600000;
 
@@ -78,20 +80,24 @@ const App: FC<AppProps> = ({
   }, []);
 
   return (
-    <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <DefaultSeo {...defaultSeoConfig} />
-        <ClanTagProvider>
-          <Layout>
-            <div
-              className="fixed w-screen h-screen -z-10"
-              id="background-image"
-            />
-            <Component {...pageProps} />
-          </Layout>
-        </ClanTagProvider>
-      </QueryClientProvider>
-    </SessionProvider>
+    <>
+      <DefaultSeo {...defaultSeoConfig} />
+      <ChakraProvider theme={theme}>
+        <SessionProvider session={session}>
+          <QueryClientProvider client={queryClient}>
+            <ClanTagProvider>
+              <Layout>
+                <div
+                  className="fixed w-screen h-screen -z-10"
+                  id="background-image"
+                />
+                <Component {...pageProps} />
+              </Layout>
+            </ClanTagProvider>
+          </QueryClientProvider>
+        </SessionProvider>
+      </ChakraProvider>
+    </>
   );
 };
 

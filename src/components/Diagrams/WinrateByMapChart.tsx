@@ -1,7 +1,7 @@
+import { Maps } from "@constants";
 import { fetchWinrate, WinrateParams } from "@queries";
 import { useQueries } from "@tanstack/react-query";
 import { Map } from "@types";
-import { enumKeys } from "@util";
 import { FC } from "react";
 import {
   Bar,
@@ -17,7 +17,7 @@ import { ChartWrapper } from "./ChartWrapper";
 import { WinrateByMapTooltip } from "./WinrateByMapTooltip";
 
 type WinrateByMapData = {
-  name: Map | undefined;
+  name?: Map;
   Wins: number;
   Losses: number;
   Winrate: number;
@@ -30,7 +30,7 @@ const fetchWinRateByMap = (
 ): Promise<WinrateByMapData> =>
   fetchWinrate(clanId, params)
     .then((data) => ({
-      name: params.map,
+      name: params.map as Map,
       Wins: data.wins,
       Losses: data.total - data.wins,
       total: data.total,
@@ -54,9 +54,9 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
   clanId,
 }) => {
   const winRateByMap = useQueries({
-    queries: enumKeys(Map).map((map) => ({
+    queries: Maps.options.map((map) => ({
       queryKey: ["statistics", "winrate", clanId, { map }],
-      queryFn: () => fetchWinRateByMap(clanId as string, { map: Map[map] }),
+      queryFn: () => fetchWinRateByMap(clanId as string, { map }),
       enabled: !!clanId,
     })),
   }).map((result) => result.data);

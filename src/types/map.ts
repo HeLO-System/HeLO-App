@@ -1,13 +1,4 @@
-export enum Map {
-  Carentan = "Carentan",
-  Foy = "Foy",
-  Hill = "Hill",
-  Hurtgen = "Hurtgen",
-  Kursk = "Kursk",
-  PHL = "PHL",
-  SMDM = "SMDM",
-  SME = "SME",
-  Stalingrad = "Stalingrad",
-  Utah = "Utah",
-  Omaha = "Omaha",
-}
+import { Maps } from "@constants";
+import { z } from "zod";
+
+export type Map = z.infer<typeof Maps>;

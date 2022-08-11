@@ -18,12 +18,14 @@
     "baseUrl": "src",
     "paths": {
       "@components/*": ["components/*"],
+      "@constants": ["constants/index.ts"],
       "@pages/*": ["pages/*"],
       "@api/*": ["pages/api/*"],
       "@types": ["types/index.ts"],
       "@util": ["util/index.ts"],
       "@queries": ["hooks/queries/index.ts"],
-      "@hooks": ["hooks/index.ts"]
+      "@hooks": ["hooks/index.ts"],
+      "@schemas": ["schemas/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
