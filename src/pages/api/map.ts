@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Maps, StrongpointImages } from "@constants";
 import { Map } from "@types";
+import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 import sharp from "sharp";
@@ -39,7 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const folderPath = path.join(
     process.cwd(),
-    `public/hll_maps/${map.toLowerCase()}`
+    `public/strongpoints/${map.toLowerCase()}`
   );
   const getImgPath = (strongpoint: string): string =>
     path.join(folderPath, `${strongpoint}.png`);
@@ -55,7 +56,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   // final res
 
-  return sharp(getImgPath("map_blank"))
+  const mapImage = (
+    await axios({
+      url: `${process.env.VERCEL_URL}/hll_maps/${map}.png`,
+      responseType: "arraybuffer",
+    })
+  ).data as Buffer;
+
+  return sharp(mapImage)
     .composite([
       ...(strongpoints || []).map((point) => ({
         input: getImgPath(point),

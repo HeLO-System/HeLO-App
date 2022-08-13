@@ -15,7 +15,11 @@ const ReportMatch: FC = () => {
         <Stack gap={4}>
           <TacmapForm setImageUrl={setImageUrl} />
           {imageUrl && (
-            <img src={imageUrl} alt="Tactical map" className="self-center" />
+            <img
+              src={imageUrl}
+              alt="Tactical map"
+              className="h-screen object-contain"
+            />
           )}
         </Stack>
       </GlassPanel>

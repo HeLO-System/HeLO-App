@@ -6,7 +6,6 @@ import {
   FormLabel,
   Select,
   Stack,
-  StackDirection,
 } from "@chakra-ui/react";
 import { MapDirections, Maps, Strongpoints } from "@constants";
 import { Map } from "@types";
@@ -35,7 +34,10 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
     defaultValues: { map: Maps.enum.Carentan, caps: [], hd: false },
   });
   const [capDirections, setCapDirections] = useState<
-    [StackDirection, StackDirection]
+    [
+      "row" | "column" | "row-reverse" | "column-reverse",
+      "row" | "column" | "row-reverse" | "column-reverse"
+    ]
   >(["row", "row"]);
 
   const fields = watch();
@@ -95,7 +97,7 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
             </FormControl>
           )}
         />
-        <Stack direction={capDirections[0]} w="100%">
+        <Stack direction={{ base: "column", md: capDirections[0] }} w="100%">
           {Strongpoints[fields.map].map((caps, i) => (
             <TacmapStrongpointStack
               direction={capDirections[1]}
@@ -106,7 +108,7 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
             />
           ))}
         </Stack>
-        <ButtonGroup isAttached pr={8}>
+        <ButtonGroup isAttached pr={{ base: 0, md: 8 }}>
           <Button
             variant={fields.hd ? "outline" : "solid"}
             onClick={() => setValue("hd", false)}
