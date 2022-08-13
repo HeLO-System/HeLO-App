@@ -16,6 +16,7 @@ const navElements: { text: string; href: string }[] = [
   { text: "Matches", href: "/matches" },
   { text: "Statistics", href: "/statistics" },
   { text: "About", href: "/about" },
+  { text: "Tacmaps", href: "/tacmaps" },
 ];
 
 export const NavBar: FC = () => {
@@ -54,13 +55,13 @@ export const NavBar: FC = () => {
         {navElements.map((element) => (
           <CustomLink
             key={element.text}
-            className="bg-transparent shadow-none hidden md:block text-xl"
+            className="bg-transparent shadow-none hidden lg:block text-xl"
             {...element}
           />
         ))}
         {status === "authenticated" && (
           <CustomLink
-            className="bg-transparent shadow-none hidden md:block text-xl"
+            className="bg-transparent shadow-none hidden lg:block text-xl"
             text="Report Match"
             href="/report-match"
           />
@@ -73,7 +74,7 @@ export const NavBar: FC = () => {
         />
         <Link href="https://ko-fi.com/helosystem">
           <a
-            className="h-14 ml-2 hidden md:flex items-center"
+            className="h-14 ml-2 hidden lg:flex items-center"
             target="_blank"
             rel="noreferrer"
           >
@@ -82,7 +83,7 @@ export const NavBar: FC = () => {
         </Link>
         <Link href="https://github.com/helo-system/">
           <a
-            className="h-14 w-12 p-3 hidden md:block"
+            className="h-14 w-12 p-3 hidden lg:block"
             target="_blank"
             rel="noreferrer"
           >
@@ -90,7 +91,7 @@ export const NavBar: FC = () => {
           </a>
         </Link>
         <button
-          className="h-14 w-10 hidden md:flex text-white justify-center items-center"
+          className="h-14 w-10 hidden lg:flex text-white justify-center items-center"
           type="button"
           onClick={() => {
             if (status === "authenticated") return signOut();
@@ -103,7 +104,7 @@ export const NavBar: FC = () => {
 
         <button
           onClick={(): void => setNavPanelOpen(!navPanelOpen)}
-          className="h-14 block md:hidden"
+          className="h-14 block lg:hidden"
           type="button"
         >
           <Navigation24Regular className="text-white mr-2" />
@@ -122,6 +123,15 @@ export const NavBar: FC = () => {
             />
           </li>
         ))}
+        {status === "authenticated" && (
+          <li>
+            <CustomLink
+              className="bg-transparent shadow-none block !justify-start"
+              text="Report Match"
+              href="/report-match"
+            />
+          </li>
+        )}
         <li className="flex">
           <Link href="https://ko-fi.com/helosystem">
             <a
@@ -138,6 +148,18 @@ export const NavBar: FC = () => {
               <GitHub className="fill-white h-full w-auto" />
             </a>
           </Link>
+
+          <button
+            className="h-14 w-10 flex text-white justify-center items-center"
+            type="button"
+            onClick={() => {
+              if (status === "authenticated") return signOut();
+              return signIn("discord");
+            }}
+            title={status === "authenticated" ? "Sign out" : "Sign in"}
+          >
+            <Person24Filled className="h-8 w-8" />
+          </button>
         </li>
       </ul>
       <SearchPanel
