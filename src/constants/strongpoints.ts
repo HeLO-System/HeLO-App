@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Map } from "@types";
 
 /**
@@ -56,7 +57,7 @@ export const Strongpoints: Record<
     ["Bloody bend", "Dead man's corner", "Forward battery"],
   ],
   SMDM: [
-    ["The corner", "Hill 6 ", "The fields"],
+    ["The corner", "Hill 6", "The fields"],
     ["Hugo's farm", "The hamlet", "St. Marie du Mont"],
     ["The dugout", "AA Network", "Pierre's farm"],
     ["Brecourt battery", "Cattlesheds", "Rue de la gare"],
@@ -64,7 +65,7 @@ export const Strongpoints: Record<
   ],
   SME: [
     ["Flak position", "Vaulaville", "La prairie"],
-    ["Route du haras", "Western approach", "Rue de Gambosviller"],
+    ["Route du haras", "Western approach", "Rue de Gambosville"],
     ["Hospice", "St. Mere Eglise", "Checkpoint"],
     ["Artillery battery", "The cementry", "Maison du crique"],
     ["Les vieux vergers", "The draw", "Ruisseau de ferme"],
@@ -97,4 +98,21 @@ export const Strongpoints: Record<
     ["Remagen", "Möbelfabrik", "Schliefen ausweg"],
     ["Waldburg", "Mühlenweg", "Hägelkreuz"],
   ],
+};
+
+type MapDirection = "ltr" | "rtl" | "ttb" | "btt";
+
+export const MapDirections: Record<Map, MapDirection> = {
+  Carentan: "rtl",
+  Foy: "ttb",
+  Hill: "rtl",
+  Hurtgen: "rtl",
+  Kursk: "btt",
+  PHL: "btt",
+  SMDM: "btt",
+  SME: "ltr",
+  Stalingrad: "ltr",
+  Utah: "ltr",
+  Omaha: "ltr",
+  Remagen: "ttb",
 };
