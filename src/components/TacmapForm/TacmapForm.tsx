@@ -4,10 +4,11 @@ import {
   FormLabel,
   Select,
   Stack,
+  StackDirection,
 } from "@chakra-ui/react";
-import { Maps, Strongpoints } from "@constants";
+import { MapDirections, Maps, Strongpoints } from "@constants";
 import { Map } from "@types";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TacmapStrongpointStack } from "./TacMapStrongpointStack";
 
@@ -29,6 +30,9 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
   } = useForm<TacmapUrlForm>({
     defaultValues: { map: Maps.enum.Carentan, caps: [] },
   });
+  const [capDirections, setCapDirections] = useState<
+    [StackDirection, StackDirection]
+  >(["row", "row"]);
 
   const fields = watch();
 
@@ -40,6 +44,23 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
       }`
     );
   }, [fields.caps, fields.map, setImageUrl]);
+
+  useEffect(() => {
+    switch (MapDirections[fields.map]) {
+      case "rtl":
+        setCapDirections(["row-reverse", "column"]);
+        break;
+      case "ttb":
+        setCapDirections(["column", "row"]);
+        break;
+      case "btt":
+        setCapDirections(["column-reverse", "row"]);
+        break;
+      default:
+        setCapDirections(["row", "column"]);
+        break;
+    }
+  }, [fields.map]);
 
   return (
     <form>
@@ -69,9 +90,10 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
           </FormControl>
         )}
       />
-      <Stack direction="row" mt={4}>
+      <Stack direction={capDirections[0]} mt={4}>
         {Strongpoints[fields.map].map((caps, i) => (
           <TacmapStrongpointStack
+            direction={capDirections[1]}
             caps={caps}
             control={control}
             index={i}

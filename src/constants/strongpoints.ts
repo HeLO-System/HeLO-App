@@ -311,3 +311,20 @@ export const StrongpointImages: Record<
     "Hägelkreuz": { left: 1147, top: 1431 },
   },
 };
+
+type MapDirection = "ltr" | "rtl" | "ttb" | "btt";
+
+export const MapDirections: Record<Map, MapDirection> = {
+  Carentan: "rtl",
+  Foy: "ttb",
+  Hill: "rtl",
+  Hurtgen: "rtl",
+  Kursk: "btt",
+  PHL: "btt",
+  SMDM: "btt",
+  SME: "ltr",
+  Stalingrad: "ltr",
+  Utah: "ltr",
+  Omaha: "ltr",
+  Remagen: "ttb",
+};
