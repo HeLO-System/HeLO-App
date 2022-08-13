@@ -1,79 +1,89 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import { AutoTextSkeleton } from "@components/AutoSkeletons";
-import { useClanTags } from "@hooks";
-import { Factions, Match } from "@types";
-import classNames from "classnames";
-import { DateTime } from "luxon";
+import { Grid } from "@chakra-ui/react";
+import { GlassPanel } from "@components/GlassPanel";
+import { SortedMatch } from "@types";
 import { FC } from "react";
-import { WinLoseBanner } from "./WinLooseBanner";
+import { ClanStack } from "./ClanStack";
 
-interface MatchDetailsProps {
-  match?: Match;
-  clanId?: string;
-}
+const isWinner = (caps: number) => (caps > 3 ? "Victory" : "Defeat");
 
-export const MatchDetails: FC<MatchDetailsProps> = ({ match, clanId }) => {
-  const { getTag } = useClanTags();
+type MatchDetailsProps = { match: SortedMatch };
 
-  return (
-    <div className="bg-e-2 shadow-elevation-1 hover:scale-105 rounded-lg py-2 flex flex-col items-center ">
-      <WinLoseBanner
-        caps1={
-          clanId && match && match.clans1_ids.includes(clanId)
-            ? match.caps1
-            : match?.caps2
-        }
-        caps2={
-          clanId && match && match.clans1_ids.includes(clanId)
-            ? match.caps2
-            : match?.caps1
-        }
-      />
-      <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
-        {match &&
-          `${getTag(match.clans1_ids[0])} : ${getTag(match.clans2_ids[0])}`}
-      </AutoTextSkeleton>
-      <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
-        {match && (
-          <div className="flex items-center">
-            <img
-              src={
-                match.side1 === Factions.Allies
-                  ? "/ico_HLLAllies.png"
-                  : "/ico_HLLAxis.png"
-              }
-              alt={match.side1}
-              className="h-5 w-5 inline mr-2"
-            />
-            <span
-              className={classNames({ "font-bold": match.caps1 > match.caps2 })}
-            >
-              {match.caps1}
-            </span>
-            <span>:</span>
-            <span
-              className={classNames({ "font-bold": match.caps1 < match.caps2 })}
-            >
-              {match.caps2}
-            </span>
-            <img
-              src={
-                match.side2 === Factions.Allies
-                  ? "/ico_HLLAllies.png"
-                  : "/ico_HLLAxis.png"
-              }
-              alt={match.side1}
-              className="h-5 w-5 inline ml-2"
-            />
-          </div>
-        )}
-      </AutoTextSkeleton>
-      <AutoTextSkeleton className="min-w-[3rem] text-center">
-        {match?.map}
-      </AutoTextSkeleton>
-      <AutoTextSkeleton className="min-w-[3rem] text-center ">
-        {match && DateTime.fromMillis(match.date.$date).toISODate()}
-      </AutoTextSkeleton>
-    </div>
-  );
-};
+export const MatchDetails: FC<MatchDetailsProps> = ({ match }) => (
+  <>
+    <GlassPanel
+      title={match.match_id}
+      className="p-4 mx-10"
+      backTitle={match.event}
+    >
+      <Grid
+        templateColumns="max-content 1fr min-content 1fr max-content"
+        alignItems="center"
+        className="text-3xl"
+      >
+        <img
+          src="/ico_HLLAxis.png"
+          alt="Axis Logo"
+          className="h-8 w-8 inline mr-2"
+        />
+        <span>{isWinner(match.axis_caps)}</span>
+        <span className="whitespace-nowrap text-4xl">{`${match.axis_caps} : ${match.allies_caps}`}</span>
+        <span className="text-right">{isWinner(match.allies_caps)}</span>
+        <img
+          src="/ico_HLLAllies.png"
+          alt="Axis Logo"
+          className="h-8 w-8 inline ml-2"
+        />
+      </Grid>
+      <Grid templateColumns="1fr min-content 1fr" className="mt-2">
+        <ClanStack
+          clanIds={match.axis_clan_ids}
+          playerDist={match.axis_player_dist}
+        />
+        <div
+          className={`
+          border-white
+          h-full 
+          border-l
+          relative
+          after:content-['vs']
+          after:absolute
+          after:top-1/2
+          after:left-1/2
+          after:-translate-x-1/2
+          after:-translate-y-1/2
+          after:bg-border
+          after:rounded-full
+          after:w-10
+          after:h-10
+          after:text-center
+          after:leading-[2.1rem]
+          after:border-white
+          after:border
+          after:font-bold
+          after:text-[1.2rem]
+        `}
+        />
+        <ClanStack
+          clanIds={match.allies_clan_ids}
+          playerDist={match.allies_player_dist}
+          reverse
+        />
+      </Grid>
+      <div className="w-full text-center">{match.duration} min</div>
+    </GlassPanel>
+    <GlassPanel title={match.map} className="p-4 mx-10 ">
+      <div className="flex justify-center">
+        <img
+          src={`https://tacmaps.helo-system.de/?map=${match.map}${
+            match.strongpoints.length
+              ? `&strongpoints${match.strongpoints.join(",")}`
+              : ""
+          }&width=960&height=960`}
+          className="max-h-screen object-contain"
+        />
+      </div>
+    </GlassPanel>
+  </>
+);

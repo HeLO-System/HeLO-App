@@ -7,6 +7,7 @@ interface GlassPanelProps {
   children?: ReactNode;
   className?: string;
   titleClassName?: string;
+  backTitle?: string;
 }
 
 export const GlassPanel: FC<GlassPanelProps> = ({
@@ -14,11 +15,13 @@ export const GlassPanel: FC<GlassPanelProps> = ({
   className,
   children,
   titleClassName,
+  backTitle,
 }) => (
   <div className={classNames("rounded-lg", "glassmorphism", className)}>
     {title && (
       <PanelTitle
         title={title}
+        backTitle={backTitle}
         className={classNames(titleClassName, "mb-5")}
       />
     )}

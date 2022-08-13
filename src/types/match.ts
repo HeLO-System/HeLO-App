@@ -1,4 +1,5 @@
 import { Factions } from "./factions";
+import { Map } from "./map";
 
 export type Match = {
   _id: {
@@ -22,6 +23,19 @@ export type Match = {
   conf2: string;
   recalculate: boolean;
   score_posted: boolean;
-  map: string;
+  map: Map;
   duration: number;
+  event: string;
+  strongpoints: [string, string, string, string, string];
+};
+
+export type SortedMatch = Match & {
+  axis_clan_ids: string[];
+  allies_clan_ids: string[];
+  axis_player_dist: number[];
+  allies_player_dist: number[];
+  axis_caps: number;
+  allies_caps: number;
+  axis_conf: string;
+  allies_conf: string;
 };

@@ -9,7 +9,7 @@ import {
   WinrateChart,
 } from "@components/Diagrams";
 import { GlassPanel } from "@components/GlassPanel";
-import { MatchDetails } from "@components/MatchDetails";
+import { MatchCard } from "@components/MatchCard";
 import { MatchesTable } from "@components/MatchesTable";
 import NoSSR from "@components/NoSSR/NoSSR";
 import { useClan, useMatches } from "@queries";
@@ -73,7 +73,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
             {(lastMatches &&
               (lastMatches.length > 0 ? (
                 lastMatches?.map((match) => (
-                  <MatchDetails
+                  <MatchCard
                     match={match}
                     clanId={clan?._id.$oid}
                     key={match._id.$oid}
@@ -85,7 +85,7 @@ const ClanPage: NextPage<ServerSideProps> = ({ clanTag }) => {
                 </span>
               ))) ||
               range(lastMatchesLength).map((index) => (
-                <MatchDetails key={index} />
+                <MatchCard key={index} />
               ))}
           </div>
         </GlassPanel>
@@ -109,4 +109,4 @@ export default ClanPage;
 export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (
   context
   // eslint-disable-next-line @typescript-eslint/require-await
-) => ({ props: { clanTag: context.query.cid as string } });
+) => ({ props: { clanTag: context.query.cid?.toString() as string } });
