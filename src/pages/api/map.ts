@@ -3,15 +3,20 @@
 import { Maps, StrongpointImages } from "@constants";
 import { Map } from "@types";
 import { NextApiRequest, NextApiResponse } from "next";
-import getConfig from "next/config";
 import path from "path";
 import sharp from "sharp";
-
-const { serverRuntimeConfig } = getConfig();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const map = req.query.map?.toString() as Map;
   const strongpoints = req.query.strongpoints?.toString().split(",");
+
+  const width = req.query.width?.toString();
+  const height = req.query.height?.toString();
+
+  if (width && Number.isNaN(Number.parseInt(width, 10)))
+    return res.status(400).json({ error: "width must be an integer" });
+  if (height && Number.isNaN(Number.parseInt(height, 10)))
+    return res.status(400).json({ error: "height must be an integer" });
 
   if (!map || !Maps.options.includes(map))
     return res.status(400).json({
@@ -33,8 +38,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const folderPath = path.join(
-    serverRuntimeConfig.PROJECT_ROOT,
-    `./public/hll_maps/${map.toLowerCase()}`
+    process.cwd(),
+    `public/hll_maps/${map.toLowerCase()}`
   );
   const getImgPath = (strongpoint: string): string =>
     path.join(folderPath, `${strongpoint}.png`);
@@ -59,5 +64,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       })),
     ])
     .toBuffer()
-    .then((data) => sharp(data).webp().pipe(res));
+    .then((data) =>
+      sharp(data)
+        .resize(
+          Number.parseInt(width as string, 10) || 1920,
+          Number.parseInt(height as string, 10) || 1920
+        )
+        .webp()
+        .pipe(res)
+    );
 };

@@ -21,9 +21,6 @@ const nextConfig = {
   images: {
     domains: ["cdn.discordapp.com", "media.discordapp.net"],
   },
-  serverRuntimeConfig: {
-    PROJECT_ROOT: __dirname,
-  },
 };
 
 module.exports = nextConfig;
