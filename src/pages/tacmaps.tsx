@@ -20,7 +20,7 @@ const ReportMatch: FC = () => {
             <img
               src={imageUrl}
               alt="Tactical map"
-              className="h-screen object-contain"
+              className="max-h-screen object-contain"
             />
           )}
         </Stack>
