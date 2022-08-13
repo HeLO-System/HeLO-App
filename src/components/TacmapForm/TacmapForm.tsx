@@ -46,7 +46,7 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
   useEffect(() => {
     const strongpoints = fields.caps.filter((cap) => cap).join(",");
     setImageUrl(
-      `/api/map?map=${fields.map}${
+      `https://tacmaps.helo-system.de?map=${fields.map}${
         strongpoints ? `&strongpoints=${strongpoints}` : ""
       }${fields.hd ? "" : "&width=960&height=960"}`
     );
