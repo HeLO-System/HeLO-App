@@ -1,4 +1,6 @@
 import {
+  Button,
+  ButtonGroup,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -19,6 +21,7 @@ type TacmapFormProps = {
 export type TacmapUrlForm = {
   map: Map;
   caps: string[];
+  hd: boolean;
 };
 
 export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
@@ -27,8 +30,9 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
     resetField,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<TacmapUrlForm>({
-    defaultValues: { map: Maps.enum.Carentan, caps: [] },
+    defaultValues: { map: Maps.enum.Carentan, caps: [], hd: false },
   });
   const [capDirections, setCapDirections] = useState<
     [StackDirection, StackDirection]
@@ -41,9 +45,9 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
     setImageUrl(
       `/api/map?map=${fields.map}${
         strongpoints ? `&strongpoints=${strongpoints}` : ""
-      }`
+      }${fields.hd ? "" : "&width=960&height=960"}`
     );
-  }, [fields.caps, fields.map, setImageUrl]);
+  }, [fields.caps, fields.hd, fields.map, setImageUrl]);
 
   useEffect(() => {
     switch (MapDirections[fields.map]) {
@@ -64,42 +68,58 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
 
   return (
     <form>
-      <Controller
-        name="map"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <FormControl isInvalid={!!errors.map}>
-            <FormLabel htmlFor="map">Map</FormLabel>
-            <Select
-              id="map"
-              value={value}
-              onChange={(event) => {
-                resetField("caps");
-                onChange(event);
-              }}
-            >
-              {Maps.options.map((mapOption) => (
-                <option value={mapOption} key={mapOption}>
-                  {mapOption}
-                </option>
-              ))}
-            </Select>
-            <FormErrorMessage>
-              {errors.map && errors.map.message}
-            </FormErrorMessage>
-          </FormControl>
-        )}
-      />
-      <Stack direction={capDirections[0]} mt={4}>
-        {Strongpoints[fields.map].map((caps, i) => (
-          <TacmapStrongpointStack
-            direction={capDirections[1]}
-            caps={caps}
-            control={control}
-            index={i}
-            key={caps.join()}
-          />
-        ))}
+      <Stack gap={4} alignItems="end">
+        <Controller
+          name="map"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FormControl isInvalid={!!errors.map}>
+              <FormLabel htmlFor="map">Map</FormLabel>
+              <Select
+                id="map"
+                value={value}
+                onChange={(event) => {
+                  resetField("caps");
+                  onChange(event);
+                }}
+              >
+                {Maps.options.map((mapOption) => (
+                  <option value={mapOption} key={mapOption}>
+                    {mapOption}
+                  </option>
+                ))}
+              </Select>
+              <FormErrorMessage>
+                {errors.map && errors.map.message}
+              </FormErrorMessage>
+            </FormControl>
+          )}
+        />
+        <Stack direction={capDirections[0]} w="100%">
+          {Strongpoints[fields.map].map((caps, i) => (
+            <TacmapStrongpointStack
+              direction={capDirections[1]}
+              caps={caps}
+              control={control}
+              index={i}
+              key={caps.join()}
+            />
+          ))}
+        </Stack>
+        <ButtonGroup isAttached pr={8}>
+          <Button
+            variant={fields.hd ? "outline" : "solid"}
+            onClick={() => setValue("hd", false)}
+          >
+            720p
+          </Button>
+          <Button
+            variant={fields.hd ? "solid" : "outline"}
+            onClick={() => setValue("hd", true)}
+          >
+            HD
+          </Button>
+        </ButtonGroup>
       </Stack>
     </form>
   );
