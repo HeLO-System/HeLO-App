@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Maps, StrongpointImages } from "@constants";
 import { Map } from "@types";
-import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 import sharp from "sharp";
@@ -54,16 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // setting our "Content-Type" as an image file
   res.setHeader("Content-Type", "image/webp");
 
-  // final res
-
-  const mapImage = (
-    await axios({
-      url: `${process.env.VERCEL_URL}/hll_maps/${map}.png`,
-      responseType: "arraybuffer",
-    })
-  ).data as Buffer;
-
-  return sharp(mapImage)
+  return sharp(path.join(process.cwd(), `public/hll_maps/${map}.png`))
     .composite([
       ...(strongpoints || []).map((point) => ({
         input: getImgPath(point),
