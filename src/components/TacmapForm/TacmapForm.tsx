@@ -74,7 +74,7 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
       }${
         fields.alliesCaps &&
         fields.alliesColor &&
-        `&alliesCaps=${fields.alliesCaps}&axisColor=${fields.alliesColor}`
+        `&alliesCaps=${fields.alliesCaps}&alliesColor=${fields.alliesColor}`
       }`
     );
   }, [fields, setImageUrl]);
