@@ -231,7 +231,7 @@ export const MatchReportForm: FC = () => {
                 <NumberInputField name="time" ref={ref} />
               </NumberInput>
               <FormErrorMessage>
-                {errors.date && errors.date.message}
+                {errors.time && errors.time.message}
               </FormErrorMessage>
             </FormControl>
           )}
