@@ -9,6 +9,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Input,
   NumberInput,
   NumberInputField,
   Radio,
@@ -274,7 +275,28 @@ export const MatchReportForm: FC = () => {
             register={register}
           />
         </Stack>
-        <Box className="w-full flex justify-center">
+        <Controller
+          name="streamUrl"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FormControl isInvalid={!!errors.streamUrl}>
+              <FormLabel htmlFor="streamUrl">
+                Link to stream (optional)
+              </FormLabel>
+              <Input
+                id="streamUrl"
+                value={value}
+                onChange={(event) => {
+                  onChange(event);
+                }}
+              />
+              <FormErrorMessage>
+                {errors.streamUrl && errors.streamUrl.message}
+              </FormErrorMessage>
+            </FormControl>
+          )}
+        />
+        <Box className="w-full flex justify-center !mt-8">
           <Button
             type="submit"
             variant="solid"

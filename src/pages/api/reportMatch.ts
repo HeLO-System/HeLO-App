@@ -36,12 +36,6 @@ const buildPayload = (report: MatchReport, session: Session) => {
       value: joinClansForFactions(report.alliesClans),
       inline: true,
     },
-    { name: "\u200B", value: "\u200B", inline: true },
-    {
-      name: "Map",
-      value: report.map,
-      inline: true,
-    },
     {
       name: "Format",
       value: `${playerCount(report.axisClans)} vs ${playerCount(
@@ -49,7 +43,6 @@ const buildPayload = (report: MatchReport, session: Session) => {
       )}`,
       inline: true,
     },
-    { name: "\u200B", value: "\u200B", inline: true },
     {
       name: "Result",
       value: report.result,
@@ -60,16 +53,20 @@ const buildPayload = (report: MatchReport, session: Session) => {
       value: `${report.time}min`,
       inline: true,
     },
-    { name: "\u200B", value: "\u200B", inline: true },
     {
-      name: "Date",
-      value: new Date(report.date).toISOString().split("T")[0],
+      name: "Map",
+      value: report.map,
+      inline: true,
     },
     {
       name: "Caps",
       value: report.caps
         .map((value, index) => (index === 2 ? `**${value}**` : value))
         .join(" / "),
+    },
+    {
+      name: "Date",
+      value: new Date(report.date).toISOString().split("T")[0],
     },
   ];
 
