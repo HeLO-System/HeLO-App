@@ -6,10 +6,10 @@ import { useRouter } from "next/router";
 import { FC } from "react";
 
 const ReportMatch: FC = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
   const router = useRouter();
 
-  if (status === "unauthenticated") {
+  if (status === "unauthenticated" || !data?.user.isTeamManager) {
     router.push("/");
   }
 
