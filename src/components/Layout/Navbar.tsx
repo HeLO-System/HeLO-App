@@ -22,7 +22,7 @@ const navElements: { text: string; href: string }[] = [
 export const NavBar: FC = () => {
   const [navPanelOpen, setNavPanelOpen] = useState(false);
   const [searchPanelOpen, setSearchPanelOpen] = useState(false);
-  const { status } = useSession();
+  const { status, data } = useSession();
 
   const searchPanelKeyListener = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === "k") {
@@ -59,7 +59,7 @@ export const NavBar: FC = () => {
             {...element}
           />
         ))}
-        {status === "authenticated" && (
+        {status === "authenticated" && data.user.isTeamManager && (
           <CustomLink
             className="bg-transparent shadow-none hidden lg:block text-xl"
             text="Report Match"
@@ -77,6 +77,7 @@ export const NavBar: FC = () => {
             className="h-14 ml-2 hidden lg:flex items-center"
             target="_blank"
             rel="noreferrer"
+            title="Support us"
           >
             <img src="/kofi.png" className="h-6" alt="KoFi" />
           </a>
@@ -123,7 +124,7 @@ export const NavBar: FC = () => {
             />
           </li>
         ))}
-        {status === "authenticated" && (
+        {status === "authenticated" && data.user.isTeamManager && (
           <li>
             <CustomLink
               className="bg-transparent shadow-none block !justify-start"
