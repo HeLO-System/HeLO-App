@@ -22,32 +22,21 @@ export const ClanStack: FC<ClanStackProps> = ({
       className={classNames("text-xl h-20 items-center", {
         "justify-end": reverse,
       })}
+      flex={1}
     >
-      {clanIds.map((clanId, index) => (
-        <>
-          {reverse && (
-            <>
-              <span key={`${clanId}.scoreChange`} className="mr-4">
-                ±0
-              </span>
-              <span key={`${clanId}.players`} className="mx-4">
-                {`(${players[index]})`}
-              </span>
-            </>
-          )}
+      {clanIds.map((clanId, index) => {
+        const row = [
           <span className="whitespace-nowrap" key={`${clanId}.name`}>
             {getTag(clanId)}
-          </span>
-          {reverse || (
-            <>
-              <span key={`${clanId}.players`} className="mx-4">
-                {`(${players[index]})`}
-              </span>
-              <span key={`${clanId}.scoreChange`}>±0</span>
-            </>
-          )}
-        </>
-      ))}
+          </span>,
+          <span key={`${clanId}.players`} className="mx-4">
+            {players[index] && `(${players[index]})`}
+          </span>,
+          <span key={`${clanId}.scoreChange`}>±0</span>,
+        ];
+        if (reverse) return row.reverse();
+        return row;
+      })}
     </Grid>
   );
 };

@@ -27,6 +27,7 @@ export type Match = {
   duration: number;
   event: string;
   strongpoints: [string, string, string, string, string];
+  stream: string;
 };
 
 export type SortedMatch = Match & {

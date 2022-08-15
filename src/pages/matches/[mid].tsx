@@ -3,11 +3,15 @@
 
 import { BackButton } from "@components/BackButton";
 import { MatchDetails } from "@components/MatchDetails";
-import { useMatch } from "@queries";
+import { useMatches } from "@queries";
+import { SortedMatch } from "@types";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const playerDist = (playersDist: number[], players: number): number[] =>
+  playersDist.length ? playersDist : [players];
 
 interface ServerSideProps {
   matchId: string;
@@ -15,7 +19,39 @@ interface ServerSideProps {
 
 const MatchPage: NextPage<ServerSideProps> = ({ matchId }) => {
   const router = useRouter();
-  const { data: match, error } = useMatch(matchId);
+  const [match, setMatch] = useState<SortedMatch>();
+  const { data: matches, error } = useMatches({ match_id: matchId });
+
+  useEffect(() => {
+    if (matches && matches[0]) {
+      const data = matches[0];
+
+      if (data.side1 === "Allies")
+        setMatch({
+          ...data,
+          axis_clan_ids: data.clans2_ids,
+          allies_clan_ids: data.clans1_ids,
+          axis_player_dist: playerDist(data.player_dist2, data.players),
+          allies_player_dist: playerDist(data.player_dist1, data.players),
+          axis_caps: data.caps2,
+          allies_caps: data.caps1,
+          axis_conf: data.conf2,
+          allies_conf: data.conf1,
+        });
+      else
+        setMatch({
+          ...data,
+          axis_clan_ids: data.clans1_ids,
+          allies_clan_ids: data.clans2_ids,
+          axis_player_dist: playerDist(data.player_dist1, data.players),
+          allies_player_dist: playerDist(data.player_dist2, data.players),
+          axis_caps: data.caps1,
+          allies_caps: data.caps2,
+          axis_conf: data.conf1,
+          allies_conf: data.conf2,
+        });
+    }
+  }, [matches]);
 
   useEffect(() => {
     if (error) {
