@@ -137,7 +137,7 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
         </Stack>
         <Stack
           direction={{
-            base: capDirections[2].replace("row", "column"),
+            base: capDirections[2].replace("row", "column") as Directions,
             md: capDirections[2],
           }}
           w="100%"
