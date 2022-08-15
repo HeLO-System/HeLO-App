@@ -131,7 +131,7 @@ export const MatchReportForm: FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
-        <Stack direction="row">
+        <Stack direction={{ base: "column", md: "row" }}>
           <Controller
             name="matchType"
             control={control}
@@ -203,7 +203,6 @@ export const MatchReportForm: FC = () => {
             />
           )}
         </Stack>
-
         <Controller
           name="map"
           control={control}

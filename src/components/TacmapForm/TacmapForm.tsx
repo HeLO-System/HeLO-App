@@ -22,6 +22,8 @@ type TacmapFormProps = {
   setImageUrl: (url: string) => void;
 };
 
+export type Directions = "row" | "column" | "row-reverse" | "column-reverse";
+
 const Colors = z.enum(["red", "blue", ""]);
 type Color = z.infer<typeof Colors>;
 
@@ -54,11 +56,8 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
     },
   });
   const [capDirections, setCapDirections] = useState<
-    [
-      "row" | "column" | "row-reverse" | "column-reverse",
-      "row" | "column" | "row-reverse" | "column-reverse"
-    ]
-  >(["row", "row"]);
+    [Directions, Directions, Directions]
+  >(["row", "row", "row-reverse"]);
 
   const fields = watch();
 
@@ -82,16 +81,16 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
   useEffect(() => {
     switch (MapDirections[fields.map]) {
       case "rtl":
-        setCapDirections(["row-reverse", "column"]);
+        setCapDirections(["row-reverse", "column", "row-reverse"]);
         break;
       case "ttb":
-        setCapDirections(["column", "row"]);
+        setCapDirections(["column", "row", "row"]);
         break;
       case "btt":
-        setCapDirections(["column-reverse", "row"]);
+        setCapDirections(["column-reverse", "row", "row-reverse"]);
         break;
       default:
-        setCapDirections(["row", "column"]);
+        setCapDirections(["row", "column", "row"]);
         break;
     }
   }, [fields.map]);
@@ -136,7 +135,13 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
             />
           ))}
         </Stack>
-        <Stack direction="row" w="100%">
+        <Stack
+          direction={{
+            base: capDirections[2].replace("row", "column"),
+            md: capDirections[2],
+          }}
+          w="100%"
+        >
           <Controller
             name="axisColor"
             control={control}
