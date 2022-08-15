@@ -20,4 +20,6 @@ export const MatchReportSchema = z.object({
   time: z.number().min(5).max(90),
   caps: z.tuple([z.string(), z.string(), z.string(), z.string(), z.string()]),
   streamUrl: z.string().optional(),
+  event: z.string().optional(),
+  comment: z.string().optional(),
 });

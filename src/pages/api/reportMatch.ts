@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { MatchReportSchema } from "@schemas";
 import { MatchReport, MatchReportClan } from "@types";
+import { isoDateString } from "@util";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
@@ -13,10 +14,23 @@ const joinClansForMatchId = (clans: MatchReportClan[]) =>
   clans.map((clan) => clan.tag).join("+");
 
 const joinClansForFactions = (clans: MatchReportClan[]) =>
-  clans.map(({ tag, players }) => `${tag} (${players})`).join("\n");
+  clans.map(({ tag, players }) => `**${tag}** (${players})`).join(" & ") +
+  (clans.length > 1
+    ? ` => ${clans.reduce((acc, cur) => acc + cur.players, 0)}`
+    : "");
 
 const playerCount = (clans: MatchReportClan[]) =>
   clans.reduce((acc, cur) => acc + cur.players, 0);
+
+const eventOrComment = (report: MatchReport) => {
+  if (report.matchType === "Competitive" && report.event) {
+    return ` (${report.event})`;
+  }
+  if (report.matchType === "Friendly" && report.comment) {
+    return ` (${report.comment})`;
+  }
+  return "";
+};
 
 const buildPayload = (report: MatchReport, session: Session) => {
   const matchId = `${joinClansForMatchId(
@@ -25,56 +39,22 @@ const buildPayload = (report: MatchReport, session: Session) => {
     new Date(report.date).toISOString().split("T")[0]
   }`;
 
-  const fields = [
-    {
-      name: "Axis",
-      value: joinClansForFactions(report.axisClans),
-      inline: true,
-    },
-    {
-      name: "Allies",
-      value: joinClansForFactions(report.alliesClans),
-      inline: true,
-    },
-    {
-      name: "Format",
-      value: `${playerCount(report.axisClans)} vs ${playerCount(
-        report.alliesClans
-      )}`,
-      inline: true,
-    },
-    {
-      name: "Result",
-      value: report.result,
-      inline: true,
-    },
-    {
-      name: "Time",
-      value: `${report.time}min`,
-      inline: true,
-    },
-    {
-      name: "Map",
-      value: report.map,
-      inline: true,
-    },
-    {
-      name: "Caps",
-      value: report.caps
-        .map((value, index) => (index === 2 ? `**${value}**` : value))
-        .join(" / "),
-    },
-    {
-      name: "Date",
-      value: new Date(report.date).toISOString().split("T")[0],
-    },
+  const fields: string[] = [
+    `**${report.matchType}${eventOrComment(report)}**`,
+    isoDateString(report.date),
+    `Axis: ${joinClansForFactions(report.axisClans)}`,
+    `Allies: ${joinClansForFactions(report.alliesClans)}`,
+    `Result: **${report.result}** in **${report.time}min**`,
+    `Map: **${report.map}**`,
+    `Caps: ${report.caps
+      .map((value, index) => (index === 2 ? `**${value}**` : value))
+      .join("/")}`,
   ];
 
   if (report.streamUrl) {
-    fields.push({
-      name: "Video",
-      value: report.streamUrl,
-    });
+    fields.push(
+      `Stream: [${new URL(report.streamUrl).host}](${report.streamUrl})`
+    );
   }
 
   return {
@@ -87,12 +67,7 @@ const buildPayload = (report: MatchReport, session: Session) => {
         },
         title: matchId,
         url: `https://helo-system.de/matches/${matchId}`,
-        description: report.matchType,
-        fields,
-        thumbnail: {
-          url: "https://avatars.githubusercontent.com/u/103606217?s=200&v=4",
-        },
-        timestamp: new Date().toISOString(),
+        description: fields.join("\n"),
       },
     ],
   };
