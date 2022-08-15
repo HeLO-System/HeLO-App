@@ -63,17 +63,18 @@ export const TacmapForm: FC<TacmapFormProps> = ({ setImageUrl }) => {
 
   useEffect(() => {
     const strongpoints = fields.caps.filter((cap) => cap).join(",");
+    console.log(fields.axisColor, fields.axisCaps);
     setImageUrl(
       `https://tacmaps.helo-system.de/tacmap?map=${fields.map}${
-        strongpoints && `&strongpoints=${strongpoints}`
-      }${fields.hd || "&width=960&height=960"}${
-        fields.axisCaps &&
-        fields.axisColor &&
-        `&axisCaps=${fields.axisCaps}&axisColor=${fields.axisColor}`
+        strongpoints ? `&strongpoints=${strongpoints}` : ""
+      }${fields.hd ? "&width=960&height=960" : ""}${
+        fields.axisCaps && fields.axisColor
+          ? `&axisCaps=${fields.axisCaps}&axisColor=${fields.axisColor}`
+          : ""
       }${
-        fields.alliesCaps &&
-        fields.alliesColor &&
-        `&alliesCaps=${fields.alliesCaps}&alliesColor=${fields.alliesColor}`
+        fields.alliesCaps && fields.alliesColor
+          ? `&alliesCaps=${fields.alliesCaps}&alliesColor=${fields.alliesColor}`
+          : ""
       }`
     );
   }, [fields, setImageUrl]);
