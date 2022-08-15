@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Maps } from "@constants";
+import { MatchReportClan } from "@types";
 import { z } from "zod";
 
 export const MatchTypes = z.enum(["Friendly", "Competitive"]);
@@ -10,10 +11,24 @@ export const MatchReportClanSchema = z.object({
   players: z.number(),
 });
 
+const clanRefiner: [
+  (value: MatchReportClan[]) => boolean,
+  { message: string }
+] = [
+  (clans) => clans.map(({ tag }) => tag).every((e, i, a) => a.indexOf(e) === i),
+  { message: "All clans on the same side must be unique" },
+];
+
 export const MatchReportSchema = z.object({
   matchType: MatchTypes,
-  axisClans: z.array(MatchReportClanSchema).nonempty(),
-  alliesClans: z.array(MatchReportClanSchema).nonempty(),
+  axisClans: z
+    .array(MatchReportClanSchema)
+    .nonempty()
+    .refine(...clanRefiner),
+  alliesClans: z
+    .array(MatchReportClanSchema)
+    .nonempty()
+    .refine(...clanRefiner),
   map: Maps,
   result: MatchResults,
   date: z.string(),
