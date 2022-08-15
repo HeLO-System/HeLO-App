@@ -46,43 +46,45 @@ export const WinrateChart: FC<WinrateChartProps> = ({ className, clanId }) => {
   );
 
   return (
-    <ChartWrapper
-      className={className}
-      title={`Winrate - ${winrate?.winrate.toFixed(1) || ""}%`}
-    >
-      <PieChart>
-        <Pie
-          data={winrate?.data}
-          dataKey="value"
-          outerRadius="80%"
-          innerRadius="60%"
-          fill="#ffffff"
-        >
-          {winrate?.data.map((entry) => (
-            <Cell
-              fill="#ff0000"
-              key={entry.name}
-              className={
-                entry.name === "Wins" ? "fill-green-800" : "fill-red-800"
-              }
-            />
-          ))}
-        </Pie>
-        <Pie
-          data={winrateByResult}
-          dataKey="value"
-          outerRadius="40%"
-          fill="#ffffff"
-        >
-          {winrateByResult?.map((entry, index) => (
-            <Cell
-              key={entry.name}
-              className={index < 3 ? "fill-green-800" : "fill-red-800"}
-            />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
-    </ChartWrapper>
+    (winrateByResult && winrate && (
+      <ChartWrapper
+        className={className}
+        title={`Winrate - ${winrate?.winrate.toFixed(1) || ""}%`}
+      >
+        <PieChart>
+          <Pie
+            data={winrate?.data}
+            dataKey="value"
+            outerRadius="80%"
+            innerRadius="60%"
+            fill="#ffffff"
+          >
+            {winrate?.data.map((entry) => (
+              <Cell
+                fill="#ff0000"
+                key={entry.name}
+                className={
+                  entry.name === "Wins" ? "fill-green-800" : "fill-red-800"
+                }
+              />
+            ))}
+          </Pie>
+          <Pie
+            data={winrateByResult}
+            dataKey="value"
+            outerRadius="40%"
+            fill="#ffffff"
+          >
+            {winrateByResult?.map((entry, index) => (
+              <Cell
+                key={entry.name}
+                className={index < 3 ? "fill-green-800" : "fill-red-800"}
+              />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ChartWrapper>
+    )) || <div />
   );
 };

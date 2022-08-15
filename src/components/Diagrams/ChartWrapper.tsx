@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import { FC, JSXElementConstructor, ReactElement } from "react";
+import { FC, ReactElement } from "react";
 import { ResponsiveContainer } from "recharts";
 
 interface ChartWrapperProps {
   className?: string;
-  children: ReactElement<unknown, string | JSXElementConstructor<unknown>>;
+  children?: ReactElement;
   title: string;
 }
 
