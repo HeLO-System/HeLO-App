@@ -9,7 +9,7 @@ export type ClanTagStore = Record<string, string>;
 const handler = (_req: NextApiRequest, res: NextApiResponse): Promise<void> =>
   axios
     .get<Clan[]>("https://helo-system.herokuapp.com/clans", {
-      params: { select: "tag" },
+      params: { select: "tag", sort_by: "tag" },
     })
     .then(({ data: clans }) =>
       res.status(200).json(

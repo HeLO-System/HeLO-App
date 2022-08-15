@@ -9,6 +9,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Input,
   NumberInput,
   NumberInputField,
   Radio,
@@ -26,7 +27,7 @@ import {
   MatchResult,
   MatchType,
 } from "@types";
-import { numberTransformer } from "@util";
+import { isoDateString, numberTransformer } from "@util";
 import axios, { AxiosError } from "axios";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { FC, useState } from "react";
@@ -47,6 +48,8 @@ export type ReportMatchForm = {
   axisClans: MatchReportClan[];
   alliesClans: MatchReportClan[];
   streamUrl: string;
+  event?: string;
+  comment?: string;
 };
 
 export const MatchReportForm: FC = () => {
@@ -78,6 +81,7 @@ export const MatchReportForm: FC = () => {
   const { fields: capFields } = useFieldArray({ control, name: "caps" });
 
   const selectedMap = watch("map");
+  const selectedMatchType = watch("matchType");
 
   const [error, setError] = useState<
     AxiosError<{ message: string }> | undefined
@@ -96,6 +100,8 @@ export const MatchReportForm: FC = () => {
     result,
     time,
     streamUrl,
+    event,
+    comment,
   }: ReportMatchForm) => {
     const transformedDate: MatchReport = {
       alliesClans: alliesClans as MatchReport["alliesClans"],
@@ -103,10 +109,12 @@ export const MatchReportForm: FC = () => {
       map,
       matchType,
       result,
-      date: date.toISOString().split("T")[0],
+      date: isoDateString(date),
       time,
       caps: caps.map((cap) => cap.name) as MatchReport["caps"],
       streamUrl,
+      event,
+      comment,
     };
     setStatus("loading");
     await axios
@@ -123,27 +131,78 @@ export const MatchReportForm: FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
-        <Controller
-          name="matchType"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FormControl isInvalid={!!errors.matchType}>
-              <FormLabel htmlFor="matchType">Match type</FormLabel>
-              <RadioGroup onChange={onChange} value={value} id="matchType">
-                <Stack direction="row">
-                  {MatchTypes.options.map((option) => (
-                    <Radio value={option} key={option}>
-                      {option}
-                    </Radio>
-                  ))}
-                </Stack>
-              </RadioGroup>
-              <FormErrorMessage>
-                {errors.matchType && errors.matchType.message}
-              </FormErrorMessage>
-            </FormControl>
+        <Stack direction={{ base: "column", md: "row" }}>
+          <Controller
+            name="matchType"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FormControl isInvalid={!!errors.matchType}>
+                <FormLabel htmlFor="matchType">Match type</FormLabel>
+                <RadioGroup
+                  onChange={(e) => {
+                    resetField("comment");
+                    resetField("event");
+                    onChange(e);
+                  }}
+                  value={value}
+                  id="matchType"
+                >
+                  <Stack direction="row">
+                    {MatchTypes.options.map((option) => (
+                      <Radio value={option} key={option}>
+                        {option}
+                      </Radio>
+                    ))}
+                  </Stack>
+                </RadioGroup>
+                <FormErrorMessage>
+                  {errors.matchType && errors.matchType.message}
+                </FormErrorMessage>
+              </FormControl>
+            )}
+          />
+          {(selectedMatchType === MatchTypes.Values.Competitive && (
+            <Controller
+              name="event"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormControl isInvalid={!!errors.event}>
+                  <FormLabel htmlFor="event">Eventname</FormLabel>
+                  <Input
+                    id="event"
+                    value={value}
+                    onChange={(event) => {
+                      onChange(event);
+                    }}
+                  />
+                  <FormErrorMessage>
+                    {errors.event && errors.event.message}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            />
+          )) || (
+            <Controller
+              name="comment"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormControl isInvalid={!!errors.comment}>
+                  <FormLabel htmlFor="comment">Comment (optional)</FormLabel>
+                  <Input
+                    id="comment"
+                    value={value}
+                    onChange={(comment) => {
+                      onChange(comment);
+                    }}
+                  />
+                  <FormErrorMessage>
+                    {errors.comment && errors.comment.message}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            />
           )}
-        />
+        </Stack>
         <Controller
           name="map"
           control={control}
@@ -231,7 +290,7 @@ export const MatchReportForm: FC = () => {
                 <NumberInputField name="time" ref={ref} />
               </NumberInput>
               <FormErrorMessage>
-                {errors.date && errors.date.message}
+                {errors.time && errors.time.message}
               </FormErrorMessage>
             </FormControl>
           )}
@@ -274,7 +333,28 @@ export const MatchReportForm: FC = () => {
             register={register}
           />
         </Stack>
-        <Box className="w-full flex justify-center">
+        <Controller
+          name="streamUrl"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FormControl isInvalid={!!errors.streamUrl}>
+              <FormLabel htmlFor="streamUrl">
+                Link to stream (optional)
+              </FormLabel>
+              <Input
+                id="streamUrl"
+                value={value}
+                onChange={(event) => {
+                  onChange(event);
+                }}
+              />
+              <FormErrorMessage>
+                {errors.streamUrl && errors.streamUrl.message}
+              </FormErrorMessage>
+            </FormControl>
+          )}
+        />
+        <Box className="w-full flex justify-center !mt-8">
           <Button
             type="submit"
             variant="solid"

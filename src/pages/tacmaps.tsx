@@ -6,9 +6,7 @@ import { TacmapForm } from "@components/TacmapForm";
 import { FC, useState } from "react";
 
 const ReportMatch: FC = () => {
-  const [imageUrl, setImageUrl] = useState(
-    "https://tacmaps.helo-system.de?map=Carentan"
-  );
+  const [imageUrl, setImageUrl] = useState("");
 
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">

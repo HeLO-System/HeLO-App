@@ -1,13 +1,13 @@
 import { Checkbox, Stack } from "@chakra-ui/react";
 import { FC } from "react";
 import { Control, Controller } from "react-hook-form";
-import { TacmapUrlForm } from "./TacmapForm";
+import { Directions, TacmapUrlForm } from "./TacmapForm";
 
 type TacmapStrongpointStackProps = {
   caps: [string, string, string];
   control: Control<TacmapUrlForm>;
   index: number;
-  direction: "row" | "column" | "row-reverse" | "column-reverse";
+  direction: Directions;
 };
 
 export const TacmapStrongpointStack: FC<TacmapStrongpointStackProps> = ({

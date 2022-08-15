@@ -3,15 +3,17 @@ import { GlassPanel } from "@components/GlassPanel";
 import { MatchReportForm } from "@components/MatchReport";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 const ReportMatch: FC = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
   const router = useRouter();
 
-  if (status === "unauthenticated") {
-    router.push("/");
-  }
+  useEffect(() => {
+    if (status === "unauthenticated" || !data?.user.isTeamManager) {
+      router.push("/");
+    }
+  }, [data?.user.isTeamManager, router, status]);
 
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">

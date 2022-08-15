@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import {
   Box,
@@ -43,7 +44,14 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
 
   return (
     <Stack flex={1}>
-      <h1 className="w-full text-center">{side}</h1>
+      <h1 className="w-full text-center text-2xl flex justify-center items-center gap-2">
+        <img
+          src={`/ico_HLL${side}.png`}
+          alt={`${side}-Logo`}
+          className="h-8 w-8"
+        />
+        {side}
+      </h1>
       <Grid templateColumns="1fr 1fr auto" gap={2}>
         <GridItem>Clan</GridItem>
         <GridItem>Players</GridItem>
