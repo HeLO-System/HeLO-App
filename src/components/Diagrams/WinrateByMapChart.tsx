@@ -2,7 +2,7 @@ import { Maps } from "@constants";
 import { fetchWinrate, WinrateParams } from "@queries";
 import { useQueries } from "@tanstack/react-query";
 import { Map } from "@types";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Bar,
   CartesianGrid,
@@ -53,6 +53,8 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
   className,
   clanId,
 }) => {
+  const [loading, setLoading] = useState(true);
+
   const winRateByMap = useQueries({
     queries: Maps.options.map((map) => ({
       queryKey: ["statistics", "winrate", clanId, { map }],
@@ -61,48 +63,54 @@ export const WinrateByMapChart: FC<WinrateByMapChartProps> = ({
     })),
   }).map((result) => result.data);
 
+  useEffect(() => {
+    if (winRateByMap.every((value) => !!value)) setLoading(false);
+  }, [winRateByMap]);
+
   return (
-    <ChartWrapper className={className} title="Winrate by map">
-      <ComposedChart data={winRateByMap}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="name"
-          angle={90}
-          textAnchor="start"
-          interval={0}
-          height={100}
-        />
-        <YAxis yAxisId="winrate" hide domain={[0, 1]} />
-        <YAxis yAxisId="games" hide />
-        <Tooltip
-          content={<WinrateByMapTooltip />}
-          formatter={(value: string, name: string): string =>
-            name === "Winrate" ? `${parseFloat(value) * 100}%` : value
-          }
-        />
-        <Bar dataKey="Wins" stackId="a" fill="#166534" yAxisId="games">
-          <LabelList
-            dataKey="Wins"
-            position="middle"
-            formatter={(value: string): string => value || ""}
-            className="fill-white"
+    (!loading && (
+      <ChartWrapper className={className} title="Winrate by map">
+        <ComposedChart data={winRateByMap}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="name"
+            angle={90}
+            textAnchor="start"
+            interval={0}
+            height={100}
           />
-        </Bar>
-        <Bar dataKey="Losses" stackId="a" fill="#991b1b" yAxisId="games">
-          <LabelList
-            dataKey="Losses"
-            position="middle"
-            formatter={(value: string): string => value || ""}
-            className="fill-white"
+          <YAxis yAxisId="winrate" hide domain={[0, 1]} />
+          <YAxis yAxisId="games" hide />
+          <Tooltip
+            content={<WinrateByMapTooltip />}
+            formatter={(value: string, name: string): string =>
+              name === "Winrate" ? `${parseFloat(value) * 100}%` : value
+            }
           />
-        </Bar>
-        <Line
-          yAxisId="winrate"
-          dataKey="Winrate"
-          stroke="var(--color-accent)"
-          fill="var(--color-accent)"
-        />
-      </ComposedChart>
-    </ChartWrapper>
+          <Bar dataKey="Wins" stackId="a" fill="#166534" yAxisId="games">
+            <LabelList
+              dataKey="Wins"
+              position="middle"
+              formatter={(value: string): string => value || ""}
+              className="fill-white"
+            />
+          </Bar>
+          <Bar dataKey="Losses" stackId="a" fill="#991b1b" yAxisId="games">
+            <LabelList
+              dataKey="Losses"
+              position="middle"
+              formatter={(value: string): string => value || ""}
+              className="fill-white"
+            />
+          </Bar>
+          <Line
+            yAxisId="winrate"
+            dataKey="Winrate"
+            stroke="var(--color-accent)"
+            fill="var(--color-accent)"
+          />
+        </ComposedChart>
+      </ChartWrapper>
+    )) || <div />
   );
 };

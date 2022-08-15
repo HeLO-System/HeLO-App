@@ -9,8 +9,4 @@ export const fetchMiscRecords = async (): Promise<MiscRecords> =>
 export const useMiscRecords = <T = MiscRecords>(
   options?: CustomUseQueryOptions<MiscRecords, T>
 ): UseQueryResult<T> =>
-  useQuery<MiscRecords, unknown, T>(
-    ["miscRecords"],
-    () => fetchMiscRecords(),
-    options
-  );
+  useQuery<MiscRecords, unknown, T>(["miscRecords"], fetchMiscRecords, options);
