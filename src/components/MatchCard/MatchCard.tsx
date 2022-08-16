@@ -36,11 +36,11 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
           <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono grid grid-cols-[1fr_min-content_1fr]">
             {match && (
               <>
-                <span className="whitespace-pre-line text-start">
+                <span className="whitespace-pre-line text-start flex items-center">
                   {match.clans1_ids.map((id) => getTag(id)).join("\n")}
                 </span>
                 <span className="flex items-center px-4">vs</span>
-                <span className="whitespace-pre-line text-start">
+                <span className="whitespace-pre-line text-start flex items-center">
                   {match.clans2_ids.map((id) => getTag(id)).join("\n")}
                 </span>
               </>
