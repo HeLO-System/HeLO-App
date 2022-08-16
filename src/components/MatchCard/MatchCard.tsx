@@ -37,11 +37,11 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
             {match && (
               <>
                 <span className="whitespace-pre-line">
-                  {match.clans1_ids.map((id)=>getTag(id)).join("\n")}
+                  {match.clans1_ids.map((id) => getTag(id)).join("\n")}
                 </span>
                 <span className="flex justify-center w-full">vs</span>
                 <span className="whitespace-pre-line">
-                  {match.clans2_ids.map((id)=>getTag(id)).join("\n")}
+                  {match.clans2_ids.map((id) => getTag(id)).join("\n")}
                 </span>
               </>
             )}
