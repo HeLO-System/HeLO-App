@@ -8,6 +8,7 @@ import { DateTime } from "luxon";
 import Link from "next/link";
 import { FC } from "react";
 import { WinLoseBanner } from "./WinLooseBanner";
+import { range } from "utils";
 
 interface MatchCardProps {
   match?: Match;
@@ -33,9 +34,18 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
                 : match?.caps1
             }
           />
-          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
-            {match &&
-              `${getTag(match.clans1_ids[0])} : ${getTag(match.clans2_ids[0])}`}
+          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono grid grid-cols-[1fr_min-content_1fr]">
+            {match && (
+              <>
+                <span className="whitespace-pre-line">
+                  {match.clans1_ids.map(getTag).join("\n")}
+                </span>
+                <span className="flex justify-center w-full">vs</span>
+                <span className="whitespace-pre-line">
+                  {match.clans2_ids.map(getTag).join("\n")}
+                </span>
+              </>
+            )}
           </AutoTextSkeleton>
           <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
             {match && (
