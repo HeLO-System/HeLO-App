@@ -8,7 +8,6 @@ import { DateTime } from "luxon";
 import Link from "next/link";
 import { FC } from "react";
 import { WinLoseBanner } from "./WinLooseBanner";
-import { range } from "utils";
 
 interface MatchCardProps {
   match?: Match;
