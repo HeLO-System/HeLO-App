@@ -20,7 +20,7 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
   return (
     <RecordCard>
       <Link href={match ? `/matches/${match.match_id}` : ""}>
-        <a className="py-2 flex flex-col items-center">
+        <a className="py-2 flex flex-col items-center h-full">
           <WinLoseBanner
             caps1={
               clanId && match && match.clans1_ids.includes(clanId)
@@ -46,7 +46,7 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
               </>
             )}
           </AutoTextSkeleton>
-          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
+          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono flex-1 flex items-end">
             {match && (
               <div className="flex items-center">
                 <img
