@@ -20,7 +20,7 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
   return (
     <RecordCard>
       <Link href={match ? `/matches/${match.match_id}` : ""}>
-        <a className="py-2 flex flex-col items-center">
+        <a className="py-2 flex flex-col items-center h-full">
           <WinLoseBanner
             caps1={
               clanId && match && match.clans1_ids.includes(clanId)
@@ -33,9 +33,18 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
                 : match?.caps1
             }
           />
-          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
-            {match &&
-              `${getTag(match.clans1_ids[0])} : ${getTag(match.clans2_ids[0])}`}
+          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono grid grid-cols-[1fr_min-content_1fr] flex-1">
+            {match && (
+              <>
+                <span className="whitespace-pre-line text-start flex items-center">
+                  {match.clans1_ids.map((id) => getTag(id)).join("\n")}
+                </span>
+                <span className="flex items-center px-4">vs</span>
+                <span className="whitespace-pre-line text-start flex items-center">
+                  {match.clans2_ids.map((id) => getTag(id)).join("\n")}
+                </span>
+              </>
+            )}
           </AutoTextSkeleton>
           <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
             {match && (
