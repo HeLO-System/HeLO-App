@@ -33,7 +33,7 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
                 : match?.caps1
             }
           />
-          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono grid grid-cols-[1fr_min-content_1fr]">
+          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono grid grid-cols-[1fr_min-content_1fr] flex-1">
             {match && (
               <>
                 <span className="whitespace-pre-line text-start flex items-center">
@@ -46,7 +46,7 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
               </>
             )}
           </AutoTextSkeleton>
-          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono flex-1 flex items-end">
+          <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
             {match && (
               <div className="flex items-center">
                 <img
