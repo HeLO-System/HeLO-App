@@ -73,6 +73,7 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
             </Select>
             <Controller
               name={`${name}.${index}.players` as const}
+              key={`${name}.${field.id}.players`}
               control={control}
               render={({ field: { ref, value, onChange, ...renderField } }) => (
                 <NumberInput

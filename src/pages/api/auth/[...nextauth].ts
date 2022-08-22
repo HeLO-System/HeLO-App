@@ -20,7 +20,7 @@ const getGuildData = async (accessToken?: string) =>
       }
     )
     .then(({ data }) => data)
-    .catch(() => undefined);
+    .catch(console.error);
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
                 .then(({ data }) => {
                   additionalData.clan = data.tag;
                 })
-                .catch(null);
+                .catch(console.error);
           }
           Object.assign(token, additionalData);
         }
