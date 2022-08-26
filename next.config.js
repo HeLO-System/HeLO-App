@@ -10,14 +10,6 @@ const nextConfig = {
 
     return config;
   },
-  async rewrites() {
-    return [
-      {
-        source: "/helo-api/:path*",
-        destination: "https://helo-system.herokuapp.com/:path*",
-      },
-    ];
-  },
   images: {
     domains: ["cdn.discordapp.com", "media.discordapp.net"],
   },

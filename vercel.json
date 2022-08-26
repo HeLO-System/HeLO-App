@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/helo-api/:path*",
-      "destination": "https://helo-system.herokuapp.com/:path*"
-    }
-  ]
-}
