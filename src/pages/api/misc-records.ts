@@ -40,7 +40,7 @@ type MatchRecords = {
 
 const getMatchRecords = (): Promise<MatchRecords> =>
   axios
-    .get<Match[]>("https://helo-system.herokuapp.com/matches", {
+    .get<Match[]>(`${process.env.BACKEND_URL}matches`, {
       params: { select: "map,duration,match_id" },
     })
     .then(({ data }) => {
@@ -66,19 +66,19 @@ const getMatchRecords = (): Promise<MatchRecords> =>
     });
 const getTotalClans = (): Promise<number> =>
   axios
-    .get<Clan[]>("https://helo-system.herokuapp.com/clans", {
+    .get<Clan[]>(`${process.env.BACKEND_URL}clans`, {
       params: { select: "id" },
     })
     .then(({ data }) => data.length);
 const getMinScore = (): Promise<Clan> =>
   axios
-    .get<Clan[]>("https://helo-system.herokuapp.com/clans", {
+    .get<Clan[]>(`${process.env.BACKEND_URL}clans`, {
       params: { select: "score", limit: 1, sort_by: "score" },
     })
     .then(({ data }) => data[0]);
 const getMaxScore = (): Promise<Clan> =>
   axios
-    .get<Clan[]>("https://helo-system.herokuapp.com/clans", {
+    .get<Clan[]>(`${process.env.BACKEND_URL}clans`, {
       params: { select: "score", limit: 1, sort_by: "score", desc: true },
     })
     .then(({ data }) => data[0]);

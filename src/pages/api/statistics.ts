@@ -22,7 +22,7 @@ export type Statistics = {
 
 const getMatchRecords = (): Promise<Statistics> =>
   axios
-    .get<Match[]>("https://helo-system.herokuapp.com/matches", {
+    .get<Match[]>(`${process.env.BACKEND_URL}matches`, {
       params: { select: "map,duration,match_id,side1,side2,caps1,caps2" },
     })
     .then(({ data }) => {
