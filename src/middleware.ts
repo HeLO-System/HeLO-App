@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-import { AppConfig } from "@types";
 import { NextRequest, NextResponse } from "next/server";
 
 const HELO_API_PATH_LENGTH = "/helo-api/".length;
