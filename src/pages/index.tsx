@@ -77,7 +77,7 @@ const Home: NextPage = () => {
           className="text-xl p-4 md:col-span-3 md:col-start-5"
           icon={<Discord className="text-xl" />}
           target="_blank"
-          href="https://discord.gg/dmtcbrV7t5"
+          href={process.env.DISCORD_INVITE}
         />
       </section>
 
