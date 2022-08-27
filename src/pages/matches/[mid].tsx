@@ -23,8 +23,8 @@ const MatchPage: NextPage<ServerSideProps> = ({ matchId }) => {
   const { data: matches, error } = useMatches({ match_id: matchId });
 
   useEffect(() => {
-    if (matches && matches[0]) {
-      const data = matches[0];
+    if (matches && matches.matches[0]) {
+      const data = matches.matches[0];
 
       if (data.side1 === "Allies")
         setMatch({

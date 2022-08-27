@@ -75,7 +75,7 @@ export const MatchesTable: FC<MatchesTableProps> = ({ clanId }) => {
     {
       enabled: !!clanId,
       select: (data) =>
-        data.map((match) => matchFormatter(match, clanId as string)),
+        data.matches.map((match) => matchFormatter(match, clanId as string)),
     }
   );
   const { getTag } = useClanTags();
