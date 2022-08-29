@@ -39,7 +39,7 @@
     "date-fns": "2.29.2",
     "dayzed": "3.2.3",
     "framer-motion": "7.2.1",
-    "luxon": "3.0.1",
+    "luxon": "3.0.2",
     "next": "12.2.5",
     "next-auth": "4.10.3",
     "next-seo": "5.5.0",
