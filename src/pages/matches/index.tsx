@@ -105,7 +105,7 @@ const MatchesList: FC = () => {
       <GlassPanel title="Matches" className="p-4 mx-10 pb-8 mb-20">
         <DataTable
           columns={columns}
-          data={matches || []}
+          data={matches?.matches || []}
           defaultSortFieldId="score"
           defaultSortAsc={false}
           theme="dark"
