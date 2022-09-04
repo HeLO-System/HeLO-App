@@ -1,17 +1,31 @@
 import classNames from "classnames";
 import { FC } from "react";
 
-export const WinLoseBanner: FC<{ caps1?: number; caps2?: number }> = ({
-  caps1,
-  caps2,
+const MAX_CAPS = 5;
+
+type WinLoseBannerProps = {
+  friendlyCaps?: number;
+  enemyCaps?: number;
+  offensive?: boolean;
+  attacker?: boolean;
+};
+
+export const WinLoseBanner: FC<WinLoseBannerProps> = ({
+  friendlyCaps,
+  enemyCaps,
+  offensive,
+  attacker,
 }) => {
   let text = "DEFEAT";
   let background = "bg-red-800";
 
-  if (caps1 === undefined || caps2 === undefined) {
+  if (friendlyCaps === undefined || enemyCaps === undefined) {
     text = "\u200B";
     background = "bg-gray-700";
-  } else if (caps1 > caps2) {
+  } else if (
+    (offensive && (attacker ? friendlyCaps : enemyCaps) === MAX_CAPS) ||
+    (!offensive && friendlyCaps > enemyCaps)
+  ) {
     text = "VICTORY";
     background = "bg-green-800";
   }
