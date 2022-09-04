@@ -2,11 +2,24 @@
 /* eslint-disable @next/next/no-img-element */
 import { Grid, Stack, useBreakpointValue } from "@chakra-ui/react";
 import { GlassPanel } from "@components/GlassPanel";
-import { SortedMatch } from "@types";
+import { Factions, SortedMatch } from "@types";
 import { FC } from "react";
 import { ClanStack } from "./ClanStack";
 
-const isWinner = (caps: number) => (caps >= 3 ? "Victory" : "Defeat");
+const MAX_CAPS = 5;
+
+const isOffensiveWinner = (caps: number, attacker?: boolean): boolean =>
+  attacker ? caps === MAX_CAPS : caps > 0;
+const isWarfareWinner = (caps: number): boolean => caps > 3;
+const isWinner = (
+  caps: number,
+  offensive?: boolean,
+  attacker?: boolean
+): string =>
+  (offensive && isOffensiveWinner(caps, attacker)) ||
+  (!offensive && isWarfareWinner(caps))
+    ? "Victory"
+    : "Defeat";
 
 type MatchDetailsProps = { match: SortedMatch };
 
@@ -33,10 +46,20 @@ export const MatchDetails: FC<MatchDetailsProps> = ({ match }) => {
             alt="Axis Logo"
             className="h-8 w-8 inline mr-2"
           />
-          <span className="hidden md:inline">{isWinner(match.axis_caps)}</span>
+          <span className="hidden md:inline">
+            {isWinner(
+              match.axis_caps,
+              match.offensive,
+              match.side1 === Factions.Axis
+            )}
+          </span>
           <span className="whitespace-nowrap text-4xl text-center">{`${match.axis_caps} : ${match.allies_caps}`}</span>
           <span className="hidden md:inline text-right">
-            {isWinner(match.allies_caps)}
+            {isWinner(
+              match.allies_caps,
+              match.offensive,
+              match.side1 === Factions.Allies
+            )}
           </span>
           <img
             src="/ico_HLLAllies.png"
@@ -86,6 +109,9 @@ export const MatchDetails: FC<MatchDetailsProps> = ({ match }) => {
           />
         </Stack>
         <div className="w-full text-center text-xl">{match.duration} min</div>
+        {match.offensive && (
+          <div className="w-full text-center text-xl">Offensive</div>
+        )}
         {match.stream && (
           <a
             href={match.stream}

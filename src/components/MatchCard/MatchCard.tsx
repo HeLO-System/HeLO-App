@@ -6,80 +6,112 @@ import { Factions, Match } from "@types";
 import classNames from "classnames";
 import { DateTime } from "luxon";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { WinLoseBanner } from "./WinLooseBanner";
 
-interface MatchCardProps {
+type SortedMatch = Match & {
+  friendlyIds: string[];
+  enemyIds: string[];
+  friendlySide: Factions;
+  enemySide: Factions;
+  friendlyCaps: number;
+  enemyCaps: number;
+};
+
+type MatchCardProps = {
   match?: Match;
   clanId?: string;
-}
+};
 
 export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
+  const [sortedMatch, setSortedMatch] = useState<SortedMatch>();
   const { getTag } = useClanTags();
+
+  useEffect(() => {
+    if (match && clanId) {
+      if (match.clans1_ids.includes(clanId)) {
+        setSortedMatch({
+          ...match,
+          friendlyIds: match.clans1_ids,
+          enemyIds: match.clans2_ids,
+          friendlySide: match.side1,
+          enemySide: match.side2,
+          friendlyCaps: match.caps1,
+          enemyCaps: match.caps2,
+        });
+      } else {
+        setSortedMatch({
+          ...match,
+          friendlyIds: match.clans2_ids,
+          enemyIds: match.clans1_ids,
+          friendlySide: match.side2,
+          enemySide: match.side1,
+          friendlyCaps: match.caps2,
+          enemyCaps: match.caps1,
+        });
+      }
+    }
+  }, [clanId, match]);
 
   return (
     <RecordCard>
       <Link href={match ? `/matches/${match.match_id}` : ""}>
         <a className="py-2 flex flex-col items-center h-full">
           <WinLoseBanner
-            caps1={
-              clanId && match && match.clans1_ids.includes(clanId)
-                ? match.caps1
-                : match?.caps2
-            }
-            caps2={
-              clanId && match && match.clans1_ids.includes(clanId)
-                ? match.caps2
-                : match?.caps1
-            }
+            friendlyCaps={sortedMatch?.friendlyCaps}
+            enemyCaps={sortedMatch?.enemyCaps}
+            offensive={sortedMatch?.offensive}
+            attacker={match?.clans1_ids.includes(clanId || "")}
           />
           <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono grid grid-cols-[1fr_min-content_1fr] flex-1">
-            {match && (
+            {sortedMatch && (
               <>
                 <span className="whitespace-pre-line text-start flex items-center">
-                  {match.clans1_ids.map((id) => getTag(id)).join("\n")}
+                  {sortedMatch.friendlyIds.map((id) => getTag(id)).join("\n")}
                 </span>
                 <span className="flex items-center px-4">vs</span>
                 <span className="whitespace-pre-line text-start flex items-center">
-                  {match.clans2_ids.map((id) => getTag(id)).join("\n")}
+                  {sortedMatch.enemyIds.map((id) => getTag(id)).join("\n")}
                 </span>
               </>
             )}
           </AutoTextSkeleton>
           <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono">
-            {match && (
+            {sortedMatch && (
               <div className="flex items-center">
                 <img
                   src={
-                    match.side1 === Factions.Allies
+                    sortedMatch.friendlySide === Factions.Allies
                       ? "/ico_HLLAllies.png"
                       : "/ico_HLLAxis.png"
                   }
-                  alt={match.side1}
+                  alt={sortedMatch.friendlySide}
                   className="h-5 w-5 inline mr-2"
                 />
                 <span
                   className={classNames({
-                    "font-bold": match.caps1 > match.caps2,
+                    "font-bold":
+                      sortedMatch.friendlyCaps > sortedMatch.enemyCaps,
                   })}
                 >
-                  {match.caps1}
+                  {sortedMatch.friendlyCaps}
                 </span>
                 <span>:</span>
                 <span
                   className={classNames({
-                    "font-bold": match.caps1 < match.caps2,
+                    "font-bold":
+                      sortedMatch.friendlyCaps < sortedMatch.enemyCaps,
                   })}
                 >
-                  {match.caps2}
+                  {sortedMatch.enemyCaps}
                 </span>
                 <img
                   src={
-                    match.side2 === Factions.Allies
+                    sortedMatch.enemySide === Factions.Allies
                       ? "/ico_HLLAllies.png"
                       : "/ico_HLLAxis.png"
                   }
-                  alt={match.side1}
+                  alt={sortedMatch.enemySide}
                   className="h-5 w-5 inline ml-2"
                 />
               </div>
@@ -87,7 +119,9 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
           </AutoTextSkeleton>
           <AutoTextSkeleton className="min-w-[3rem] text-center">
             {match?.map}
+            {match?.offensive && ` (Offensive ${match.side1})`}
           </AutoTextSkeleton>
+
           <AutoTextSkeleton className="min-w-[3rem] text-center ">
             {match && DateTime.fromMillis(match.date.$date).toISODate()}
           </AutoTextSkeleton>

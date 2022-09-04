@@ -28,6 +28,7 @@ export type Match = {
   event: string;
   strongpoints: [string, string, string, string, string];
   stream: string;
+  offensive?: boolean;
 };
 
 export type SortedMatch = Match & {
