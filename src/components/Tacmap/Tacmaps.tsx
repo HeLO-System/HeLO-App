@@ -158,7 +158,7 @@ export const Tacmaps: FC<TacmapsProps> = () => {
               checked={enemyElement}
               onChange={(e) => setEnemyElement(e.target.checked)}
             >
-              Enemy caps
+              Enemy Markers
             </Checkbox>
           </TabPanel>
           <TabPanel>
@@ -231,7 +231,7 @@ export const Tacmaps: FC<TacmapsProps> = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      <Box className="h-screen flex justify-center">
+      <Box className="h-screen flex items-center flex-col gap-4">
         <TacmapFabric
           map={map}
           strongpoints={strongpoints}

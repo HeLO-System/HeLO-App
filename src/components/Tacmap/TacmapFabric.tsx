@@ -4,9 +4,10 @@ import { Button } from "@chakra-ui/react";
 import { MapDirections, StrongpointImages, Strongpoints } from "@constants";
 import { Map } from "@types";
 import { fabric } from "fabric";
-import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
+import { useFabricJSEditor } from "fabricjs-react";
 import { useKeyListener } from "hooks/KeyListener";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FabricJSCanvas } from "./FabricJSCanvas";
 
 const zIndices = {
   image: 0,
@@ -108,6 +109,7 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
   );
 
   const aRef = useRef<HTMLAnchorElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   const { editor, onReady } = useFabricJSEditor();
 
@@ -172,8 +174,16 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
         );
 
         const group = new fabric.Group([polygon, image], {
-          top: position.y - height / 2,
-          left: position.x - height / 2,
+          top:
+            position.y *
+              (ORIGINAL_MAP_SIZE /
+                (canvasRef.current?.clientHeight || ORIGINAL_MAP_SIZE)) -
+            height / 2,
+          left:
+            position.x *
+              (ORIGINAL_MAP_SIZE /
+                (canvasRef.current?.clientHeight || ORIGINAL_MAP_SIZE)) -
+            height / 2,
           zIndex: zIndices.markers,
           name: `m-${marker}`,
           hasControls: false,
@@ -193,7 +203,7 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
         const strongpoint = getStrongpoint(
           pointer,
           map,
-          editor.canvas.height as number
+          canvasRef.current?.clientHeight as number
         );
         if (!strongpoint) return;
         switchStrongpoint(strongpoint);
@@ -342,8 +352,11 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
   return (
     <>
       <FabricJSCanvas
-        className="aspect-square h-full max-w-full"
+        className="aspect-square h-[100vh] w-max-w-full overflow-hidden"
         onReady={onReady}
+        height={ORIGINAL_MAP_SIZE}
+        width={ORIGINAL_MAP_SIZE}
+        ref={canvasRef}
       />
       <Button
         onClick={() => {
