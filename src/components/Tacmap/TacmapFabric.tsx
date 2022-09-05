@@ -54,7 +54,7 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({ map }) => {
       setStrongpoints({ ...newStrongpoints });
     } else {
       fabric.Image.fromURL(
-        `./hll_maps/strongpoints/${map}/${strongpoint}.png`,
+        `./hll_maps/strongpoints/${map.toLowerCase()}/${strongpoint}.png`,
         (image) => {
           const scale = (editor?.canvas.height as number) / ORIGINAL_MAP_SIZE;
           image.scaleToHeight(
