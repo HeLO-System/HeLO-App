@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Checkbox,
   FormControl,
   FormLabel,
   HStack,
@@ -15,7 +16,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  VStack,
 } from "@chakra-ui/react";
 import { Maps, Strongpoints } from "@constants";
 import { Map24Filled } from "@fluentui/react-icons";
@@ -56,6 +56,7 @@ export const Tacmaps: FC<TacmapsProps> = () => {
   const [alliesColor, setAlliesColor] = useState<string>("red");
   const [axisCaps, setAxisCaps] = useState<number>(2);
   const [alliesCaps, setAlliesCaps] = useState<number>(2);
+  const [enemyElement, setEnemyElement] = useState<boolean>(false);
 
   const switchStrongPoints = (strongpoint: string) => {
     if (strongpoints.includes(strongpoint)) {
@@ -104,39 +105,37 @@ export const Tacmaps: FC<TacmapsProps> = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <VStack>
-              <HStack className="w-full">
-                <FormControl>
-                  <FormLabel htmlFor="map">Map</FormLabel>
-                  <Select
-                    id="map"
-                    value={map}
-                    onChange={(event) => {
-                      setMap(event.target.value as Map);
-                      setStrongpoints([]);
-                    }}
-                  >
-                    {Maps.options.map((mapOption) => (
-                      <option value={mapOption} key={mapOption}>
-                        {mapOption}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </HStack>
-              <ButtonGroup className="w-full" variant="outline">
-                <Button
-                  onClick={() => {
+            <HStack className="w-full">
+              <FormControl>
+                <FormLabel htmlFor="map">Map</FormLabel>
+                <Select
+                  id="map"
+                  value={map}
+                  onChange={(event) => {
+                    setMap(event.target.value as Map);
                     setStrongpoints([]);
                   }}
                 >
-                  Reset Caps
-                </Button>
-                <Button onClick={randomCaps}>Random Caps</Button>
-              </ButtonGroup>
-            </VStack>
+                  {Maps.options.map((mapOption) => (
+                    <option value={mapOption} key={mapOption}>
+                      {mapOption}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            </HStack>
+            <ButtonGroup className="w-full mt-4" variant="outline">
+              <Button
+                onClick={() => {
+                  setStrongpoints([]);
+                }}
+              >
+                Reset Caps
+              </Button>
+              <Button onClick={randomCaps}>Random Caps</Button>
+            </ButtonGroup>
           </TabPanel>
-          <TabPanel>
+          <TabPanel className="flex items-center">
             <ButtonGroup>
               {markers.map((marker) => (
                 <IconButton
@@ -153,6 +152,14 @@ export const Tacmaps: FC<TacmapsProps> = () => {
                 </IconButton>
               ))}
             </ButtonGroup>
+            <Checkbox
+              className="ml-auto"
+              size="lg"
+              checked={enemyElement}
+              onChange={(e) => setEnemyElement(e.target.checked)}
+            >
+              Enemy caps
+            </Checkbox>
           </TabPanel>
           <TabPanel>
             <HStack>
@@ -235,6 +242,7 @@ export const Tacmaps: FC<TacmapsProps> = () => {
           alliesColor={alliesColor}
           axisCaps={axisCaps}
           alliesCaps={alliesCaps}
+          enemyElement={enemyElement}
         />
       </Box>
     </Stack>

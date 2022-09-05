@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { MapDirections, StrongpointImages, Strongpoints } from "@constants";
 import { Map } from "@types";
 import { fabric } from "fabric";
@@ -64,6 +65,7 @@ type TacmapFabricProps = {
   alliesColor: string;
   axisCaps: number;
   alliesCaps: number;
+  enemyElement: boolean;
 };
 
 export const TacmapFabric: FC<TacmapFabricProps> = ({
@@ -76,6 +78,7 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
   alliesColor,
   axisCaps,
   alliesCaps,
+  enemyElement,
 }) => {
   const [img, setImg] = useState<fabric.Image>();
   const [overlay] = useState<fabric.Rect>(
@@ -160,7 +163,7 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
             { x: 0, y: height },
           ],
           {
-            fill: "#b4a66b",
+            fill: enemyElement ? "rgb(255,0,48)" : "rgb(0,130,255)",
           }
         );
 
@@ -176,7 +179,7 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
         sortObjects();
       });
     },
-    [editor?.canvas, sortObjects]
+    [editor?.canvas, enemyElement, sortObjects]
   );
 
   const onClick = useCallback(
