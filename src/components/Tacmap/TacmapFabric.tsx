@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { Button } from "@chakra-ui/react";
 import { MapDirections, StrongpointImages, Strongpoints } from "@constants";
 import { Map } from "@types";
 import { fabric } from "fabric";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { useKeyListener } from "hooks/KeyListener";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 
 const zIndices = {
   image: 0,
@@ -104,6 +106,8 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
       zIndex: zIndices.factionOverlay,
     } as fabric.IRectOptions)
   );
+
+  const aRef = useRef<HTMLAnchorElement>(null);
 
   const { editor, onReady } = useFabricJSEditor();
 
@@ -211,9 +215,10 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
           setImg(image);
           overlay.set("width", image.width);
           overlay.set("height", image.height);
-          editor.canvas.add(overlay);
+
           editor.canvas.add(axisOverlay);
           editor.canvas.add(alliesOverlay);
+          editor.canvas.add(overlay);
         },
         { selectable: false, zIndex: zIndices.image } as fabric.IImageOptions
       );
@@ -335,9 +340,26 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({
   ]);
 
   return (
-    <FabricJSCanvas
-      className="aspect-square h-full max-w-full"
-      onReady={onReady}
-    />
+    <>
+      <FabricJSCanvas
+        className="aspect-square h-full max-w-full"
+        onReady={onReady}
+      />
+      <Button
+        onClick={() => {
+          if (editor?.canvas && aRef.current) {
+            aRef.current.href = editor.canvas.toDataURL({
+              format: "jpeg",
+              quality: 1,
+            });
+            aRef.current.download = `${map}_tacmap.jpeg`;
+            aRef.current.click();
+          }
+        }}
+      >
+        Download
+      </Button>
+      <a ref={aRef} />
+    </>
   );
 };
