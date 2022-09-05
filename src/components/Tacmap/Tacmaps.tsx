@@ -28,6 +28,15 @@ export type TacmapsProps = object;
 
 export const Tacmaps: FC<TacmapsProps> = () => {
   const [map, setMap] = useState<Map>(defaultMap);
+  const [strongpoints, setStrongpoints] = useState<string[]>([]);
+
+  const switchStrongPoints = (strongpoint: string) => {
+    if (strongpoints.includes(strongpoint)) {
+      setStrongpoints(strongpoints.filter((sp) => sp !== strongpoint));
+    } else {
+      setStrongpoints([...strongpoints, strongpoint]);
+    }
+  };
 
   return (
     <Stack>
@@ -46,7 +55,7 @@ export const Tacmaps: FC<TacmapsProps> = () => {
             <Toolbox24Filled />
           </Tab>
         </TabList>
-        <TabPanels className="h-28">
+        <TabPanels>
           <TabPanel>
             <FormControl>
               <FormLabel htmlFor="map">Map</FormLabel>
@@ -55,6 +64,7 @@ export const Tacmaps: FC<TacmapsProps> = () => {
                 value={map}
                 onChange={(event) => {
                   setMap(event.target.value as Map);
+                  setStrongpoints([]);
                 }}
               >
                 {Maps.options.map((mapOption) => (
@@ -71,7 +81,11 @@ export const Tacmaps: FC<TacmapsProps> = () => {
         </TabPanels>
       </Tabs>
       <Box className="h-screen flex justify-center">
-        <TacmapFabric map={map} />
+        <TacmapFabric
+          map={map}
+          strongpoints={strongpoints}
+          switchStrongpoint={switchStrongPoints}
+        />
       </Box>
     </Stack>
   );

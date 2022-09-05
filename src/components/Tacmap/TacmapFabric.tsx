@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { MapDirections, StrongpointImages, Strongpoints } from "@constants";
 import { Map } from "@types";
 import { fabric } from "fabric";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 
 const zIndices = { image: 0, strongpoints: 1 };
 const MAX_CAPS = 5;
@@ -36,23 +35,21 @@ const getStrongpoint = (
 
 type TacmapFabricProps = {
   map: Map;
+  strongpoints: string[];
+  switchStrongpoint: (strongpoint: string) => void;
 };
 
-export const TacmapFabric: FC<TacmapFabricProps> = ({ map }) => {
+export const TacmapFabric: FC<TacmapFabricProps> = ({
+  map,
+  strongpoints,
+  switchStrongpoint,
+}) => {
   const [img, setImg] = useState<fabric.Image>();
-  const [strongpoints, setStrongpoints] = useState<
-    Record<string, fabric.Image>
-  >({});
 
   const { editor, onReady } = useFabricJSEditor();
 
-  const switchStrongPoints = (strongpoint: string) => {
-    if (strongpoints[strongpoint]) {
-      editor?.canvas.remove(strongpoints[strongpoint]);
-      const newStrongpoints = { ...strongpoints };
-      delete newStrongpoints[strongpoint];
-      setStrongpoints({ ...newStrongpoints });
-    } else {
+  const addStrongpoint = useCallback(
+    (strongpoint: string) => {
       fabric.Image.fromURL(
         `./hll_maps/strongpoints/${map.toLowerCase()}/${strongpoint}.png`,
         (image) => {
@@ -68,29 +65,34 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({ map }) => {
           image.set("left", StrongpointImages[map][strongpoint].left * scale);
 
           editor?.canvas.add(image);
-          setStrongpoints({
-            ...strongpoints,
-            [strongpoint]: image,
+          image.on("mousedown", () => {
+            editor?.canvas.remove(image);
+            switchStrongpoint(strongpoint);
           });
         },
         {
           selectable: false,
           zIndex: zIndices.strongpoints,
+          name: `sp-${strongpoint}`,
         } as fabric.IImageOptions
       );
-    }
-  };
+    },
+    [editor?.canvas, map, switchStrongpoint]
+  );
 
-  const onClick = ({ pointer }: fabric.IEvent<Event>) => {
-    if (!pointer || !editor?.canvas) return;
-    const strongpoint = getStrongpoint(
-      pointer,
-      map,
-      editor.canvas.height as number
-    );
-    if (!strongpoint) return;
-    switchStrongPoints(strongpoint);
-  };
+  const onClick = useCallback(
+    ({ pointer }: fabric.IEvent<Event>) => {
+      if (!pointer || !editor?.canvas) return;
+      const strongpoint = getStrongpoint(
+        pointer,
+        map,
+        editor.canvas.height as number
+      );
+      if (!strongpoint) return;
+      switchStrongpoint(strongpoint);
+    },
+    [editor?.canvas, map, switchStrongpoint]
+  );
 
   useEffect(() => {
     if (editor && !img) {
@@ -99,12 +101,13 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({ map }) => {
         (image) => {
           image.scaleToHeight(editor.canvas.height as number);
           editor.canvas.add(image);
+
           setImg(image);
         },
         { selectable: false, zIndex: zIndices.image } as fabric.IImageOptions
       );
     }
-  }, [editor, img, strongpoints, onClick]);
+  }, [editor, img, map]);
 
   useEffect(() => {
     if (img) {
@@ -116,21 +119,48 @@ export const TacmapFabric: FC<TacmapFabricProps> = ({ map }) => {
   }, [img, onClick, strongpoints]);
 
   useEffect(() => {
-    Object.entries(strongpoints).forEach(([strongpoint, image]) => {
-      image.on("mousedown", () => switchStrongPoints(strongpoint));
-    });
+    editor?.canvas
+      .getObjects()
+      .filter(
+        (strongpoint) =>
+          strongpoint.name?.startsWith("sp-") &&
+          !strongpoints.includes(strongpoint.name.slice(3))
+      )
+      .forEach((strongpoint) => {
+        editor.canvas.remove(strongpoint);
+      });
+    strongpoints
+      .filter(
+        (strongpoint) =>
+          !editor?.canvas
+            .getObjects()
+            .map((o) => o.name as string)
+            .includes(`sp-${strongpoint}`)
+      )
+      .forEach((strongpoint) => addStrongpoint(strongpoint));
+    editor?.canvas
+      .getObjects()
+      .filter((strongpoint) => strongpoint.name?.startsWith("sp-"))
+      .forEach((strongpoint) => {
+        strongpoint.off("mousedown");
+        strongpoint.on("mousedown", () => {
+          editor.canvas.remove(strongpoint);
+          switchStrongpoint((strongpoint.name as string).slice(3));
+        });
+      });
     return () => {
-      Object.values(strongpoints).forEach((image) => image.off("mousedown"));
+      editor?.canvas
+        .getObjects()
+        .filter((o) => o.name?.startsWith("sp-"))
+        .forEach((strongpoint) => strongpoint.off("mousedown"));
     };
-  }, [strongpoints, switchStrongPoints]);
+  }, [addStrongpoint, editor?.canvas, strongpoints, switchStrongpoint]);
 
   useEffect(() => {
     img?.setSrc(`./hll_maps/${map}.png`, () => {
-      editor?.canvas.remove(...Object.values(strongpoints));
-      setStrongpoints({});
       editor?.canvas.renderAll();
     });
-  }, [map]);
+  }, [editor?.canvas, img, map]);
 
   return (
     <FabricJSCanvas
