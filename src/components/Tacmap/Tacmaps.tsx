@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @next/next/no-img-element */
 import {
   Box,
+  Button,
   ButtonGroup,
   FormControl,
   FormLabel,
+  HStack,
   IconButton,
   Select,
   Stack,
@@ -12,18 +15,35 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  VStack,
 } from "@chakra-ui/react";
-import { Maps } from "@constants";
-import {
-  Flag24Filled,
-  Map24Filled,
-  Star24Regular,
-} from "@fluentui/react-icons";
+import { Maps, Strongpoints } from "@constants";
+import { Map24Filled } from "@fluentui/react-icons";
 import { Map } from "@types";
+import { range } from "@util";
 import { FC, useState } from "react";
 import { TacmapFabric } from "./TacmapFabric";
 
 const defaultMap = Maps.Values.Foy;
+const markers = [
+  "Airdrop",
+  "Armor",
+  "Artillery",
+  "Attack",
+  "Bomber",
+  "Defend",
+  "Garrison",
+  "Infantry",
+  "LightArmor",
+  "Move",
+  "Node",
+  "Observe",
+  "OP",
+  "Smoke",
+  "Strafe",
+  "Supplies",
+];
+const colors = ["red", "blue", ""];
 
 export type TacmapsProps = object;
 
@@ -32,6 +52,10 @@ export const Tacmaps: FC<TacmapsProps> = () => {
   const [strongpoints, setStrongpoints] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<number>(0);
   const [placeElement, setPlaceElement] = useState<string>("");
+  const [axisColor, setAxisColor] = useState<string>("blue");
+  const [alliesColor, setAlliesColor] = useState<string>("red");
+  const [axisCaps, setAxisCaps] = useState<number>(2);
+  const [alliesCaps, setAlliesCaps] = useState<number>(2);
 
   const switchStrongPoints = (strongpoint: string) => {
     if (strongpoints.includes(strongpoint)) {
@@ -49,6 +73,13 @@ export const Tacmaps: FC<TacmapsProps> = () => {
     }
   };
 
+  const randomCaps = () =>
+    setStrongpoints(
+      Strongpoints[map].map(
+        (row) => row[Math.floor(Math.random() * row.length)]
+      )
+    );
+
   return (
     <Stack>
       <Tabs onChange={setActiveTab}>
@@ -57,14 +88,15 @@ export const Tacmaps: FC<TacmapsProps> = () => {
             <Map24Filled />
           </Tab>
           <Tab>
-            <Star24Regular />
-          </Tab>
-          <Tab>
-            <Flag24Filled />
+            <img
+              src="./hll_icons/HLLGarrison.png"
+              className="w-6 h-6"
+              alt="Garrison"
+            />
           </Tab>
           <Tab>
             <img
-              src="./hll_icons/HLLGarrison.png"
+              src="./hll_icons/HLLAxisAllies.png"
               className="w-6 h-6"
               alt="Garrison"
             />
@@ -72,208 +104,123 @@ export const Tacmaps: FC<TacmapsProps> = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <FormControl>
-              <FormLabel htmlFor="map">Map</FormLabel>
-              <Select
-                id="map"
-                value={map}
-                onChange={(event) => {
-                  setMap(event.target.value as Map);
-                  setStrongpoints([]);
-                }}
-              >
-                {Maps.options.map((mapOption) => (
-                  <option value={mapOption} key={mapOption}>
-                    {mapOption}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+            <VStack>
+              <HStack className="w-full">
+                <FormControl>
+                  <FormLabel htmlFor="map">Map</FormLabel>
+                  <Select
+                    id="map"
+                    value={map}
+                    onChange={(event) => {
+                      setMap(event.target.value as Map);
+                      setStrongpoints([]);
+                    }}
+                  >
+                    {Maps.options.map((mapOption) => (
+                      <option value={mapOption} key={mapOption}>
+                        {mapOption}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+              </HStack>
+              <ButtonGroup className="w-full" variant="outline">
+                <Button
+                  onClick={() => {
+                    setStrongpoints([]);
+                  }}
+                >
+                  Reset Caps
+                </Button>
+                <Button onClick={randomCaps}>Random Caps</Button>
+              </ButtonGroup>
+            </VStack>
           </TabPanel>
-          <TabPanel>two</TabPanel>
-          <TabPanel>three</TabPanel>
           <TabPanel>
             <ButtonGroup>
-              <IconButton
-                variant={placeElement === "Airdrop" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Airdrop")}
-                aria-label="HLLAirdrop"
-              >
-                <img
-                  src="./hll_icons/HLLAirdrop.png"
-                  className="w-6 h-6"
-                  alt="Airdrop"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Artillery" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Artillery")}
-                aria-label="HLLArtillery"
-              >
-                <img
-                  src="./hll_icons/HLLArtillery.png"
-                  className="w-6 h-6"
-                  alt="Artillery"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Bomber" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Bomber")}
-                aria-label="HLLBomber"
-              >
-                <img
-                  src="./hll_icons/HLLBomber.png"
-                  className="w-6 h-6"
-                  alt="Bomber"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Garrison" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Garrison")}
-                aria-label="HLLGarrison"
-              >
-                <img
-                  src="./hll_icons/HLLGarrison.png"
-                  className="w-6 h-6"
-                  alt="Garrison"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Infantry" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Infantry")}
-                aria-label="HLLInfantry"
-              >
-                <img
-                  src="./hll_icons/HLLInfantry.png"
-                  className="w-6 h-6"
-                  alt="Infantry"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Move" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Move")}
-                aria-label="HLLMove"
-              >
-                <img
-                  src="./hll_icons/HLLMove.png"
-                  className="w-6 h-6"
-                  alt="Move"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Observe" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Observe")}
-                aria-label="HLLObserve"
-              >
-                <img
-                  src="./hll_icons/HLLObserve.png"
-                  className="w-6 h-6"
-                  alt="Observe"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Smoke" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Smoke")}
-                aria-label="HLLSmoke"
-              >
-                <img
-                  src="./hll_icons/HLLSmoke.png"
-                  className="w-6 h-6"
-                  alt="Smoke"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Supplies" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Supplies")}
-                aria-label="HLLSupplies"
-              >
-                <img
-                  src="./hll_icons/HLLSupplies.png"
-                  className="w-6 h-6"
-                  alt="Supplies"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Armor" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Armor")}
-                aria-label="HLLArmor"
-              >
-                <img
-                  src="./hll_icons/HLLArmor.png"
-                  className="w-6 h-6"
-                  alt="Armor"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Attack" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Attack")}
-                aria-label="HLLAttack"
-              >
-                <img
-                  src="./hll_icons/HLLAttack.png"
-                  className="w-6 h-6"
-                  alt="Attack"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Defend" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Defend")}
-                aria-label="HLLDefend"
-              >
-                <img
-                  src="./hll_icons/HLLDefend.png"
-                  className="w-6 h-6"
-                  alt="Defend"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "HQ" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("HQ")}
-                aria-label="HLLHQ"
-              >
-                <img src="./hll_icons/HLLHQ.png" className="w-6 h-6" alt="HQ" />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "LightArmor" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("LightArmor")}
-                aria-label="HLLLightArmor"
-              >
-                <img
-                  src="./hll_icons/HLLLightArmor.png"
-                  className="w-6 h-6"
-                  alt="LightArmor"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Node" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Node")}
-                aria-label="HLLNode"
-              >
-                <img
-                  src="./hll_icons/HLLNode.png"
-                  className="w-6 h-6"
-                  alt="Node"
-                />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "OP" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("OP")}
-                aria-label="HLLOP"
-              >
-                <img src="./hll_icons/HLLOP.png" className="w-6 h-6" alt="OP" />
-              </IconButton>
-              <IconButton
-                variant={placeElement === "Strafe" ? "solid" : "outline"}
-                onClick={() => changePlaceElement("Strafe")}
-                aria-label="HLLStrafe"
-              >
-                <img
-                  src="./hll_icons/HLLStrafe.png"
-                  className="w-6 h-6"
-                  alt="Strafe"
-                />
-              </IconButton>
+              {markers.map((marker) => (
+                <IconButton
+                  variant={placeElement === marker ? "solid" : "outline"}
+                  onClick={() => changePlaceElement(marker)}
+                  aria-label={marker}
+                  key={marker}
+                >
+                  <img
+                    src={`./hll_icons/HLL${marker}.png`}
+                    className="w-6 h-6"
+                    alt={marker}
+                  />
+                </IconButton>
+              ))}
             </ButtonGroup>
+          </TabPanel>
+          <TabPanel>
+            <HStack>
+              <FormControl>
+                <FormLabel htmlFor="axisColor">Axis color</FormLabel>
+                <Select
+                  id="axisColor"
+                  value={axisColor}
+                  onChange={(event) => {
+                    setAxisColor(event.target.value);
+                  }}
+                >
+                  {colors.map((color) => (
+                    <option value={color} key={`axis-${color}`}>
+                      {color}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="axisCaps">Axis caps</FormLabel>
+                <Select
+                  id="axisCaps"
+                  value={axisCaps}
+                  onChange={(event) => {
+                    setAxisCaps(Number.parseInt(event.target.value, 10));
+                  }}
+                >
+                  {range(6).map((caps) => (
+                    <option value={caps} key={`axis-${caps}`}>
+                      {caps}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="alliesCaps">Allies caps</FormLabel>
+                <Select
+                  id="alliesCaps"
+                  value={alliesCaps}
+                  onChange={(event) => {
+                    setAlliesCaps(Number.parseInt(event.target.value, 10));
+                  }}
+                >
+                  {range(6).map((caps) => (
+                    <option value={caps} key={`allies-${caps}`}>
+                      {caps}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="alliesColor">Allies color</FormLabel>
+                <Select
+                  id="alliesColor"
+                  value={alliesColor}
+                  onChange={(event) => {
+                    setAlliesColor(event.target.value);
+                  }}
+                >
+                  {colors.map((color) => (
+                    <option value={color} key={`allies-${color}`}>
+                      {color}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            </HStack>
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -284,6 +231,10 @@ export const Tacmaps: FC<TacmapsProps> = () => {
           switchStrongpoint={switchStrongPoints}
           activeTab={activeTab}
           placeElement={placeElement}
+          axisColor={axisColor}
+          alliesColor={alliesColor}
+          axisCaps={axisCaps}
+          alliesCaps={alliesCaps}
         />
       </Box>
     </Stack>
