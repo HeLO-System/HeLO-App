@@ -33,7 +33,7 @@ export const ClanDetails: FC<ClanDetailsProps> = ({ clan }) => (
         <TrophyFilled className="text-accent" />
         Score
       </h2>
-      <h1 className="text-5xl font-bold">{clan?.score}</h1>
+      <h1 className="text-5xl font-bold">{Math.round(clan?.score)}</h1>
     </div>
     <div className="flex flex-col items-center mx-auto">
       <h2 className="text-3xl flex items-center">

@@ -41,7 +41,7 @@ const columns: TableColumn<Clan>[] = [
     selector: (clan) => clan.score,
     sortable: true,
     id: "score",
-    cell: (clan) => <ClanLinkCell tag={clan.tag} value={clan.score} />,
+    cell: (clan) => <ClanLinkCell tag={clan.tag} value={Math.round(clan.score)} />,
   },
   {
     name: "Matches",
@@ -74,7 +74,7 @@ const ClanList: FC = () => {
       <GlassPanel title="Clans" className="p-4 mx-10 pb-8 mb-20">
         <DataTable
           columns={columns}
-          data={clans || []}
+          data={clans && clans.filter(clan => clan.num_matches > 0) || []}
           defaultSortFieldId="score"
           defaultSortAsc={false}
           theme="dark"
