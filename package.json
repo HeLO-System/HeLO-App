@@ -51,7 +51,7 @@
     "react-modal": "3.15.1",
     "recharts": "2.1.12",
     "usehooks-ts": "2.6.0",
-    "zod": "3.18.0"
+    "zod": "3.19.1"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "12.2.5",
