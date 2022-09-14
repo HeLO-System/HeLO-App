@@ -52,7 +52,7 @@
     "recharts": "2.1.12",
     "styled-components": "5.3.5",
     "usehooks-ts": "2.6.0",
-    "zod": "3.18.0"
+    "zod": "3.19.1"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "12.2.5",
