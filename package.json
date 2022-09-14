@@ -38,7 +38,7 @@
     "classnames": "2.3.1",
     "date-fns": "2.29.2",
     "dayzed": "3.2.3",
-    "framer-motion": "7.2.1",
+    "framer-motion": "7.3.4",
     "luxon": "3.0.3",
     "next": "12.2.5",
     "next-auth": "4.10.3",
