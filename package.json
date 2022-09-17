@@ -50,6 +50,7 @@
     "react-hook-form": "7.34.2",
     "react-modal": "3.15.1",
     "recharts": "2.1.12",
+    "styled-components": "5.3.5",
     "usehooks-ts": "2.6.0",
     "zod": "3.19.1"
   },

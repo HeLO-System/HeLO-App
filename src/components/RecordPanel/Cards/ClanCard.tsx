@@ -42,7 +42,7 @@ export const ClanCard: FC<ClanCardProps> = ({ clan, className }) => (
               "animate-pulse bg-border h-3 rounded-md": !clan,
             })}
           >
-            {clan && clan.score}
+            {clan && Math.round(clan.score)}
           </span>
           <Shield24Filled className="h-4 self-center justify-self-end" />
           <span
