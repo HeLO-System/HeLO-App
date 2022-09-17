@@ -124,9 +124,9 @@ const handler = (
           total_clans,
           total_matches,
           score_diff: {
-            diff: highest_score - lowest_score,
-            lowest_score,
-            highest_score,
+            diff: Math.round(highest_score - lowest_score),
+            lowest_score: Math.round(lowest_score),
+            highest_score: Math.round(highest_score),
             lowest_clan_id,
             highest_clan_id,
           },
