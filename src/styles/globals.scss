@@ -34,3 +34,7 @@ html {
 * {
   @apply box-border;
 }
+
+main {
+  height: calc(100% - 3.5rem)
+}
