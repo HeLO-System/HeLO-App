@@ -55,7 +55,7 @@
     "zod": "3.19.1"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "12.2.5",
+    "@next/eslint-plugin-next": "12.3.0",
     "@svgr/webpack": "6.3.1",
     "@types/luxon": "3.0.0",
     "@types/node": "18.7.18",
