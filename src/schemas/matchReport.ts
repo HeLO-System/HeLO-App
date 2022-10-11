@@ -3,7 +3,7 @@ import { Maps } from "@constants";
 import { MatchReportClan } from "@types";
 import { z } from "zod";
 
-export const MatchTypes = z.enum(["Friendly", "Competitive"]);
+export const MatchTypes = z.enum(["Friendly", "Competitive", "Placement"]);
 export const MatchResults = z.enum(["5:0", "4:1", "3:2", "2:3", "1:4", "0:5"]);
 
 export const MatchReportClanSchema = z.object({
@@ -29,6 +29,8 @@ export const MatchReportSchema = z.object({
     .array(MatchReportClanSchema)
     .nonempty()
     .refine(...clanRefiner),
+  axisOther: z.array(MatchReportClanSchema).optional(),
+  alliesOther: z.array(MatchReportClanSchema).optional(),
   map: Maps,
   result: MatchResults,
   date: z.string(),
@@ -37,4 +39,5 @@ export const MatchReportSchema = z.object({
   streamUrl: z.string().optional(),
   event: z.string().optional(),
   comment: z.string().optional(),
+  attacker: z.string().optional(),
 });

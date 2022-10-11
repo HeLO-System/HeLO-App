@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import {
   Alert,
@@ -6,9 +7,11 @@ import {
   AlertTitle,
   Box,
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Grid,
   Input,
   NumberInput,
   NumberInputField,
@@ -27,11 +30,12 @@ import {
   MatchResult,
   MatchType,
 } from "@types";
-import { isoDateString, numberTransformer } from "@util";
+import { enumKeys, isoDateString, numberTransformer } from "@util";
 import axios, { AxiosError } from "axios";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { appConfig } from "util/appConfig";
 import { MatchReportClanForm } from "./MatchReportClanForm";
 
 type CapType = {
@@ -47,9 +51,12 @@ export type ReportMatchForm = {
   caps: CapType[];
   axisClans: MatchReportClan[];
   alliesClans: MatchReportClan[];
+  axisOther: MatchReportClan[];
+  alliesOther: MatchReportClan[];
   streamUrl: string;
   event?: string;
   comment?: string;
+  attacker: Factions;
 };
 
 export const MatchReportForm: FC = () => {
@@ -60,7 +67,7 @@ export const MatchReportForm: FC = () => {
     formState: { errors },
     watch,
     resetField,
-  } = useForm<ReportMatchForm>({
+  } = useForm<ReportMatchForm & { offensive?: boolean }>({
     defaultValues: {
       matchType: MatchTypes.Values.Friendly,
       map: Maps.Values.SMDM,
@@ -82,6 +89,7 @@ export const MatchReportForm: FC = () => {
 
   const selectedMap = watch("map");
   const selectedMatchType = watch("matchType");
+  const offensive = watch("offensive");
 
   const [error, setError] = useState<
     AxiosError<{ message: string }> | undefined
@@ -102,6 +110,9 @@ export const MatchReportForm: FC = () => {
     streamUrl,
     event,
     comment,
+    attacker,
+    axisOther,
+    alliesOther,
   }: ReportMatchForm) => {
     const transformedDate: MatchReport = {
       alliesClans: alliesClans as MatchReport["alliesClans"],
@@ -116,6 +127,15 @@ export const MatchReportForm: FC = () => {
       event,
       comment,
     };
+    if (
+      matchType === MatchTypes.Values.Placement ||
+      appConfig.reportMatchAlwaysAllowOther
+    ) {
+      transformedDate.axisOther = axisOther;
+      transformedDate.alliesOther = alliesOther;
+    }
+    if (offensive) transformedDate.attacker = attacker;
+
     setStatus("loading");
     await axios
       .post("/api/reportMatch", transformedDate)
@@ -203,32 +223,86 @@ export const MatchReportForm: FC = () => {
             />
           )}
         </Stack>
-        <Controller
-          name="map"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FormControl isInvalid={!!errors.map}>
-              <FormLabel htmlFor="map">Map</FormLabel>
-              <Select
-                id="map"
-                value={value}
-                onChange={(event) => {
-                  resetField("caps");
-                  onChange(event);
-                }}
-              >
-                {Maps.options.map((mapOption) => (
-                  <option value={mapOption} key={mapOption}>
-                    {mapOption}
-                  </option>
-                ))}
-              </Select>
-              <FormErrorMessage>
-                {errors.map && errors.map.message}
-              </FormErrorMessage>
-            </FormControl>
+        <Grid
+          gridTemplateColumns={{
+            base: "1fr",
+            md: appConfig.reportMatchAllowOffensive ? "2fr 1fr 2fr" : "1fr",
+          }}
+          gap={4}
+        >
+          <Controller
+            name="map"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FormControl isInvalid={!!errors.map}>
+                <FormLabel htmlFor="map">Map</FormLabel>
+                <Select
+                  id="map"
+                  value={value}
+                  onChange={(event) => {
+                    resetField("caps");
+                    onChange(event);
+                  }}
+                >
+                  {Maps.options.map((mapOption) => (
+                    <option value={mapOption} key={mapOption}>
+                      {mapOption}
+                    </option>
+                  ))}
+                </Select>
+                <FormErrorMessage>
+                  {errors.map && errors.map.message}
+                </FormErrorMessage>
+              </FormControl>
+            )}
+          />
+          {appConfig.reportMatchAllowOffensive && (
+            <Controller
+              name="offensive"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Checkbox
+                  onChange={(e) => {
+                    onChange(e.target.checked);
+                  }}
+                  checked={value}
+                  flex={1}
+                >
+                  Offensive?
+                </Checkbox>
+              )}
+            />
           )}
-        />
+
+          {offensive && (
+            <Controller
+              name="attacker"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormControl isInvalid={!!errors.attacker}>
+                  <FormLabel htmlFor="attacker">Attacker</FormLabel>
+                  <Select
+                    id="attacker"
+                    value={value}
+                    onChange={(event) => {
+                      resetField("caps");
+                      onChange(event);
+                    }}
+                  >
+                    {enumKeys(Factions).map((faction) => (
+                      <option value={faction} key={faction}>
+                        {faction}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormErrorMessage>
+                    {errors.attacker && errors.attacker.message}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            />
+          )}
+        </Grid>
         <Controller
           name="result"
           control={control}
@@ -321,17 +395,44 @@ export const MatchReportForm: FC = () => {
             );
           })}
         </Stack>
+
         <Stack direction={{ base: "column", md: "row" }} gap={8}>
-          <MatchReportClanForm
-            side={Factions.Axis}
-            control={control}
-            register={register}
-          />
-          <MatchReportClanForm
-            side={Factions.Allies}
-            control={control}
-            register={register}
-          />
+          {enumKeys(Factions)
+            .reverse()
+            .map((faction) => (
+              <Stack className="flex-1">
+                <h2 className="w-full text-center text-2xl flex justify-center items-center gap-2">
+                  <img
+                    src={`/ico_HLL${faction}.png`}
+                    alt={`${faction}-Logo`}
+                    className="h-8 w-8"
+                  />
+                  {faction}
+                </h2>
+                <h3 className="w-full text-center text-xl flex justify-center items-center">
+                  HeLO Clans:
+                </h3>
+                <MatchReportClanForm
+                  side={faction as Factions}
+                  control={control}
+                  register={register}
+                />
+                {(selectedMatchType === MatchTypes.Values.Placement ||
+                  appConfig.reportMatchAlwaysAllowOther) && (
+                  <>
+                    <h3 className="w-full text-center text-xl flex justify-center items-center">
+                      Other:
+                    </h3>
+                    <MatchReportClanForm
+                      side={faction as Factions}
+                      control={control}
+                      register={register}
+                      other
+                    />
+                  </>
+                )}
+              </Stack>
+            ))}
         </Stack>
         <Controller
           name="streamUrl"

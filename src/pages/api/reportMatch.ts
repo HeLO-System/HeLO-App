@@ -13,14 +13,12 @@ import { authOptions } from "./auth/[...nextauth]";
 const joinClansForMatchId = (clans: MatchReportClan[]) =>
   clans.map((clan) => clan.tag).join("+");
 
-const joinClansForFactions = (clans: MatchReportClan[]) =>
-  clans.map(({ tag, players }) => `**${tag}** (${players})`).join(" & ") +
-  (clans.length > 1
-    ? ` => ${clans.reduce((acc, cur) => acc + cur.players, 0)}`
-    : "");
-
 const playerCount = (clans: MatchReportClan[]) =>
   clans.reduce((acc, cur) => acc + cur.players, 0);
+
+const joinClansForFactions = (clans: MatchReportClan[]) =>
+  clans.map(({ tag, players }) => `**${tag}** (${players})`).join(" & ") +
+  (clans.length > 1 ? ` => ${playerCount(clans)}` : "");
 
 const eventOrComment = (report: MatchReport) => {
   if (report.matchType === "Competitive" && report.event) {
@@ -39,17 +37,49 @@ const buildPayload = (report: MatchReport, session: Session) => {
     new Date(report.date).toISOString().split("T")[0]
   }`;
 
+  let { map } = report;
+  if (report.attacker) map += ` (Offensive ${report.attacker})`;
+
   const fields: string[] = [
     `**${report.matchType}${eventOrComment(report)}**`,
     isoDateString(report.date),
     `Axis: ${joinClansForFactions(report.axisClans)}`,
     `Allies: ${joinClansForFactions(report.alliesClans)}`,
-    `Result: **${report.result}** in **${report.time}min**`,
-    `Map: **${report.map}**`,
-    `Caps: ${report.caps
-      .map((value, index) => (index === 2 ? `**${value}**` : value))
-      .join("/")}`,
   ];
+
+  const hasAxisOther = report.axisOther && report.axisOther.length > 0;
+  const hasAlliesOther = report.alliesOther && report.alliesOther.length > 0;
+
+  if (hasAxisOther)
+    fields.push(
+      `Axis (other): ${joinClansForFactions(report.axisOther || [])}`
+    );
+
+  if (hasAlliesOther)
+    fields.push(
+      `Allies (other): ${joinClansForFactions(report.alliesOther || [])}`
+    );
+
+  if (hasAxisOther || hasAlliesOther)
+    fields.push(
+      `Players: **${playerCount([
+        ...report.axisClans,
+        ...(report.axisOther || []),
+      ])}** vs. **${playerCount([
+        ...report.alliesClans,
+        ...(report.alliesOther || []),
+      ])}**`
+    );
+
+  fields.push(
+    ...[
+      `Result: **${report.result}** in **${report.time}min**`,
+      `Map: **${map}**`,
+      `Caps: ${report.caps
+        .map((value, index) => (index === 2 ? `**${value}**` : value))
+        .join("/")}`,
+    ]
+  );
 
   if (report.streamUrl) {
     fields.push(
@@ -86,14 +116,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .status(400)
       .json({ message: "Please check your inputs", error: result.error });
   if (
-    playerCount(result.data.axisClans) > 50 ||
-    playerCount(result.data.alliesClans) > 50
+    playerCount([...result.data.axisClans, ...(result.data.axisOther || [])]) >
+      50 ||
+    playerCount([
+      ...result.data.alliesClans,
+      ...(result.data.alliesOther || []),
+    ]) > 50
   )
     return res.status(400).json({ message: "Too many players" });
 
   if (!process.env.DISCORD_REPORT_MATCH_WEBHOOK)
     return res.status(500).json({ message: "Please try again later" });
 
+  console.log(result.data);
   try {
     await axios.post(
       process.env.DISCORD_REPORT_MATCH_WEBHOOK,
