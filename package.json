@@ -20,8 +20,8 @@
     "lint": "next lint",
     "eslint": "eslint \"**/*.+(js|jsx|ts|tsx)\"",
     "eslint:fix": "eslint --fix \"**/*.+(js|jsx|ts|tsx)\"",
-    "prettier": "prettier --check \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|css)\"",
-    "prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|css)\"",
+    "prettier": "prettier --check src",
+    "prettier:fix": "prettier --write src",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },
