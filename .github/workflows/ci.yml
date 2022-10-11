@@ -13,12 +13,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
+          cache: "pnpm"
 
       - name: Install prettier
-        run: npm install --no-save -f "prettier@$(node -p -e "require('./package.json').devDependencies.prettier")"
+        run: pnpm install --no-save -f "prettier@$(node -p -e "require('./package.json').devDependencies.prettier")"
 
       - name: Check formatting
-        run: npm run prettier
+        run: pnpm run prettier
 
   build-and-lint:
     runs-on: ubuntu-latest
@@ -32,7 +33,7 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: npm ci -f
+        run: pnpm install
 
       - name: Build
-        run: npm run build --no-cache
+        run: pnpm run build --no-cache
