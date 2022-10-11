@@ -20,7 +20,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install prettier
-        run: pnpm install --no-save -f "prettier@$(node -p -e "require('./package.json').devDependencies.prettier")"
+        run: npm install --no-save -f "prettier@$(node -p -e "require('./package.json').devDependencies.prettier")"
 
       - name: Check formatting
         run: pnpm run prettier
