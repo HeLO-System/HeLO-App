@@ -1,0 +1,16 @@
+name: Sync console deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-console:
+    runs-on: ubuntu-latest
+    name: Sync console deployment
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3
+      - name: Push to console branch
+        run: git push -f origin main:deployment/console
