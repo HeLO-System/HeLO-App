@@ -9,21 +9,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
-          cache: "pnpm"
 
       - name: Install prettier
         run: npm install --no-save -f "prettier@$(node -p -e "require('./package.json').devDependencies.prettier")"
 
       - name: Check formatting
-        run: pnpm run prettier
+        run: npm run prettier
 
   build-and-lint:
     runs-on: ubuntu-latest
@@ -44,4 +39,4 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build --no-cache
+        run: pnpm run build
