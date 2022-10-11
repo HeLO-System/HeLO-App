@@ -5,6 +5,7 @@ import {
   Button,
   Grid,
   GridItem,
+  Input,
   NumberInput,
   NumberInputField,
   Select,
@@ -27,16 +28,23 @@ type MatchReportClanFormProps = {
   side: Factions;
   control: Control<ReportMatchForm>;
   register: UseFormRegister<ReportMatchForm>;
+  other?: boolean;
 };
 
 export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
   side,
   control,
   register,
+  other,
 }) => {
   const { clans } = useClanTags();
 
-  const name = side === Factions.Allies ? "alliesClans" : "axisClans";
+  const name = ((side === Factions.Allies ? "allies" : "axis") +
+    (other ? "Other" : "Clans")) as
+    | "alliesClans"
+    | "axisClans"
+    | "alliesOther"
+    | "axisOther";
   const { fields, append, remove } = useFieldArray({
     control,
     name,
@@ -44,33 +52,38 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
 
   return (
     <Stack flex={1}>
-      <h1 className="w-full text-center text-2xl flex justify-center items-center gap-2">
-        <img
-          src={`/ico_HLL${side}.png`}
-          alt={`${side}-Logo`}
-          className="h-8 w-8"
-        />
-        {side}
-      </h1>
       <Grid templateColumns="1fr 1fr auto" gap={2}>
-        <GridItem>Clan</GridItem>
-        <GridItem>Players</GridItem>
-        <p />
+        {fields.length > 0 && (
+          <>
+            <GridItem>{other ? "Name" : "Clan"}</GridItem>
+            <GridItem>Players</GridItem>
+            <p />
+          </>
+        )}
         {fields.map((field, index) => (
           <>
-            <Select
-              key={`${name}.${field.id}.tag`}
-              {...register(`${name}.${index}.tag` as const, {
-                required: true,
-              })}
-            >
-              {clans &&
-                Object.values(clans).map((clan) => (
-                  <option value={clan} key={clan}>
-                    {clan}
-                  </option>
-                ))}
-            </Select>
+            {other ? (
+              <Controller
+                name={`${name}.${index}.tag` as const}
+                key={`${name}.${field.id}.tag`}
+                control={control}
+                render={({ field: input }) => <Input {...input} />}
+              />
+            ) : (
+              <Select
+                key={`${name}.${field.id}.tag`}
+                {...register(`${name}.${index}.tag` as const, {
+                  required: true,
+                })}
+              >
+                {clans &&
+                  Object.values(clans).map((clan) => (
+                    <option value={clan} key={clan}>
+                      {clan}
+                    </option>
+                  ))}
+              </Select>
+            )}
             <Controller
               name={`${name}.${index}.players` as const}
               key={`${name}.${field.id}.players`}
@@ -93,7 +106,7 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
               leftIcon={<Delete24Regular />}
               variant="ghost"
               color="red.800"
-              disabled={fields.length < 2}
+              disabled={fields.length < 2 && !other}
               onClick={() => {
                 remove(index);
               }}
@@ -109,7 +122,7 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
           color="white"
           onClick={() => append({ players: 0, tag: "" })}
         >
-          Add Clan
+          Add {other ? "Other" : "Clan"}
         </Button>
       </Box>
     </Stack>

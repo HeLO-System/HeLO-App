@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable prefer-destructuring */
 import { Clan } from "@types";
 import axios from "axios";
