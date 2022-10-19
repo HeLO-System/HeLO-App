@@ -23,7 +23,7 @@ export type MatchesParams = {
   desc?: boolean;
 };
 
-interface MatchesResponse {
+export interface MatchesResponse {
   matches: Match[];
   meta: {
     total_count: number;

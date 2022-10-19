@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Maps } from "@constants";
-import { Factions, Map, Match } from "@types";
+import { MatchesResponse } from "@queries";
+import { Factions, Map } from "@types";
 import { enumKeys } from "@util";
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -22,10 +23,10 @@ export type Statistics = {
 
 const getMatchRecords = (): Promise<Statistics> =>
   axios
-    .get<Match[]>(`${process.env.BACKEND_URL}matches`, {
+    .get<MatchesResponse>(`${process.env.BACKEND_URL}matches`, {
       params: { select: "map,duration,match_id,side1,side2,caps1,caps2" },
     })
-    .then(({ data }) => {
+    .then(({ data: { matches } }) => {
       const gamesPerMap: Record<string, number> = {};
       const avgLength: Record<string, number> = {};
       const factionWinrateByMap: Record<
@@ -41,7 +42,7 @@ const getMatchRecords = (): Promise<Statistics> =>
         });
       });
 
-      data.forEach((match) => {
+      matches.forEach((match) => {
         if (!Maps.options.includes(match.map as Map)) {
           return;
         }
@@ -67,7 +68,7 @@ const getMatchRecords = (): Promise<Statistics> =>
       });
 
       return {
-        total_matches: data.length,
+        total_matches: matches.length,
         map_statistics: Object.entries(gamesPerMap)
           .map(([map, games]) => ({
             map,
