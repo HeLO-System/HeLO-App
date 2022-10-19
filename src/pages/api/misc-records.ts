@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { Clan, Map, Match } from "@types";
+import { MatchesResponse } from "@queries";
+import { Clan, Map } from "@types";
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -40,14 +41,14 @@ type MatchRecords = {
 
 const getMatchRecords = (): Promise<MatchRecords> =>
   axios
-    .get<Match[]>(`${process.env.BACKEND_URL}matches`, {
+    .get<MatchesResponse>(`${process.env.BACKEND_URL}matches`, {
       params: { select: "map,duration,match_id" },
     })
-    .then(({ data }) => {
+    .then(({ data: { matches } }) => {
       let min_duration = 90;
       let min_duration_match = "";
       const [most_played_map, most_played_map_count] = Object.entries(
-        data.reduce((acc, curr) => {
+        matches.reduce((acc, curr) => {
           acc[curr.map as Map] = (acc[curr.map as Map] || 0) + 1;
           if (curr.duration < min_duration) {
             min_duration = curr.duration;
@@ -61,7 +62,7 @@ const getMatchRecords = (): Promise<MatchRecords> =>
         most_played_map_count,
         min_duration,
         min_duration_match,
-        total: data.length,
+        total: matches.length,
       };
     });
 const getTotalClans = (): Promise<number> =>
