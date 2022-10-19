@@ -2,34 +2,31 @@
 import { BackButton } from "@components/BackButton";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchLinkCell } from "@components/LinkCell";
+import { FormattedMatch, MatchesTable } from "@components/MatchesTable";
 import { useClanTags } from "@hooks";
-import { useMatches } from "@queries";
-import { Match } from "@types";
-import { DateTime } from "luxon";
 import { FC } from "react";
-import DataTable, { TableColumn } from "react-data-table-component";
+import { TableColumn } from "react-data-table-component";
 
 const getColumns = (
   getTag: (id: string, fallback?: string) => string
-): TableColumn<Match>[] => [
+): TableColumn<FormattedMatch>[] => [
   {
-    name: "Id",
+    name: "Name",
     selector: (match) => match.match_id,
     sortable: true,
     cell: (match) => (
       <MatchLinkCell tag={match.match_id} value={match.match_id} />
     ),
+    id: "match_id",
   },
   {
     name: "Date",
-    selector: (match) => match.date.$date,
+    selector: (match) => match.formattedDate,
     sortable: true,
     cell: (match) => (
-      <MatchLinkCell
-        tag={match.match_id}
-        value={DateTime.fromMillis(match.date.$date).toISODate()}
-      />
+      <MatchLinkCell tag={match.match_id} value={match.formattedDate} />
     ),
+    id: "date",
   },
   {
     name: "Side 1",
@@ -41,11 +38,11 @@ const getColumns = (
         value={match.clans1_ids.map((clan) => getTag(clan, "-")).join(", ")}
       />
     ),
+    id: "clans1_ids",
   },
   {
     name: "Faction 1",
     selector: (match) => match.side1,
-    sortable: true,
     cell: (match) => <MatchLinkCell tag={match.match_id} value={match.side1} />,
   },
   {
@@ -53,17 +50,16 @@ const getColumns = (
     selector: (match) => match.caps1,
     sortable: true,
     cell: (match) => <MatchLinkCell tag={match.match_id} value={match.caps1} />,
+    id: "caps1",
   },
   {
     name: "Caps 2",
     selector: (match) => match.caps2,
-    sortable: true,
     cell: (match) => <MatchLinkCell tag={match.match_id} value={match.caps2} />,
   },
   {
     name: "Faction 2",
     selector: (match) => match.side1,
-    sortable: true,
     cell: (match) => <MatchLinkCell tag={match.match_id} value={match.side2} />,
   },
   {
@@ -76,17 +72,16 @@ const getColumns = (
         value={match.clans2_ids.map((clan) => getTag(clan, "-")).join(", ")}
       />
     ),
+    id: "clans2_ids",
   },
   {
     name: "Map",
     selector: (match) => match.map,
-    sortable: true,
     cell: (match) => <MatchLinkCell tag={match.match_id} value={match.map} />,
   },
   {
     name: "Duration",
     selector: (match) => match.duration,
-    sortable: true,
     cell: (match) => (
       <MatchLinkCell tag={match.match_id} value={match.duration} />
     ),
@@ -94,23 +89,13 @@ const getColumns = (
 ];
 
 const MatchesList: FC = () => {
-  const { data: matches, isLoading } = useMatches();
   const { getTag } = useClanTags();
-
-  const columns = getColumns(getTag);
 
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">
       <BackButton className="mt-10 ml-10" />
       <GlassPanel title="Matches" className="p-4 mx-10 pb-8 mb-20">
-        <DataTable
-          columns={columns}
-          data={matches?.matches || []}
-          defaultSortFieldId="score"
-          defaultSortAsc={false}
-          theme="dark"
-          progressPending={isLoading}
-        />
+        <MatchesTable pagination columns={getColumns(getTag)} />
       </GlassPanel>
     </div>
   );

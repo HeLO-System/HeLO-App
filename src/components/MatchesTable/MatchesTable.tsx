@@ -1,64 +1,43 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable camelcase */
 import { GlassPanel } from "@components/GlassPanel";
+import { MatchLinkCell } from "@components/LinkCell";
 import { useClanTags } from "@hooks";
 import { useMatches } from "@queries";
 import { Factions, Match } from "@types";
 import { DateTime } from "luxon";
-import { FC } from "react";
+import { FC, useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 
-const CAPS_TO_WIN = 3;
+const DEFAULT_PER_PAGE = 25;
 
-type FormattedMatch = {
+export type FormattedMatch = Match & {
   id: string;
-  name: string;
   allies: string[];
   enemies: string[];
   side: Factions;
   caps: number;
-  map: string;
-  players: number;
-  date: string;
-  duration: string;
-  factor: number;
+  formattedDate: string;
+  formattedDuration: string;
 };
 
-const ClanTagsList: FC<{ clanIds: string[] }> = ({ clanIds }) => {
-  const { getTag } = useClanTags();
-  return <div>{clanIds.map((clanId) => getTag(clanId)).join(", ")}</div>;
-};
-
-const matchFormatter = (
-  {
-    match_id: name,
-    map,
-    players,
-    factor,
-    clans1_ids,
-    clans2_ids,
-    ...match
-  }: Match,
-  clanId: string
-): FormattedMatch => {
+const matchFormatter = (match: Match, clanId: string): FormattedMatch => {
   const formattedMatch: Partial<FormattedMatch> = {
     id: match._id.$oid,
-    name,
-    map,
-    players,
-    date: DateTime.fromMillis(match.date.$date).toISODate(),
-    duration: `${match.duration} min`,
-    factor,
+    formattedDate: DateTime.fromMillis(match.date.$date).toISODate(),
+    formattedDuration: `${match.duration} min`,
+    ...match,
   };
-  if (clans1_ids.includes(clanId)) {
-    formattedMatch.allies = clans1_ids.filter((f) => f !== clanId);
-    formattedMatch.enemies = clans2_ids;
+  if (match.clans1_ids.includes(clanId)) {
+    formattedMatch.allies = match.clans1_ids.filter((f) => f !== clanId);
+    formattedMatch.enemies = match.clans2_ids;
     formattedMatch.side = match.side1;
     formattedMatch.caps = match.caps1;
   } else {
-    formattedMatch.allies = clans2_ids.filter((f) => f !== clanId);
-    formattedMatch.enemies = clans1_ids;
+    formattedMatch.allies = match.clans2_ids.filter((f) => f !== clanId);
+    formattedMatch.enemies = match.clans1_ids;
     formattedMatch.side = match.side2;
     formattedMatch.caps = match.caps2;
   }
@@ -67,88 +46,172 @@ const matchFormatter = (
 
 export interface MatchesTableProps {
   clanId?: string;
+  pagination?: boolean;
+  enabled?: boolean;
+  columns?: TableColumn<FormattedMatch>[];
 }
 
-export const MatchesTable: FC<MatchesTableProps> = ({ clanId }) => {
-  const { data: matches } = useMatches<FormattedMatch[]>(
-    { clan_ids: clanId },
+export const MatchesTable: FC<MatchesTableProps> = ({
+  clanId,
+  pagination,
+  enabled,
+  columns,
+}) => {
+  const [tableMeta, setTableMeta] = useState<{
+    sortBy: keyof Match;
+    desc: boolean;
+    page: number;
+    perPage: number;
+  }>({
+    sortBy: "date",
+    page: 1,
+    perPage: DEFAULT_PER_PAGE,
+    desc: true,
+  });
+
+  const { data: matchData, isLoading } = useMatches(
     {
-      enabled: !!clanId,
-      select: (data) =>
-        data.matches.map((match) => matchFormatter(match, clanId as string)),
+      clan_ids: clanId,
+      desc: tableMeta.desc,
+      limit: tableMeta.perPage,
+      offset: (tableMeta.page - 1) * tableMeta.perPage,
+      sort_by: tableMeta.sortBy,
+    },
+    {
+      enabled,
+      select: (data) => ({
+        matches: data.matches.map((match) =>
+          matchFormatter(match, clanId as string)
+        ),
+        meta: data.meta,
+      }),
     }
   );
   const { getTag } = useClanTags();
 
-  const columns: TableColumn<FormattedMatch>[] = [
+  const defaultColumns: TableColumn<FormattedMatch>[] = [
     {
       name: "Name",
-      selector: (match) => match.name,
+      selector: (match) => match.match_id,
       sortable: true,
+      cell: (match) => (
+        <MatchLinkCell tag={match.match_id} value={match.match_id} />
+      ),
+      id: "match_id",
     },
     {
       name: "Date",
-      selector: (match) => match.date,
+      selector: (match) => match.formattedDate,
       sortable: true,
+      cell: (match) => (
+        <MatchLinkCell tag={match.match_id} value={match.formattedDate} />
+      ),
       id: "date",
     },
     {
-      name: "Result",
-      selector: (match) => (match.caps >= CAPS_TO_WIN ? "Victory" : "Defeat"),
+      name: "Side 1",
+      selector: (match) => match.clans1_ids[0],
       sortable: true,
+      cell: (match) => (
+        <MatchLinkCell
+          tag={match.match_id}
+          value={match.clans1_ids.map((clan) => getTag(clan, "-")).join(", ")}
+        />
+      ),
+      id: "clans1_ids",
     },
     {
-      name: "Allies",
-      selector: (match) => getTag(match.allies[0]),
-      sortable: true,
-      cell: (match) => <ClanTagsList clanIds={match.allies} />,
+      name: "Faction 1",
+      selector: (match) => match.side1,
+      cell: (match) => (
+        <MatchLinkCell tag={match.match_id} value={match.side1} />
+      ),
     },
     {
-      name: "Enemies",
-      selector: (match) => getTag(match.enemies[0]),
+      name: "Caps 1",
+      selector: (match) => match.caps1,
       sortable: true,
-      cell: (match) => <ClanTagsList clanIds={match.enemies} />,
+      cell: (match) => (
+        <MatchLinkCell tag={match.match_id} value={match.caps1} />
+      ),
+      id: "caps1",
     },
     {
-      name: "Side",
-      selector: (match) => match.side,
-      sortable: true,
+      name: "Caps 2",
+      selector: (match) => match.caps2,
+      cell: (match) => (
+        <MatchLinkCell tag={match.match_id} value={match.caps2} />
+      ),
     },
     {
-      name: "Caps",
-      selector: (match) => match.caps,
+      name: "Faction 2",
+      selector: (match) => match.side1,
+      cell: (match) => (
+        <MatchLinkCell tag={match.match_id} value={match.side2} />
+      ),
+    },
+    {
+      name: "Side 2",
+      selector: (match) => match.clans2_ids[0],
       sortable: true,
+      cell: (match) => (
+        <MatchLinkCell
+          tag={match.match_id}
+          value={match.clans2_ids.map((clan) => getTag(clan, "-")).join(", ")}
+        />
+      ),
+      id: "clans2_ids",
     },
     {
       name: "Map",
       selector: (match) => match.map,
-      sortable: true,
-    },
-    {
-      name: "Players",
-      selector: (match) => match.players,
-      sortable: true,
+      cell: (match) => <MatchLinkCell tag={match.match_id} value={match.map} />,
     },
     {
       name: "Duration",
       selector: (match) => match.duration,
-      sortable: true,
-    },
-    {
-      name: "Factor",
-      selector: (match) => match.factor,
-      sortable: true,
+      cell: (match) => (
+        <MatchLinkCell tag={match.match_id} value={match.duration} />
+      ),
     },
   ];
+
+  const handlePageChange = (page: number) => {
+    setTableMeta({ ...tableMeta, page });
+  };
+
+  const handlePerRowsChange = (perPage: number) => {
+    setTableMeta({ ...tableMeta, perPage });
+  };
+
+  const handleSort = (
+    selectedColumn: TableColumn<FormattedMatch>,
+    sortDirection: "desc" | "asc"
+  ) => {
+    setTableMeta({
+      ...tableMeta,
+      sortBy: selectedColumn.id as keyof Match,
+      desc: sortDirection === "desc",
+    });
+  };
 
   return (
     <GlassPanel title="Match Archive" className="p-4 mx-10">
       <DataTable
-        columns={columns}
-        data={matches || []}
+        columns={columns || defaultColumns}
+        data={matchData?.matches || []}
         defaultSortFieldId="date"
         defaultSortAsc={false}
         theme="dark"
+        pagination={pagination}
+        paginationServer={pagination}
+        paginationTotalRows={matchData?.meta.total_count}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        progressPending={isLoading}
+        paginationPerPage={DEFAULT_PER_PAGE}
+        paginationRowsPerPageOptions={[25, 50, 100, 500, 1000]}
+        onSort={handleSort}
       />
     </GlassPanel>
   );
