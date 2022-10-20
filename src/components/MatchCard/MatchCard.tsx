@@ -23,6 +23,17 @@ type MatchCardProps = {
   clanId?: string;
 };
 
+const matchMode = (match: Match, clanId: string): string => {
+  let factionRe = /(Allie)s/;
+  let mode = " ("
+  if (match?.offensive) {
+    const side = match?.clans1_ids.includes(clanId) ? match?.side1 : match?.side2;
+    mode += side ? side.replace(factionRe, "$1d") + " " : ""
+    return mode + "Offensive)"
+  }
+  return mode + "Warfare)"
+}
+
 export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
   const [sortedMatch, setSortedMatch] = useState<SortedMatch>();
   const { getTag } = useClanTags();
@@ -61,7 +72,7 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
             friendlyCaps={sortedMatch?.friendlyCaps}
             enemyCaps={sortedMatch?.enemyCaps}
             offensive={sortedMatch?.offensive}
-            attacker={match?.clans1_ids.includes(clanId || "")}
+            attacker={match?.clans1_ids.includes(clanId)}
           />
           <AutoTextSkeleton className="text-2xl min-w-[3rem] text-center font-mono grid grid-cols-[1fr_min-content_1fr] flex-1">
             {sortedMatch && (
@@ -119,7 +130,7 @@ export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
           </AutoTextSkeleton>
           <AutoTextSkeleton className="min-w-[3rem] text-center">
             {match?.map}
-            {match?.offensive && ` (Offensive ${match.side1})`}
+            {matchMode(match)}
           </AutoTextSkeleton>
 
           <AutoTextSkeleton className="min-w-[3rem] text-center ">

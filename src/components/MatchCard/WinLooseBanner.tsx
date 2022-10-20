@@ -23,7 +23,7 @@ export const WinLoseBanner: FC<WinLoseBannerProps> = ({
     text = "\u200B";
     background = "bg-gray-700";
   } else if (
-    (offensive && (attacker ? friendlyCaps : enemyCaps) === MAX_CAPS) ||
+    (offensive && (attacker ? friendlyCaps === MAX_CAPS : enemyCaps !== MAX_CAPS)) ||
     (!offensive && friendlyCaps > enemyCaps)
   ) {
     text = "VICTORY";
