@@ -3,8 +3,9 @@ import { CustomLink } from "@components/CustomLink";
 import { Searchbar } from "@components/Search";
 import { SearchPanel } from "@components/Search/SearchPanel";
 import { Navigation24Regular, Person24Filled } from "@fluentui/react-icons";
+import { heloSignIn, isTeamManager } from "@util";
 import classNames from "classnames";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { useEventListener } from "usehooks-ts";
@@ -59,7 +60,7 @@ export const NavBar: FC = () => {
             {...element}
           />
         ))}
-        {status === "authenticated" && data.user.isTeamManager && (
+        {status === "authenticated" && isTeamManager(data) && (
           <CustomLink
             className="bg-transparent shadow-none hidden lg:block text-xl"
             text="Report Match"
@@ -96,7 +97,7 @@ export const NavBar: FC = () => {
           type="button"
           onClick={() => {
             if (status === "authenticated") return signOut();
-            return signIn("discord");
+            return heloSignIn();
           }}
           title={status === "authenticated" ? "Sign out" : "Sign in"}
         >
@@ -124,7 +125,7 @@ export const NavBar: FC = () => {
             />
           </li>
         ))}
-        {status === "authenticated" && data.user.isTeamManager && (
+        {status === "authenticated" && isTeamManager(data) && (
           <li>
             <CustomLink
               className="bg-transparent shadow-none block !justify-start"
@@ -155,7 +156,7 @@ export const NavBar: FC = () => {
             type="button"
             onClick={() => {
               if (status === "authenticated") return signOut();
-              return signIn("discord");
+              return heloSignIn();
             }}
             title={status === "authenticated" ? "Sign out" : "Sign in"}
           >

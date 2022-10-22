@@ -37,6 +37,7 @@ specifiers:
   eslint-plugin-testing-library: 5.7.2
   framer-motion: 7.5.3
   husky: 8.0.1
+  jwt-decode: 3.1.2
   lint-staged: 13.0.3
   luxon: 3.0.4
   next: 12.2.6
@@ -71,6 +72,7 @@ dependencies:
   classnames: 2.3.2
   dayzed: 3.2.3_react@18.2.0
   framer-motion: 7.5.3_biqbaboplfbrettd7655fr4n2y
+  jwt-decode: 3.1.2
   luxon: 3.0.4
   next: 12.2.6_2mygebwfgdyopr3fy2qddu2eli
   next-auth: 4.13.0_b3bmilkfv52uw6if2uulixtp2m
@@ -5267,6 +5269,10 @@ packages:
       array-includes: 3.1.5
       object.assign: 4.1.4
     dev: true
+
+  /jwt-decode/3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
+    dev: false
 
   /language-subtag-registry/0.3.22:
     resolution: {integrity: sha512-tN0MCzyWnoz/4nHS6uxdlFWoUZT7ABptwKPQ52Ea7URk6vll88bWBVhodtnlfEuCcKWNGoc+uGbw1cwa9IKh/w==}
