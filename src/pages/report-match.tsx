@@ -1,6 +1,7 @@
 import { BackButton } from "@components/BackButton";
 import { GlassPanel } from "@components/GlassPanel";
 import { MatchReportForm } from "@components/MatchReport";
+import { isTeamManager } from "@util";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
@@ -10,10 +11,10 @@ const ReportMatch: FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "unauthenticated" || !data?.user.isTeamManager) {
+    if (status === "unauthenticated" || !isTeamManager(data)) {
       router.push("/");
     }
-  }, [data?.user.isTeamManager, router, status]);
+  }, [data, router, status]);
 
   return (
     <div className="flex flex-col gap-8 text-white h-full" id="masked-overflow">

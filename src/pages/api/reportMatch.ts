@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { MatchReportSchema } from "@schemas";
 import { MatchReport, MatchReportClan } from "@types";
-import { isoDateString } from "@util";
+import { isoDateString, isTeamManager } from "@util";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
@@ -30,7 +30,7 @@ const eventOrComment = (report: MatchReport) => {
   return "";
 };
 
-const buildPayload = (report: MatchReport, session: Session) => {
+const buildPayload = (report: MatchReport, _session: Session) => {
   const matchId = `${joinClansForMatchId(
     report.axisClans
   )}-${joinClansForMatchId(report.alliesClans)}-${
@@ -91,10 +91,10 @@ const buildPayload = (report: MatchReport, session: Session) => {
     embeds: [
       {
         color: 16750848,
-        author: {
-          name: session.user.name,
-          icon_url: session.user.image,
-        },
+        // author: {
+        //   name: session.user.name,
+        //   icon_url: session.user.image,
+        // },
         title: matchId,
         url: `https://helo-system.de/matches/${matchId}`,
         description: fields.join("\n"),
@@ -107,7 +107,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await unstable_getServerSession(req, res, authOptions);
 
   if (!session) return res.status(401).json({ message: "You need to login" });
-  if (!session.user.isInGuild || !session.user.isTeamManager)
+  if (!isTeamManager(session))
     return res.status(403).json({ message: "You are not a teammanager" });
 
   const result = MatchReportSchema.safeParse(req.body);
