@@ -106,7 +106,6 @@ export const MatchReportClanForm: FC<MatchReportClanFormProps> = ({
               leftIcon={<Delete24Regular />}
               variant="ghost"
               color="red.800"
-              disabled={fields.length < 2 && !other}
               onClick={() => {
                 remove(index);
               }}
