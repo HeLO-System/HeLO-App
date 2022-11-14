@@ -9,4 +9,5 @@ export type Clan = {
   icon?: string;
   alt_tags?: string[];
   last_updated?: string;
+  archived: boolean;
 };

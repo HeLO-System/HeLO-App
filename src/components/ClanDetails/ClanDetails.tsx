@@ -2,8 +2,13 @@
 import { ClanIcon } from "@components/ClanIcon";
 import { CustomLink } from "@components/CustomLink";
 import { GlassPanel } from "@components/GlassPanel";
-import { ShieldFilled, TrophyFilled } from "@fluentui/react-icons";
+import {
+  ArchiveRegular,
+  ShieldFilled,
+  TrophyFilled,
+} from "@fluentui/react-icons";
 import { Clan } from "@types";
+import classNames from "classnames";
 import { FC } from "react";
 import Discord from "../../../public/Discord-Logo-White.svg";
 
@@ -22,7 +27,13 @@ export const ClanDetails: FC<ClanDetailsProps> = ({ clan }) => (
       />
     </div>
     <div className="font-gotham-book ">
-      <h1 className="text-6xl">{clan?.tag}</h1>
+      <div className="flex items-center gap-8">
+        <h1 className="text-6xl">{clan?.tag}</h1>
+        <ArchiveRegular
+          className={classNames("text-4xl", { "!hidden": !clan?.archived })}
+          title="Archived"
+        />
+      </div>
       <h2 className="text-3xl hidden md:block">{clan?.name}</h2>
     </div>
     <div className="basis-full h-0 md:hidden" />

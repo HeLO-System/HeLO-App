@@ -21,14 +21,8 @@ const clanRefiner: [
 
 export const MatchReportSchema = z.object({
   matchType: MatchTypes,
-  axisClans: z
-    .array(MatchReportClanSchema)
-    .nonempty()
-    .refine(...clanRefiner),
-  alliesClans: z
-    .array(MatchReportClanSchema)
-    .nonempty()
-    .refine(...clanRefiner),
+  axisClans: z.array(MatchReportClanSchema).refine(...clanRefiner),
+  alliesClans: z.array(MatchReportClanSchema).refine(...clanRefiner),
   axisOther: z.array(MatchReportClanSchema).optional(),
   alliesOther: z.array(MatchReportClanSchema).optional(),
   map: Maps,
