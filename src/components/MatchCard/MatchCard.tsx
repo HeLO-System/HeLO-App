@@ -25,14 +25,16 @@ type MatchCardProps = {
 
 const matchMode = (match: Match, clanId: string): string => {
   let factionRe = /(Allie)s/;
-  let mode = " ("
+  let mode = " (";
   if (match?.offensive) {
-    const side = match?.clans1_ids.includes(clanId) ? match?.side1 : match?.side2;
-    mode += side ? side.replace(factionRe, "$1d") + " " : ""
-    return mode + "Offensive)"
+    const side = match?.clans1_ids.includes(clanId)
+      ? match?.side1
+      : match?.side2;
+    mode += side ? side.replace(factionRe, "$1d") + " " : "";
+    return mode + "Offensive)";
   }
-  return mode + "Warfare)"
-}
+  return mode + "Warfare)";
+};
 
 export const MatchCard: FC<MatchCardProps> = ({ match, clanId }) => {
   const [sortedMatch, setSortedMatch] = useState<SortedMatch>();

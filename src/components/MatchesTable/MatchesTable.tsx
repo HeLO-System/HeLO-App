@@ -34,14 +34,15 @@ const matchFormatter = (match: Match, clanId: string): FormattedMatch => {
     formattedDuration: `${match.duration} min`,
     ...match,
   };
-  formattedMatch.offensive = match.offensive !== undefined ? match.offensive : false;
+  formattedMatch.offensive =
+    match.offensive !== undefined ? match.offensive : false;
   if (match.clans1_ids.includes(clanId)) {
     formattedMatch.allies = match.clans1_ids.filter((f) => f !== clanId);
     formattedMatch.enemies = match.clans2_ids;
     formattedMatch.side = match.side1;
     formattedMatch.enemy = match.side2;
     formattedMatch.caps = match.caps1;
-    formattedMatch.attacker = formattedMatch.offensive ? true : false;
+    formattedMatch.attacker = !!formattedMatch.offensive;
   } else {
     formattedMatch.allies = match.clans2_ids.filter((f) => f !== clanId);
     formattedMatch.enemies = match.clans1_ids;
@@ -100,10 +101,11 @@ export const MatchesTable: FC<MatchesTableProps> = ({
   const setResult = (match) => {
     let result = "Defeat";
     if (
-      (match.offensive && (match.attacker ? match.caps == 5 : match.caps >= 0)) ||
-       (!match.offensive && match.caps >= CAPS_TO_WIN)
+      (match.offensive &&
+        (match.attacker ? match.caps == 5 : match.caps >= 0)) ||
+      (!match.offensive && match.caps >= CAPS_TO_WIN)
     ) {
-      result = "Victory"
+      result = "Victory";
     }
     return result;
   };
@@ -127,10 +129,12 @@ export const MatchesTable: FC<MatchesTableProps> = ({
       ),
       id: "date",
     },
-    (clanId ? {
-      name: "Result",
-      selector: (match) => setResult(match),
-    } : null),
+    clanId
+      ? {
+          name: "Result",
+          selector: (match) => setResult(match),
+        }
+      : null,
     {
       name: "Side 1",
       selector: (match) => match.clans1_ids[0],
@@ -200,14 +204,14 @@ export const MatchesTable: FC<MatchesTableProps> = ({
     {
       name: "Mode",
       selector: (match) => {
-        let factionRe = /(Allie)s/;
+        const factionRe = /(Allie)s/;
         let mode = "Warfare";
         if (match.offensive) {
           mode = "Offensive";
           if (match.attacker && match?.side) {
-	    mode = `${match.side.replace(factionRe, "$1d")} Offensive`;
+            mode = `${match.side.replace(factionRe, "$1d")} Offensive`;
           } else if (!match.attacker && match?.enemy) {
-	    mode = `${match.enemy.replace(factionRe, "$1d")} Offensive`;
+            mode = `${match.enemy.replace(factionRe, "$1d")} Offensive`;
           }
         }
         return mode;
