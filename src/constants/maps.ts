@@ -13,4 +13,5 @@ export const Maps = z.enum([
   "Utah",
   "Omaha",
   "Remagen",
+  "Kharkov",
 ]);

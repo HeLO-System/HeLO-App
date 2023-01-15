@@ -25,6 +25,7 @@ export const MapsChart: FC<MapsChartProps> = ({ className }) => {
     Utah: "#008f5d",
     Omaha: "#00a8ff",
     Remagen: "#ffc400",
+    Kharkov: "#ff0000",
   };
 
   return (

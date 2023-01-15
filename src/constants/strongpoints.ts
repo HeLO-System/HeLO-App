@@ -98,6 +98,13 @@ export const Strongpoints: Record<
     ["Remagen", "Möbelfabrik", "Schliefen ausweg"],
     ["Waldburg", "Mühlenweg", "Hägelkreuz"],
   ],
+  Kharkov: [
+    ["Wehrmacht outlook", "Haystorage", "Overpass"],
+    ["River crossing", "Belgorod outskirts", "Lumberyard"],
+    ["Water mill", "St. Mary", "Distillery"],
+    ["Bitter spring", "Lumberworks", "Windmill hillside"],
+    ["Marsh town", "Soviet vantage point", "German fuel dump"],
+  ],
 };
 
 type MapDirection = "ltr" | "rtl" | "ttb" | "btt";
@@ -115,4 +122,5 @@ export const MapDirections: Record<Map, MapDirection> = {
   Utah: "ltr",
   Omaha: "ltr",
   Remagen: "ttb",
+  Kharkov: "btt",
 };
