@@ -11,8 +11,6 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 10
     target-branch: "main"
-    reviewers:
-      - "HeLO-System/frontend"
     commit-message:
       prefix: "⬆️"
 
@@ -21,7 +19,5 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "main"
-    reviewers:
-      - "HeLO-System/frontend"
     commit-message:
       prefix: "⬆️"

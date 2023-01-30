@@ -5,6 +5,7 @@ export * from "./fcc";
 export * from "./map";
 export * from "./match";
 export * from "./matchReport";
+export * from "./score";
 export * from "./scoreHistory";
 export * from "./winrate";
 export * from "./winrateByResult";
